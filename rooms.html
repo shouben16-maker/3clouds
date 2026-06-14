@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -11,10 +10,10 @@
 
   <meta
     name="description"
-    content="湖內三層雲周邊景點介紹，鄰近奇美博物館、十鼓文化村、台南安平與興達港觀光漁市。"
+    content="湖內三層雲房型與空間介紹。獨棟包棟不擾鄰，提供三間四人房、獨立衛浴、烤肉區、免費KTV、麻將、德州撲克、Netflix、Switch與三車位車庫充電樁。"
   >
 
-  <title>周邊景點｜湖內三層雲</title>
+  <title>房型介紹｜湖內三層雲</title>
 
   <style>
     :root {
@@ -141,11 +140,11 @@
 
       background:
         linear-gradient(
-          rgba(24, 22, 19, 0.34),
-          rgba(24, 22, 19, 0.58)
+          rgba(24, 22, 19, 0.36),
+          rgba(24, 22, 19, 0.62)
         ),
-        url("images/chimei.jpg")
-        center 48% / cover no-repeat;
+        url("images/room-hero.jpg")
+        center / cover no-repeat;
     }
 
     .page-header::after {
@@ -165,7 +164,7 @@
     }
 
     .header-content {
-      max-width: 760px;
+      max-width: 800px;
       animation: fade-up 0.7s ease both;
     }
 
@@ -191,10 +190,11 @@
     }
 
     .page-header p {
-      max-width: 680px;
+      max-width: 760px;
       margin: 18px auto 0;
       color: rgba(255, 255, 255, 0.94);
       font-size: 19px;
+      line-height: 1.9;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
@@ -207,7 +207,7 @@
     }
 
     .intro {
-      max-width: 760px;
+      max-width: 800px;
       margin: 0 auto 58px;
       text-align: center;
     }
@@ -233,14 +233,56 @@
       font-size: 17px;
     }
 
-    /* 景點卡片 */
+    /* 重點特色 */
 
-    .attractions-list {
+    .feature-summary {
+      margin-bottom: 64px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .summary-item {
+      padding: 26px 18px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background-color: var(--surface);
+      box-shadow: 0 8px 24px rgba(59, 49, 39, 0.07);
+      text-align: center;
+    }
+
+    .summary-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: var(--primary-dark);
+      background-color: var(--surface-soft);
+      font-size: 24px;
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 17px;
+    }
+
+    .summary-item span {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    /* 空間卡片 */
+
+    .rooms-list {
       display: grid;
       gap: 54px;
     }
 
-    .attraction-card {
+    .room-card {
       display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
       min-height: 480px;
@@ -254,20 +296,20 @@
         box-shadow 0.3s ease;
     }
 
-    .attraction-card:hover {
+    .room-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 20px 50px rgba(59, 49, 39, 0.14);
     }
 
-    .attraction-card:nth-child(even) {
+    .room-card:nth-child(even) {
       grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
     }
 
-    .attraction-card:nth-child(even) .image-wrap {
+    .room-card:nth-child(even) .image-wrap {
       order: 2;
     }
 
-    .attraction-card:nth-child(even) .attraction-content {
+    .room-card:nth-child(even) .room-content {
       order: 1;
     }
 
@@ -286,7 +328,7 @@
       transition: transform 0.6s ease;
     }
 
-    .attraction-card:hover .image-wrap img {
+    .room-card:hover .image-wrap img {
       transform: scale(1.035);
     }
 
@@ -303,7 +345,7 @@
       backdrop-filter: blur(6px);
     }
 
-    .attraction-content {
+    .room-content {
       padding: 52px 48px;
       display: flex;
       flex-direction: column;
@@ -311,7 +353,7 @@
       justify-content: center;
     }
 
-    .travel-time {
+    .floor-tag {
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -324,7 +366,7 @@
       font-weight: 700;
     }
 
-    .attraction-content h2 {
+    .room-content h2 {
       margin: 0 0 16px;
       font-size: clamp(28px, 4vw, 36px);
       line-height: 1.35;
@@ -386,20 +428,20 @@
       box-shadow: 0 10px 22px rgba(139, 111, 71, 0.3);
     }
 
-    /* 下方行動區 */
+    /* 下方訂房區 */
 
     .booking-callout {
       margin-top: 70px;
-      padding: 48px 30px;
+      padding: 52px 30px;
       border-radius: var(--radius-large);
       color: white;
       text-align: center;
       background:
         linear-gradient(
-          rgba(46, 40, 33, 0.72),
-          rgba(46, 40, 33, 0.78)
+          rgba(46, 40, 33, 0.7),
+          rgba(46, 40, 33, 0.8)
         ),
-        url("images/chimei.jpg")
+        url("images/room-hero.jpg")
         center / cover no-repeat;
       box-shadow: var(--shadow);
     }
@@ -410,7 +452,7 @@
     }
 
     .booking-callout p {
-      max-width: 650px;
+      max-width: 680px;
       margin: 0 auto;
       color: rgba(255, 255, 255, 0.9);
     }
@@ -455,7 +497,7 @@
       }
     }
 
-    /* 平板導覽列 */
+    /* 平板 */
 
     @media (max-width: 960px) {
       .nav-inner {
@@ -470,19 +512,21 @@
         padding: 8px 10px;
         font-size: 14px;
       }
+
+      .feature-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
-    /* 平板內容 */
-
     @media (max-width: 860px) {
-      .attraction-card,
-      .attraction-card:nth-child(even) {
+      .room-card,
+      .room-card:nth-child(even) {
         grid-template-columns: 1fr;
         min-height: auto;
       }
 
-      .attraction-card:nth-child(even) .image-wrap,
-      .attraction-card:nth-child(even) .attraction-content {
+      .room-card:nth-child(even) .image-wrap,
+      .room-card:nth-child(even) .room-content {
         order: initial;
       }
 
@@ -491,7 +535,7 @@
         min-height: 0;
       }
 
-      .attraction-content {
+      .room-content {
         padding: 38px 34px 42px;
       }
     }
@@ -527,7 +571,7 @@
       }
 
       .page-header {
-        min-height: 340px;
+        min-height: 350px;
         padding: 64px 20px 80px;
       }
 
@@ -540,18 +584,36 @@
       }
 
       .intro {
-        margin-bottom: 38px;
+        margin-bottom: 36px;
       }
 
       .intro p {
         font-size: 16px;
       }
 
-      .attractions-list {
+      .feature-summary {
+        margin-bottom: 42px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .summary-item {
+        padding: 21px 12px;
+      }
+
+      .summary-item strong {
+        font-size: 15px;
+      }
+
+      .summary-item span {
+        font-size: 13px;
+      }
+
+      .rooms-list {
         gap: 30px;
       }
 
-      .attraction-card {
+      .room-card {
         border-radius: 17px;
       }
 
@@ -564,11 +626,11 @@
         bottom: 12px;
       }
 
-      .attraction-content {
+      .room-content {
         padding: 28px 22px 32px;
       }
 
-      .travel-time {
+      .floor-tag {
         margin-bottom: 14px;
       }
 
@@ -604,8 +666,8 @@
 
       <div class="nav-links">
         <a href="index.html">民宿首頁</a>
-        <a href="rooms.html">房型介紹</a>
-        <a class="active" href="attractions.html">周邊景點</a>
+        <a class="active" href="rooms.html">房型介紹</a>
+        <a href="attractions.html">周邊景點</a>
         <a href="food.html">美食推薦</a>
         <a href="index.html#booking">查看房價</a>
       </div>
@@ -617,14 +679,14 @@
     <div class="header-content">
 
       <span class="eyebrow">
-        EXPLORE NEARBY
+        WHOLE HOUSE STAY
       </span>
 
-      <h1>周邊景點</h1>
+      <h1>房型介紹</h1>
 
       <p>
-        從民宿輕鬆出發，串連藝術、古蹟、美食與自然風景，
-        讓住宿不只是休息，也成為旅程的一部分。
+        獨棟包棟不擾鄰，可自在烤肉、KTV 歡唱，
+        還有寬敞車庫，讓家人朋友安心相聚、盡情享受。
       </p>
 
     </div>
@@ -635,176 +697,284 @@
     <section class="intro">
 
       <span class="section-label">
-        TRAVEL WITH EASE
+        SPACE & FACILITIES
       </span>
 
-      <h2>離景點近，行程安排更輕鬆</h2>
+      <h2>三層獨棟空間，旅行就像住進自己的家</h2>
 
       <p>
-        民宿鄰近台南與高雄多個熱門景點，
-        不論是親子家庭、朋友出遊或情侶旅行，
-        都能依照喜好安排悠閒又豐富的一日行程。
+        從客廳娛樂、舒適客房到戶外烤肉與停車空間，
+        整棟空間皆由同一組旅客使用，不必與陌生人共用，
+        適合家庭旅遊、親子住宿與朋友多人聚會。
       </p>
 
     </section>
 
-    <section class="attractions-list">
+    <section class="feature-summary">
 
-      <!-- 奇美博物館與十鼓文化村 -->
+      <div class="summary-item">
+        <div class="summary-icon" aria-hidden="true">🏠</div>
+        <strong>獨棟包棟</strong>
+        <span>自在相聚不擾鄰</span>
+      </div>
 
-      <article class="attraction-card">
+<div class="summary-item">
+  <div class="summary-icon" aria-hidden="true">🚿</div>
+  <strong>每房獨立衛浴</strong>
+  <span>不必共用，入住更自在</span>
+</div>
+
+      <div class="summary-item">
+        <div class="summary-icon" aria-hidden="true">🔥</div>
+        <strong>戶外烤肉</strong>
+        <span>適合親友聚餐同樂</span>
+      </div>
+
+      <div class="summary-item">
+        <div class="summary-icon" aria-hidden="true">🚗</div>
+        <strong>三車位車庫</strong>
+        <span>附設電動車充電樁</span>
+      </div>
+
+    </section>
+
+    <section class="rooms-list">
+
+      <!-- 一樓客廳 -->
+
+      <article class="room-card">
 
         <div class="image-wrap">
-
           <img
-            src="images/chimei.jpg"
-            alt="奇美博物館與十鼓文化村"
+            src="images/living-room.jpg"
+            alt="湖內三層雲一樓客廳與娛樂空間"
           >
 
           <span class="image-label">
-            藝術・親子・散步
+            客廳・麻將・影音娛樂
           </span>
-
         </div>
 
-        <div class="attraction-content">
+        <div class="room-content">
 
-          <span class="travel-time">
-            🚗 從民宿行車約 15 分鐘
+          <span class="floor-tag">
+            1F｜公共娛樂空間
           </span>
 
-          <h2>奇美博物館與十鼓文化村</h2>
+          <h2>一樓客廳與娛樂區</h2>
 
           <p class="description">
-            從典雅的博物館建築、寬闊草地，
-            到充滿生命力的鼓樂文化，
-            一趟行程就能同時享受藝術、散步與親子體驗。
+            寬敞客廳是整趟旅程的相聚中心，
+            無論唱歌、打牌、追劇或玩遊戲，
+            大家都能在同一個空間自在同樂。
           </p>
 
           <ul class="advantages">
-            <li>適合在草地野餐、拍照與悠閒散步</li>
-            <li>館內可欣賞藝術、樂器與歷史展覽</li>
-            <li>十鼓文化村適合親子共同體驗</li>
-            <li>兩個景點距離相近，可安排同日遊覽</li>
-            <li>適合家庭、朋友與喜歡文化行程的旅客</li>
+            <li>免費 KTV 歡唱設備</li>
+            <li>電視提供 Netflix 影音娛樂</li>
+            <li>提供 Switch 遊戲主機</li>
+            <li>設有電動電動桌、德州撲克桌遊空間</li>
+            <li>適合家庭及朋友多人聚會</li>
           </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=奇美博物館"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
 
         </div>
 
       </article>
 
-      <!-- 台南安平 -->
+      <!-- 一樓客房 -->
 
-      <article class="attraction-card">
+      <article class="room-card">
 
         <div class="image-wrap">
-
           <img
-            src="images/anping.jpg"
-            alt="台南安平老街與安平周邊景點"
+            src="images/room-1f.jpg"
+            alt="湖內三層雲一樓四人客房"
           >
 
           <span class="image-label">
-            古蹟・美食・夕陽
+            四人房・獨立衛浴
           </span>
-
         </div>
 
-        <div class="attraction-content">
+        <div class="room-content">
 
-          <span class="travel-time">
-            🚗 從民宿行車約 30 分鐘
+          <span class="floor-tag">
+            1F｜四人客房
           </span>
 
-          <h2>台南安平</h2>
+          <h2>一樓客房</h2>
 
           <p class="description">
-            漫步老街與巷弄，品嘗在地小吃、探訪古蹟，
-            傍晚再到海邊欣賞夕陽，
-            感受台南悠閒而迷人的生活節奏。
+            位於一樓的舒適四人房，
+            適合長輩、親子家庭或希望進出更方便的旅客入住。
           </p>
 
           <ul class="advantages">
-            <li>可安排安平老街、安平古堡與安平樹屋</li>
-            <li>沿途可品嘗蝦捲、豆花與蜜餞等小吃</li>
-            <li>老街巷弄與古蹟適合散步及拍照</li>
-            <li>傍晚可順遊漁光島或安平港欣賞夕陽</li>
-            <li>適合家庭、情侶及朋友安排半日或一日遊</li>
+            <li>配置兩張舒適雙人床</li>
+            <li>最多可供四位旅客入住</li>
+            <li>房內附設獨立衛浴</li>
+            <li>與客廳及公共空間位於同一樓層</li>
+            <li>適合長輩或親子家庭安排入住</li>
           </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=台南安平"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
 
         </div>
 
       </article>
 
-      <!-- 興達港觀光漁市 -->
+      <!-- 二樓客房 -->
 
-      <article class="attraction-card">
+      <article class="room-card">
 
         <div class="image-wrap">
-
           <img
-            src="images/singda.jpg"
-            alt="興達港觀光漁市"
+            src="images/room-2f.jpg"
+            alt="湖內三層雲二樓四人客房"
           >
 
           <span class="image-label">
-            海鮮・漁港・夕陽
+            四人房・獨立衛浴
           </span>
-
         </div>
 
-        <div class="attraction-content">
+        <div class="room-content">
 
-          <span class="travel-time">
-            🚗 從民宿行車約 15 分鐘
+          <span class="floor-tag">
+            2F｜四人客房
           </span>
 
-          <h2>興達港觀光漁市</h2>
+          <h2>二樓客房</h2>
 
           <p class="description">
-            位於茄萣興達港旁的海鮮市場，
-            是高雄西海岸相當具人氣的漁港型觀光市集。
-            可以逛市場、挑選新鮮海產，
-            感受最在地的漁港生活節奏。
+            獨立安靜的二樓客房，保有舒適的休息空間，
+            適合家庭成員或朋友分房入住，兼顧相聚與睡眠品質。
           </p>
 
           <ul class="advantages">
-            <li>可選購新鮮漁獲與當日海產</li>
-            <li>部分店家提供代客料理服務</li>
-            <li>可品嘗魚丸、海鮮粥與炸海鮮等小吃</li>
-            <li>感受漁港風情與在地市場文化</li>
-            <li>鄰近海岸，可順遊散步並欣賞夕陽</li>
+            <li>配置兩張舒適雙人床</li>
+            <li>最多可供四位旅客入住</li>
+            <li>房內附設獨立衛浴</li>
+            <li>獨立樓層，休息空間更加安靜</li>
+            <li>適合家庭或朋友分房入住</li>
           </ul>
 
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=興達港觀光漁市"
-            target="_blank"
-            rel="noopener noreferrer"
+        </div>
+
+      </article>
+
+      <!-- 三樓客房 -->
+
+      <article class="room-card">
+
+        <div class="image-wrap">
+          <img
+            src="images/room-3f.jpg"
+            alt="湖內三層雲三樓四人客房"
           >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
+
+          <span class="image-label">
+            四人房・獨立衛浴
+          </span>
+        </div>
+
+        <div class="room-content">
+
+          <span class="floor-tag">
+            3F｜四人客房
+          </span>
+
+          <h2>三樓客房</h2>
+
+          <p class="description">
+            位於最高樓層的獨立客房，適合希望享有更多安靜時光的旅客。
+          </p>
+
+          <ul class="advantages">
+            <li>配置兩張舒適雙人床</li>
+            <li>最多可供四位旅客入住</li>
+            <li>房內附設獨立衛浴</li>
+            <li>與主要娛樂空間分層，休息更自在</li>
+            <li>適合重視安靜與隱私的旅客</li>
+          </ul>
+
+        </div>
+
+      </article>
+
+      <!-- 烤肉區 -->
+
+      <article class="room-card">
+
+        <div class="image-wrap">
+          <img
+            src="images/bbq-area.jpg"
+            alt="湖內三層雲戶外烤肉區"
+          >
+
+          <span class="image-label">
+            烤肉・聚餐・戶外空間
+          </span>
+        </div>
+
+        <div class="room-content">
+
+          <span class="floor-tag">
+            OUTDOOR｜戶外空間
+          </span>
+
+          <h2>戶外烤肉區</h2>
+
+          <p class="description">
+            不必另外尋找烤肉場地，住宿期間就能與親友一起準備料理，
+            邊烤、邊吃、邊聊天，享受最有旅行氣氛的聚餐時光。
+          </p>
+
+          <ul class="advantages">
+            <li>獨棟環境，聚會使用更加自在</li>
+            <li>適合家庭與朋友多人烤肉聚餐</li>
+            <li>烤肉結束後可直接回房休息</li>
+            <li>戶外空間與室內娛樂行程可彈性安排</li>
+            <li>實際使用規則請於訂房時確認</li>
+          </ul>
+
+        </div>
+
+      </article>
+
+      <!-- 車庫 -->
+
+      <article class="room-card">
+
+        <div class="image-wrap">
+          <img
+            src="images/garage.jpg"
+            alt="湖內三層雲三車位車庫與電動車充電樁"
+          >
+
+          <span class="image-label">
+            三車位・充電樁
+          </span>
+        </div>
+
+        <div class="room-content">
+
+          <span class="floor-tag">
+            PARKING｜專屬停車空間
+          </span>
+
+          <h2>寬敞車庫</h2>
+
+          <p class="description">
+            多人包棟最怕停車不方便，民宿提供寬敞專屬車庫，
+            可停放三台汽車，並設有電動車充電樁。
+          </p>
+
+          <ul class="advantages">
+            <li>車庫最多可停放三台汽車</li>
+            <li>住宿期間享有專屬停車空間</li>
+            <li>附設電動車充電樁</li>
+            <li>行李搬運與上下車更加方便</li>
+            <li>充電規格及使用方式請事先確認</li>
+          </ul>
 
         </div>
 
@@ -814,12 +984,12 @@
 
     <section class="booking-callout">
 
-      <h2>從湖內三層雲，展開一趟輕鬆旅程</h2>
+      <h2>整棟空間，只留給你們自在相聚</h2>
 
       <p>
-        白天探索台南與高雄，晚上回到舒適的包棟空間，
-        與家人朋友自在聊天、歡唱與休息，
-        為旅程留下更多美好回憶。
+        三間四人客房皆附獨立衛浴，
+        搭配客廳娛樂、KTV、烤肉區與三車位車庫，
+        適合家人朋友一起入住，享受不被打擾的包棟旅程。
       </p>
 
       <a class="button" href="index.html#booking">
@@ -833,9 +1003,8 @@
 
   <footer>
     <strong>湖內三層雲</strong>
-    高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
+    高雄湖內包棟住宿｜三層獨棟空間・KTV・烤肉・專屬車庫
   </footer>
 
 </body>
 </html>
-

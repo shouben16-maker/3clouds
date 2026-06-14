@@ -97,16 +97,17 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 8px;
+      gap: 6px;
     }
 
     .nav-links a {
-      padding: 9px 14px;
+      padding: 9px 13px;
       border-radius: 999px;
       color: rgba(255, 255, 255, 0.88);
       text-decoration: none;
       font-size: 15px;
       font-weight: 700;
+      white-space: nowrap;
       transition:
         color 0.2s ease,
         background-color 0.2s ease,
@@ -564,6 +565,21 @@
 
     /* 平板 */
 
+    @media (max-width: 960px) {
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+    }
+
     @media (max-width: 860px) {
       .about-layout {
         grid-template-columns: 1fr;
@@ -580,7 +596,7 @@
 
     /* 手機 */
 
-    @media (max-width: 620px) {
+    @media (max-width: 700px) {
       .top-bar {
         position: static;
       }
@@ -599,12 +615,13 @@
       .nav-links {
         width: 100%;
         justify-content: center;
-        gap: 2px;
+        flex-wrap: wrap;
+        gap: 4px;
       }
 
       .nav-links a {
-        padding: 8px 10px;
-        font-size: 14px;
+        padding: 7px 9px;
+        font-size: 13px;
       }
 
       .hero {
@@ -708,17 +725,11 @@
       </a>
 
       <div class="nav-links">
-        <a class="active" href="index.html">
-          民宿首頁
-        </a>
-
-        <a href="attractions.html">
-          周邊景點
-        </a>
-
-        <a href="#booking">
-          查看房價
-        </a>
+        <a class="active" href="index.html">民宿首頁</a>
+        <a href="rooms.html">房型介紹</a>
+        <a href="attractions.html">周邊景點</a>
+        <a href="food.html">美食推薦</a>
+        <a href="#booking">查看房價</a>
       </div>
 
     </div>
@@ -740,14 +751,16 @@
       </p>
 
       <div class="hero-actions">
+
         <a class="button" href="#booking">
           立即查看房價
           <span aria-hidden="true">→</span>
         </a>
 
-        <a class="button button-light" href="attractions.html">
-          探索周邊景點
+        <a class="button button-light" href="rooms.html">
+          查看房型空間
         </a>
+
       </div>
 
     </div>
@@ -759,6 +772,7 @@
       <div class="about-layout">
 
         <div class="about-content">
+
           <span class="section-label">
             ABOUT SAN CENG YUN
           </span>
@@ -786,10 +800,11 @@
             晚上回到舒適的包棟空間。
           </div>
 
-          <a class="button" href="attractions.html">
-            查看周邊景點
+          <a class="button" href="rooms.html">
+            查看房型介紹
             <span aria-hidden="true">→</span>
           </a>
+
         </div>
 
         <div
@@ -805,6 +820,7 @@
       <div class="section">
 
         <div class="section-heading">
+
           <span class="section-label">
             WHY STAY WITH US
           </span>
@@ -815,49 +831,57 @@
             從白天出遊到晚上相聚，
             湖內三層雲提供舒適、獨立且適合多人入住的住宿環境。
           </p>
+
         </div>
 
         <div class="features">
 
           <article class="card">
+
             <div class="card-icon" aria-hidden="true">
               🏠
             </div>
 
-            <h3>完整包棟</h3>
+            <h3>獨棟包棟</h3>
 
             <p>
               不與陌生旅客共用空間，
-              保有專屬客廳與活動範圍，
-              享受自在不受打擾的住宿時光。
+              可自在聊天、KTV 歡唱與烤肉，
+              享受不受打擾的相聚時光。
             </p>
+
           </article>
 
           <article class="card">
+
             <div class="card-icon" aria-hidden="true">
-              👨‍👩‍👧‍👦
+              🎤
             </div>
 
-            <h3>適合多人相聚</h3>
+            <h3>豐富娛樂設備</h3>
 
             <p>
-              適合家庭、親子與朋友旅行，
-              白天分頭探索，晚上再回到民宿一起聊天休息。
+              提供免費 KTV、Netflix、Switch、
+              麻將與德州撲克，
+              下雨天也能在民宿盡情同樂。
             </p>
+
           </article>
 
           <article class="card">
+
             <div class="card-icon" aria-hidden="true">
-              ✨
+              🚗
             </div>
 
-            <h3>舒適設備</h3>
+            <h3>寬敞專屬車庫</h3>
 
             <p>
-              提供客廳、廚房、冷氣、Wi-Fi
-              與基本生活設備，
-              讓住宿更加便利放鬆。
+              車庫可停放三台汽車，
+              並附設電動車充電樁，
+              多人出遊停車更加方便。
             </p>
+
           </article>
 
         </div>
@@ -902,6 +926,7 @@
     <section class="booking-section" id="booking-form">
 
       <div class="section-heading">
+
         <span class="section-label">
           BOOKING INQUIRY
         </span>
@@ -912,6 +937,7 @@
           填寫預計入住日期、人數與聯絡方式，
           方便我們協助確認房況與實際價格。
         </p>
+
       </div>
 
       <div class="booking-form-wrap">
@@ -919,6 +945,7 @@
         <form class="booking-form">
 
           <div class="form-group">
+
             <label for="name">姓名</label>
 
             <input
@@ -928,9 +955,11 @@
               autocomplete="name"
               required
             >
+
           </div>
 
           <div class="form-group">
+
             <label for="phone">手機號碼</label>
 
             <input
@@ -940,9 +969,11 @@
               autocomplete="tel"
               required
             >
+
           </div>
 
           <div class="form-group">
+
             <label for="checkin">入住日期</label>
 
             <input
@@ -951,9 +982,11 @@
               name="checkin"
               required
             >
+
           </div>
 
           <div class="form-group">
+
             <label for="checkout">退房日期</label>
 
             <input
@@ -962,9 +995,11 @@
               name="checkout"
               required
             >
+
           </div>
 
           <div class="form-group">
+
             <label for="guests">入住人數</label>
 
             <input
@@ -975,9 +1010,11 @@
               placeholder="例如：8"
               required
             >
+
           </div>
 
           <div class="form-group">
+
             <label for="contact-time">方便聯絡時段</label>
 
             <input
@@ -986,23 +1023,28 @@
               name="contact-time"
               placeholder="例如：晚上 7 點後"
             >
+
           </div>
 
           <div class="form-group full-width">
+
             <label for="message">其他需求</label>
 
             <textarea
               id="message"
               name="message"
               rows="5"
-              placeholder="例如：是否有兒童、需要使用廚房或其他住宿需求"
+              placeholder="例如：是否有兒童、需要使用廚房、烤肉或其他住宿需求"
             ></textarea>
+
           </div>
 
           <div class="submit-row">
+
             <button type="submit" class="button">
               送出訂房詢問
             </button>
+
           </div>
 
         </form>

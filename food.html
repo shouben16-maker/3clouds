@@ -11,10 +11,10 @@
 
   <meta
     name="description"
-    content="湖內三層雲周邊景點介紹，鄰近奇美博物館、十鼓文化村、台南安平與興達港觀光漁市。"
+    content="湖內三層雲周邊美食推薦，精選湖內與台南人氣餐廳，輕鬆品嘗在地特色料理。"
   >
 
-  <title>周邊景點｜湖內三層雲</title>
+  <title>美食推薦｜湖內三層雲</title>
 
   <style>
     :root {
@@ -141,11 +141,11 @@
 
       background:
         linear-gradient(
-          rgba(24, 22, 19, 0.34),
-          rgba(24, 22, 19, 0.58)
+          rgba(24, 22, 19, 0.4),
+          rgba(24, 22, 19, 0.62)
         ),
-        url("images/chimei.jpg")
-        center 48% / cover no-repeat;
+        url("images/food-hero.jpg")
+        center / cover no-repeat;
     }
 
     .page-header::after {
@@ -233,14 +233,14 @@
       font-size: 17px;
     }
 
-    /* 景點卡片 */
+    /* 美食卡片列表 */
 
-    .attractions-list {
+    .food-list {
       display: grid;
       gap: 54px;
     }
 
-    .attraction-card {
+    .food-card {
       display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
       min-height: 480px;
@@ -254,20 +254,20 @@
         box-shadow 0.3s ease;
     }
 
-    .attraction-card:hover {
+    .food-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 20px 50px rgba(59, 49, 39, 0.14);
     }
 
-    .attraction-card:nth-child(even) {
+    .food-card:nth-child(even) {
       grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
     }
 
-    .attraction-card:nth-child(even) .image-wrap {
+    .food-card:nth-child(even) .image-wrap {
       order: 2;
     }
 
-    .attraction-card:nth-child(even) .attraction-content {
+    .food-card:nth-child(even) .food-content {
       order: 1;
     }
 
@@ -286,7 +286,7 @@
       transition: transform 0.6s ease;
     }
 
-    .attraction-card:hover .image-wrap img {
+    .food-card:hover .image-wrap img {
       transform: scale(1.035);
     }
 
@@ -303,7 +303,7 @@
       backdrop-filter: blur(6px);
     }
 
-    .attraction-content {
+    .food-content {
       padding: 52px 48px;
       display: flex;
       flex-direction: column;
@@ -324,7 +324,7 @@
       font-weight: 700;
     }
 
-    .attraction-content h2 {
+    .food-content h2 {
       margin: 0 0 16px;
       font-size: clamp(28px, 4vw, 36px);
       line-height: 1.35;
@@ -334,6 +334,13 @@
       margin: 0;
       color: var(--text-light);
       font-size: 16px;
+    }
+
+    .description-highlight {
+      margin: 0 0 12px;
+      color: #453e36;
+      font-size: 17px;
+      font-weight: 700;
     }
 
     .advantages {
@@ -386,7 +393,7 @@
       box-shadow: 0 10px 22px rgba(139, 111, 71, 0.3);
     }
 
-    /* 下方行動區 */
+    /* 下方訂房區 */
 
     .booking-callout {
       margin-top: 70px;
@@ -397,9 +404,9 @@
       background:
         linear-gradient(
           rgba(46, 40, 33, 0.72),
-          rgba(46, 40, 33, 0.78)
+          rgba(46, 40, 33, 0.8)
         ),
-        url("images/chimei.jpg")
+        url("images/food-hero.jpg")
         center / cover no-repeat;
       box-shadow: var(--shadow);
     }
@@ -475,14 +482,14 @@
     /* 平板內容 */
 
     @media (max-width: 860px) {
-      .attraction-card,
-      .attraction-card:nth-child(even) {
+      .food-card,
+      .food-card:nth-child(even) {
         grid-template-columns: 1fr;
         min-height: auto;
       }
 
-      .attraction-card:nth-child(even) .image-wrap,
-      .attraction-card:nth-child(even) .attraction-content {
+      .food-card:nth-child(even) .image-wrap,
+      .food-card:nth-child(even) .food-content {
         order: initial;
       }
 
@@ -491,7 +498,7 @@
         min-height: 0;
       }
 
-      .attraction-content {
+      .food-content {
         padding: 38px 34px 42px;
       }
     }
@@ -547,11 +554,11 @@
         font-size: 16px;
       }
 
-      .attractions-list {
+      .food-list {
         gap: 30px;
       }
 
-      .attraction-card {
+      .food-card {
         border-radius: 17px;
       }
 
@@ -564,7 +571,7 @@
         bottom: 12px;
       }
 
-      .attraction-content {
+      .food-content {
         padding: 28px 22px 32px;
       }
 
@@ -605,8 +612,8 @@
       <div class="nav-links">
         <a href="index.html">民宿首頁</a>
         <a href="rooms.html">房型介紹</a>
-        <a class="active" href="attractions.html">周邊景點</a>
-        <a href="food.html">美食推薦</a>
+        <a href="attractions.html">周邊景點</a>
+        <a class="active" href="food.html">美食推薦</a>
         <a href="index.html#booking">查看房價</a>
       </div>
 
@@ -617,14 +624,14 @@
     <div class="header-content">
 
       <span class="eyebrow">
-        EXPLORE NEARBY
+        LOCAL FOOD
       </span>
 
-      <h1>周邊景點</h1>
+      <h1>美食推薦</h1>
 
       <p>
-        從民宿輕鬆出發，串連藝術、古蹟、美食與自然風景，
-        讓住宿不只是休息，也成為旅程的一部分。
+        從民宿輕鬆出發，品嘗湖內與台南的在地滋味，
+        讓每一頓飯也成為旅程中值得記住的風景。
       </p>
 
     </div>
@@ -635,170 +642,69 @@
     <section class="intro">
 
       <span class="section-label">
-        TRAVEL WITH EASE
+        EAT LOCAL
       </span>
 
-      <h2>離景點近，行程安排更輕鬆</h2>
+      <h2>民宿周邊必吃美食</h2>
 
       <p>
-        民宿鄰近台南與高雄多個熱門景點，
-        不論是親子家庭、朋友出遊或情侶旅行，
-        都能依照喜好安排悠閒又豐富的一日行程。
+        精選湖內與台南人氣餐廳，
+        從溫體牛、在地小吃到特色料理，
+        輕鬆安排一趟充滿滋味的美食行程。
       </p>
 
     </section>
 
-    <section class="attractions-list">
+    <section class="food-list">
 
-      <!-- 奇美博物館與十鼓文化村 -->
+      <!-- 湖東牛肉館 -->
 
-      <article class="attraction-card">
-
-        <div class="image-wrap">
-
-          <img
-            src="images/chimei.jpg"
-            alt="奇美博物館與十鼓文化村"
-          >
-
-          <span class="image-label">
-            藝術・親子・散步
-          </span>
-
-        </div>
-
-        <div class="attraction-content">
-
-          <span class="travel-time">
-            🚗 從民宿行車約 15 分鐘
-          </span>
-
-          <h2>奇美博物館與十鼓文化村</h2>
-
-          <p class="description">
-            從典雅的博物館建築、寬闊草地，
-            到充滿生命力的鼓樂文化，
-            一趟行程就能同時享受藝術、散步與親子體驗。
-          </p>
-
-          <ul class="advantages">
-            <li>適合在草地野餐、拍照與悠閒散步</li>
-            <li>館內可欣賞藝術、樂器與歷史展覽</li>
-            <li>十鼓文化村適合親子共同體驗</li>
-            <li>兩個景點距離相近，可安排同日遊覽</li>
-            <li>適合家庭、朋友與喜歡文化行程的旅客</li>
-          </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=奇美博物館"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
-
-        </div>
-
-      </article>
-
-      <!-- 台南安平 -->
-
-      <article class="attraction-card">
+      <article class="food-card">
 
         <div class="image-wrap">
 
           <img
-            src="images/anping.jpg"
-            alt="台南安平老街與安平周邊景點"
+            src="images/hudong.jpg"
+            alt="湖東牛肉館溫體牛火鍋"
           >
 
           <span class="image-label">
-            古蹟・美食・夕陽
+            溫體牛・火鍋・在地名店
           </span>
 
         </div>
 
-        <div class="attraction-content">
+        <div class="food-content">
 
           <span class="travel-time">
-            🚗 從民宿行車約 30 分鐘
+            🚗 從民宿行車約 5 分鐘
           </span>
 
-          <h2>台南安平</h2>
+          <h2>湖東牛肉館</h2>
+
+          <p class="description-highlight">
+            在地人氣溫體牛火鍋名店，每日現切台灣牛肉，
+            肉質鮮嫩，搭配清甜湯頭，
+            是湖內相當具代表性的在地美食。
+          </p>
 
           <p class="description">
-            漫步老街與巷弄，品嘗在地小吃、探訪古蹟，
-            傍晚再到海邊欣賞夕陽，
-            感受台南悠閒而迷人的生活節奏。
+            不論是想品嘗溫體牛火鍋，
+            或與家人朋友一起享用熱炒料理，
+            都很適合安排在旅程中的午餐或晚餐時段。
           </p>
 
           <ul class="advantages">
-            <li>可安排安平老街、安平古堡與安平樹屋</li>
-            <li>沿途可品嘗蝦捲、豆花與蜜餞等小吃</li>
-            <li>老街巷弄與古蹟適合散步及拍照</li>
-            <li>傍晚可順遊漁光島或安平港欣賞夕陽</li>
-            <li>適合家庭、情侶及朋友安排半日或一日遊</li>
+            <li>每日現切溫體牛，肉質鮮嫩</li>
+            <li>火鍋湯頭清甜，口味不油膩</li>
+            <li>在地居民與旅客都會回訪的人氣餐廳</li>
+            <li>適合家庭、朋友多人一起用餐</li>
+            <li>距離民宿近，行程安排輕鬆方便</li>
           </ul>
 
           <a
             class="button"
-            href="https://www.google.com/maps/search/?api=1&query=台南安平"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
-
-        </div>
-
-      </article>
-
-      <!-- 興達港觀光漁市 -->
-
-      <article class="attraction-card">
-
-        <div class="image-wrap">
-
-          <img
-            src="images/singda.jpg"
-            alt="興達港觀光漁市"
-          >
-
-          <span class="image-label">
-            海鮮・漁港・夕陽
-          </span>
-
-        </div>
-
-        <div class="attraction-content">
-
-          <span class="travel-time">
-            🚗 從民宿行車約 15 分鐘
-          </span>
-
-          <h2>興達港觀光漁市</h2>
-
-          <p class="description">
-            位於茄萣興達港旁的海鮮市場，
-            是高雄西海岸相當具人氣的漁港型觀光市集。
-            可以逛市場、挑選新鮮海產，
-            感受最在地的漁港生活節奏。
-          </p>
-
-          <ul class="advantages">
-            <li>可選購新鮮漁獲與當日海產</li>
-            <li>部分店家提供代客料理服務</li>
-            <li>可品嘗魚丸、海鮮粥與炸海鮮等小吃</li>
-            <li>感受漁港風情與在地市場文化</li>
-            <li>鄰近海岸，可順遊散步並欣賞夕陽</li>
-          </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=興達港觀光漁市"
+            href="https://www.google.com/maps/search/?api=1&query=湖東牛肉館"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -814,12 +720,13 @@
 
     <section class="booking-callout">
 
-      <h2>從湖內三層雲，展開一趟輕鬆旅程</h2>
+      <h2>吃飽後，回到湖內三層雲自在相聚</h2>
 
       <p>
-        白天探索台南與高雄，晚上回到舒適的包棟空間，
-        與家人朋友自在聊天、歡唱與休息，
-        為旅程留下更多美好回憶。
+        白天探索台南與高雄，品嘗在地美食，
+        晚上再回到舒適的包棟空間，
+        與家人朋友聊天、歡唱與休息，
+        享受輕鬆的旅行時光。
       </p>
 
       <a class="button" href="index.html#booking">
@@ -833,7 +740,7 @@
 
   <footer>
     <strong>湖內三層雲</strong>
-    高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
+    高雄湖內包棟住宿｜鄰近湖內與台南人氣美食
   </footer>
 
 </body>
