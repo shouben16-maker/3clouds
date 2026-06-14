@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="湖內三層雲，高雄湖內包棟民宿。白天探索台南與高雄，晚上回到舒適自在的包棟空間。"
+  >
+
+  <title>湖內三層雲｜高雄湖內包棟民宿</title>
+
+  <style>
+    :root {
+      --background: #f7f4ef;
+      --surface: #ffffff;
+      --surface-soft: #eee6da;
+      --text: #332f2a;
+      --text-light: #6f675e;
+      --primary: #8b6f47;
+      --primary-dark: #6f5635;
+      --dark: #38342d;
+      --border: rgba(86, 74, 60, 0.12);
+      --shadow: 0 14px 38px rgba(59, 49, 39, 0.1);
+      --radius-large: 22px;
+      --radius-small: 10px;
+      --content-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        Arial,
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
+      color: var(--text);
+      background-color: var(--background);
+      line-height: 1.8;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* 上方導覽列 */
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(56, 52, 45, 0.96);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: var(--content-width);
+      min-height: 68px;
+      margin: auto;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .nav-links a:hover {
+      transform: translateY(-1px);
+    }
+
+    /* 首頁主視覺 */
+
+    .hero {
+      min-height: 620px;
+      padding: 100px 24px 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+
+      background:
+        linear-gradient(
+          rgba(24, 22, 19, 0.34),
+          rgba(24, 22, 19, 0.62)
+        ),
+        url("images/lobby.jpg")
+        center / cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -1px;
+      left: 0;
+      z-index: -1;
+      height: 110px;
+      background:
+        linear-gradient(
+          to top,
+          var(--background),
+          rgba(247, 244, 239, 0)
+        );
+    }
+
+    .hero-content {
+      max-width: 840px;
+      animation: fade-up 0.75s ease both;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      background-color: rgba(0, 0, 0, 0.18);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      backdrop-filter: blur(5px);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(48px, 8vw, 76px);
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero p {
+      max-width: 740px;
+      margin: 22px auto 0;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 20px;
+      line-height: 1.9;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-actions {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    /* 共用按鈕 */
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border: none;
+      border-radius: var(--radius-small);
+      color: white;
+      background-color: var(--primary);
+      box-shadow: 0 7px 18px rgba(139, 111, 71, 0.22);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(139, 111, 71, 0.3);
+    }
+
+    .button-light {
+      color: var(--dark);
+      background-color: rgba(255, 255, 255, 0.94);
+      box-shadow: none;
+    }
+
+    .button-light:hover {
+      color: var(--dark);
+      background-color: white;
+    }
+
+    /* 共用區塊 */
+
+    .section {
+      max-width: var(--content-width);
+      margin: auto;
+      padding: 82px 28px;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin: 0 auto 46px;
+      text-align: center;
+    }
+
+    .section-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 16px;
+      font-size: clamp(30px, 5vw, 42px);
+      line-height: 1.35;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--text-light);
+      font-size: 17px;
+    }
+
+    /* 關於我們 */
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .about-content h2 {
+      margin: 0 0 20px;
+      font-size: clamp(32px, 5vw, 44px);
+      line-height: 1.35;
+    }
+
+    .about-content p {
+      margin: 0 0 18px;
+      color: var(--text-light);
+      font-size: 17px;
+    }
+
+    .about-quote {
+      margin: 28px 0;
+      padding: 22px 24px;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 14px 14px 0;
+      color: #514a42;
+      background-color: var(--surface-soft);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .about-image {
+      min-height: 410px;
+      overflow: hidden;
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow);
+
+      background:
+        linear-gradient(
+          rgba(35, 30, 25, 0.08),
+          rgba(35, 30, 25, 0.12)
+        ),
+        url("images/lobby.jpg")
+        center / cover no-repeat;
+    }
+
+    /* 民宿特色 */
+
+    .features-section {
+      background-color: #eee8df;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      padding: 34px 28px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background-color: var(--surface);
+      box-shadow: 0 10px 28px rgba(59, 49, 39, 0.07);
+      text-align: center;
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 34px rgba(59, 49, 39, 0.12);
+    }
+
+    .card-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: var(--primary-dark);
+      background-color: var(--surface-soft);
+      font-size: 26px;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--text-light);
+    }
+
+    /* 房價區塊 */
+
+    .price-section {
+      max-width: var(--content-width);
+      margin: auto;
+      padding: 82px 28px 34px;
+    }
+
+    .price {
+      min-height: 430px;
+      padding: 64px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      border-radius: var(--radius-large);
+      color: white;
+      text-align: center;
+      box-shadow: var(--shadow);
+
+      background:
+        linear-gradient(
+          rgba(35, 30, 25, 0.54),
+          rgba(35, 30, 25, 0.72)
+        ),
+        url("images/price-background.png")
+        center / cover no-repeat;
+    }
+
+    .price-content {
+      max-width: 720px;
+    }
+
+    .price-label {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 7px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      background-color: rgba(0, 0, 0, 0.2);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      backdrop-filter: blur(5px);
+    }
+
+    .price h2 {
+      margin: 0 0 14px;
+      font-size: clamp(32px, 5vw, 44px);
+    }
+
+    .price strong {
+      display: block;
+      margin: 4px 0 16px;
+      color: white;
+      font-size: clamp(38px, 7vw, 58px);
+      line-height: 1.3;
+    }
+
+    .price p {
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 16px;
+    }
+
+    .price .button {
+      margin-top: 28px;
+      color: var(--dark);
+      background-color: white;
+      box-shadow: none;
+    }
+
+    .price .button:hover {
+      background-color: #f1ece4;
+    }
+
+    /* 訂房表單 */
+
+    .booking-section {
+      max-width: 900px;
+      margin: auto;
+      padding: 70px 28px 96px;
+    }
+
+    .booking-form-wrap {
+      padding: 42px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-large);
+      background-color: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .booking-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .booking-form label {
+      color: #484139;
+      font-weight: 700;
+    }
+
+    .booking-form input,
+    .booking-form textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d4cdc3;
+      border-radius: 10px;
+      color: var(--text);
+      background-color: #fffdfa;
+      font-family: inherit;
+      font-size: 16px;
+      outline: none;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .booking-form input:focus,
+    .booking-form textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(139, 111, 71, 0.12);
+    }
+
+    .booking-form textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .form-note {
+      margin: 18px 0 0;
+      color: var(--text-light);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .submit-row {
+      grid-column: 1 / -1;
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    /* 頁尾 */
+
+    footer {
+      padding: 36px 24px;
+      color: rgba(255, 255, 255, 0.82);
+      background-color: var(--dark);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer strong {
+      display: block;
+      margin-bottom: 4px;
+      color: white;
+      font-size: 17px;
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 平板 */
+
+    @media (max-width: 860px) {
+      .about-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .about-image {
+        min-height: 340px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 手機 */
+
+    @media (max-width: 620px) {
+      .top-bar {
+        position: static;
+      }
+
+      .nav-inner {
+        min-height: auto;
+        padding: 14px 16px;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+
+      .hero {
+        min-height: 540px;
+        padding: 82px 20px 100px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+
+      .hero-actions {
+        width: 100%;
+      }
+
+      .hero-actions .button {
+        width: 100%;
+      }
+
+      .section,
+      .price-section,
+      .booking-section {
+        padding-right: 16px;
+        padding-left: 16px;
+      }
+
+      .section {
+        padding-top: 58px;
+        padding-bottom: 58px;
+      }
+
+      .section-heading {
+        margin-bottom: 32px;
+      }
+
+      .about-layout {
+        gap: 34px;
+      }
+
+      .about-image {
+        min-height: 260px;
+      }
+
+      .about-quote {
+        padding: 18px;
+        font-size: 16px;
+      }
+
+      .features {
+        gap: 18px;
+      }
+
+      .card {
+        padding: 28px 22px;
+      }
+
+      .price-section {
+        padding-top: 58px;
+      }
+
+      .price {
+        min-height: 420px;
+        padding: 48px 22px;
+        border-radius: 18px;
+      }
+
+      .booking-section {
+        padding-top: 52px;
+        padding-bottom: 70px;
+      }
+
+      .booking-form-wrap {
+        padding: 28px 20px;
+        border-radius: 18px;
+      }
+
+      .booking-form {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .form-group.full-width,
+      .submit-row {
+        grid-column: auto;
+      }
+
+      .submit-row .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="top-bar">
+    <div class="nav-inner">
+
+      <a class="brand" href="index.html">
+        湖內三層雲
+      </a>
+
+      <div class="nav-links">
+        <a class="active" href="index.html">
+          民宿首頁
+        </a>
+
+        <a href="attractions.html">
+          周邊景點
+        </a>
+
+        <a href="#booking">
+          查看房價
+        </a>
+      </div>
+
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+
+      <span class="eyebrow">
+        BETWEEN TAINAN & KAOHSIUNG
+      </span>
+
+      <h1>湖內三層雲</h1>
+
+      <p>
+        白天探索台南與高雄，晚上回到舒適自在的包棟空間。
+        與家人朋友一起放慢步調，在旅行與相聚之間，
+        留下屬於彼此的美好回憶。
+      </p>
+
+      <div class="hero-actions">
+        <a class="button" href="#booking">
+          立即查看房價
+          <span aria-hidden="true">→</span>
+        </a>
+
+        <a class="button button-light" href="attractions.html">
+          探索周邊景點
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <section class="section">
+      <div class="about-layout">
+
+        <div class="about-content">
+          <span class="section-label">
+            ABOUT SAN CENG YUN
+          </span>
+
+          <h2>
+            住在台南與高雄之間，
+            把兩座城市都放進旅程裡
+          </h2>
+
+          <p>
+            湖內三層雲位於高雄湖內區，
+            鄰近台南與高雄多個熱門景點。
+            白天可以逛展覽、走古蹟、品嘗美食，
+            晚上再回到寬敞舒適的包棟空間休息。
+          </p>
+
+          <p>
+            無論是家庭旅遊、親子住宿或朋友相聚，
+            都能保有專屬空間，不必與陌生旅客共用，
+            自在聊天、放鬆，享受真正屬於彼此的旅行時光。
+          </p>
+
+          <div class="about-quote">
+            白天探索台南與高雄，
+            晚上回到舒適的包棟空間。
+          </div>
+
+          <a class="button" href="attractions.html">
+            查看周邊景點
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div
+          class="about-image"
+          role="img"
+          aria-label="湖內三層雲民宿空間"
+        ></div>
+
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="section">
+
+        <div class="section-heading">
+          <span class="section-label">
+            WHY STAY WITH US
+          </span>
+
+          <h2>讓旅行更自在的包棟空間</h2>
+
+          <p>
+            從白天出遊到晚上相聚，
+            湖內三層雲提供舒適、獨立且適合多人入住的住宿環境。
+          </p>
+        </div>
+
+        <div class="features">
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">
+              🏠
+            </div>
+
+            <h3>完整包棟</h3>
+
+            <p>
+              不與陌生旅客共用空間，
+              保有專屬客廳與活動範圍，
+              享受自在不受打擾的住宿時光。
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">
+              👨‍👩‍👧‍👦
+            </div>
+
+            <h3>適合多人相聚</h3>
+
+            <p>
+              適合家庭、親子與朋友旅行，
+              白天分頭探索，晚上再回到民宿一起聊天休息。
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">
+              ✨
+            </div>
+
+            <h3>舒適設備</h3>
+
+            <p>
+              提供客廳、廚房、冷氣、Wi-Fi
+              與基本生活設備，
+              讓住宿更加便利放鬆。
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="price-section" id="booking">
+
+      <div class="price">
+        <div class="price-content">
+
+          <span class="price-label">
+            WHOLE HOUSE STAY
+          </span>
+
+          <h2>包棟房價</h2>
+
+          <p>平日包棟價格</p>
+
+          <strong>NT$12,000 起</strong>
+
+          <p>
+            實際價格會依入住日期、人數、連續假期
+            與住宿需求調整，歡迎透過 LINE 詢問空房。
+          </p>
+
+          <a
+            class="button"
+            href="https://line.me/ti/p/~shouben16"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LINE 詢問空房
+            <span aria-hidden="true">→</span>
+          </a>
+
+        </div>
+      </div>
+
+    </section>
+
+    <section class="booking-section" id="booking-form">
+
+      <div class="section-heading">
+        <span class="section-label">
+          BOOKING INQUIRY
+        </span>
+
+        <h2>訂房詢問</h2>
+
+        <p>
+          填寫預計入住日期、人數與聯絡方式，
+          方便我們協助確認房況與實際價格。
+        </p>
+      </div>
+
+      <div class="booking-form-wrap">
+
+        <form class="booking-form">
+
+          <div class="form-group">
+            <label for="name">姓名</label>
+
+            <input
+              type="text"
+              id="name"
+              name="name"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="phone">手機號碼</label>
+
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              autocomplete="tel"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="checkin">入住日期</label>
+
+            <input
+              type="date"
+              id="checkin"
+              name="checkin"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="checkout">退房日期</label>
+
+            <input
+              type="date"
+              id="checkout"
+              name="checkout"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="guests">入住人數</label>
+
+            <input
+              type="number"
+              id="guests"
+              name="guests"
+              min="1"
+              placeholder="例如：8"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="contact-time">方便聯絡時段</label>
+
+            <input
+              type="text"
+              id="contact-time"
+              name="contact-time"
+              placeholder="例如：晚上 7 點後"
+            >
+          </div>
+
+          <div class="form-group full-width">
+            <label for="message">其他需求</label>
+
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              placeholder="例如：是否有兒童、需要使用廚房或其他住宿需求"
+            ></textarea>
+          </div>
+
+          <div class="submit-row">
+            <button type="submit" class="button">
+              送出訂房詢問
+            </button>
+          </div>
+
+        </form>
+
+        <p class="form-note">
+          目前表單仍為畫面示範，按下送出後尚不會傳送資料。
+          也可以直接使用上方 LINE 按鈕詢問。
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <strong>湖內三層雲</strong>
+    高雄湖內包棟住宿｜白天探索台南與高雄，晚上自在相聚
+  </footer>
+
+</body>
+</html>

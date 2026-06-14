@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="湖內三層雲周邊景點介紹，鄰近奇美博物館、十鼓文化村與台南安平。"
+  >
+
+  <title>周邊景點｜湖內三層雲</title>
+
+  <style>
+    :root {
+      --background: #f7f4ef;
+      --surface: #ffffff;
+      --surface-soft: #eee6da;
+      --text: #332f2a;
+      --text-light: #6f675e;
+      --primary: #8b6f47;
+      --primary-dark: #6f5635;
+      --dark: #38342d;
+      --border: rgba(86, 74, 60, 0.12);
+      --shadow: 0 14px 38px rgba(59, 49, 39, 0.1);
+      --radius-large: 22px;
+      --radius-small: 10px;
+      --content-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        Arial,
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
+      color: var(--text);
+      background-color: var(--background);
+      line-height: 1.8;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* 上方導覽列 */
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(56, 52, 45, 0.96);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: var(--content-width);
+      min-height: 68px;
+      margin: auto;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .nav-links a:hover {
+      transform: translateY(-1px);
+    }
+
+    /* 頁首主視覺 */
+
+    .page-header {
+      min-height: 430px;
+      padding: 90px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+
+      background:
+        linear-gradient(
+          rgba(24, 22, 19, 0.34),
+          rgba(24, 22, 19, 0.58)
+        ),
+        url("images/chimei.jpg")
+        center 48% / cover no-repeat;
+    }
+
+    .page-header::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -1px;
+      left: 0;
+      z-index: -1;
+      height: 90px;
+      background:
+        linear-gradient(
+          to top,
+          var(--background),
+          rgba(247, 244, 239, 0)
+        );
+    }
+
+    .header-content {
+      max-width: 760px;
+      animation: fade-up 0.7s ease both;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      background-color: rgba(0, 0, 0, 0.18);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      backdrop-filter: blur(5px);
+    }
+
+    .page-header h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 66px);
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-header p {
+      max-width: 680px;
+      margin: 18px auto 0;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 19px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 主要內容 */
+
+    main {
+      max-width: var(--content-width);
+      margin: auto;
+      padding: 72px 28px 96px;
+    }
+
+    .intro {
+      max-width: 760px;
+      margin: 0 auto 58px;
+      text-align: center;
+    }
+
+    .section-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+    }
+
+    .intro h2 {
+      margin: 0 0 16px;
+      font-size: clamp(30px, 5vw, 42px);
+      line-height: 1.35;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--text-light);
+      font-size: 17px;
+    }
+
+    /* 景點卡片 */
+
+    .attractions-list {
+      display: grid;
+      gap: 54px;
+    }
+
+    .attraction-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      min-height: 480px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-large);
+      background-color: var(--surface);
+      box-shadow: var(--shadow);
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .attraction-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(59, 49, 39, 0.14);
+    }
+
+    .attraction-card:nth-child(even) {
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    }
+
+    .attraction-card:nth-child(even) .image-wrap {
+      order: 2;
+    }
+
+    .attraction-card:nth-child(even) .attraction-content {
+      order: 1;
+    }
+
+    .image-wrap {
+      position: relative;
+      min-height: 100%;
+      overflow: hidden;
+      background-color: #ddd4c8;
+    }
+
+    .image-wrap img {
+      width: 100%;
+      height: 100%;
+      min-height: 480px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .attraction-card:hover .image-wrap img {
+      transform: scale(1.035);
+    }
+
+    .image-label {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: white;
+      background-color: rgba(37, 33, 28, 0.72);
+      font-size: 13px;
+      font-weight: 700;
+      backdrop-filter: blur(6px);
+    }
+
+    .attraction-content {
+      padding: 52px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .travel-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 18px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      color: var(--primary-dark);
+      background-color: var(--surface-soft);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .attraction-content h2 {
+      margin: 0 0 16px;
+      font-size: clamp(28px, 4vw, 36px);
+      line-height: 1.35;
+    }
+
+    .description {
+      margin: 0;
+      color: var(--text-light);
+      font-size: 16px;
+    }
+
+    .advantages {
+      width: 100%;
+      margin: 26px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .advantages li {
+      position: relative;
+      margin-bottom: 11px;
+      padding-left: 27px;
+      color: #514b44;
+    }
+
+    .advantages li::before {
+      content: "✓";
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 28px;
+      padding: 13px 22px;
+      border-radius: var(--radius-small);
+      color: white;
+      background-color: var(--primary);
+      box-shadow: 0 7px 18px rgba(139, 111, 71, 0.22);
+      text-decoration: none;
+      font-weight: 700;
+      transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(139, 111, 71, 0.3);
+    }
+
+    /* 下方行動區 */
+
+    .booking-callout {
+      margin-top: 70px;
+      padding: 48px 30px;
+      border-radius: var(--radius-large);
+      color: white;
+      text-align: center;
+      background:
+        linear-gradient(
+          rgba(46, 40, 33, 0.72),
+          rgba(46, 40, 33, 0.78)
+        ),
+        url("images/chimei.jpg")
+        center / cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+
+    .booking-callout h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 38px);
+    }
+
+    .booking-callout p {
+      max-width: 650px;
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .booking-callout .button {
+      margin-top: 24px;
+      background-color: white;
+      color: var(--dark);
+      box-shadow: none;
+    }
+
+    .booking-callout .button:hover {
+      background-color: #f1ece4;
+    }
+
+    /* 頁尾 */
+
+    footer {
+      padding: 34px 24px;
+      color: rgba(255, 255, 255, 0.82);
+      background-color: var(--dark);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer strong {
+      display: block;
+      margin-bottom: 4px;
+      color: white;
+      font-size: 16px;
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 平板與手機 */
+
+    @media (max-width: 860px) {
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      .attraction-card,
+      .attraction-card:nth-child(even) {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .attraction-card:nth-child(even) .image-wrap,
+      .attraction-card:nth-child(even) .attraction-content {
+        order: initial;
+      }
+
+      .image-wrap img {
+        height: 360px;
+        min-height: 0;
+      }
+
+      .attraction-content {
+        padding: 38px 34px 42px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .top-bar {
+        position: static;
+      }
+
+      .nav-inner {
+        min-height: auto;
+        padding: 14px 16px;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+
+      .page-header {
+        min-height: 340px;
+        padding: 64px 20px 80px;
+      }
+
+      .page-header p {
+        font-size: 16px;
+      }
+
+      main {
+        padding: 50px 16px 68px;
+      }
+
+      .intro {
+        margin-bottom: 38px;
+      }
+
+      .intro p {
+        font-size: 16px;
+      }
+
+      .attractions-list {
+        gap: 30px;
+      }
+
+      .attraction-card {
+        border-radius: 17px;
+      }
+
+      .image-wrap img {
+        height: 250px;
+      }
+
+      .image-label {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .attraction-content {
+        padding: 28px 22px 32px;
+      }
+
+      .travel-time {
+        margin-bottom: 14px;
+      }
+
+      .advantages {
+        margin-top: 21px;
+      }
+
+      .advantages li {
+        margin-bottom: 9px;
+      }
+
+      .button {
+        width: 100%;
+        margin-top: 23px;
+      }
+
+      .booking-callout {
+        margin-top: 42px;
+        padding: 38px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="top-bar">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        湖內三層雲
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">
+          民宿首頁
+        </a>
+
+        <a class="active" href="attractions.html">
+          周邊景點
+        </a>
+
+        <a href="index.html#booking">
+          查看房價
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="header-content">
+      <span class="eyebrow">
+        EXPLORE NEARBY
+      </span>
+
+      <h1>周邊景點</h1>
+
+      <p>
+        從民宿輕鬆出發，串連藝術、古蹟、美食與自然風景，
+        讓住宿不只是休息，也成為旅程的一部分。
+      </p>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="intro">
+      <span class="section-label">
+        TRAVEL WITH EASE
+      </span>
+
+      <h2>離景點近，行程安排更輕鬆</h2>
+
+      <p>
+        民宿鄰近台南與高雄多個熱門景點，
+        不論是親子家庭、朋友出遊、情侶旅行，
+        都能依照喜好安排悠閒又豐富的一日行程。
+      </p>
+    </section>
+
+    <section class="attractions-list">
+
+      <article class="attraction-card">
+        <div class="image-wrap">
+          <img
+            src="images/chimei.jpg"
+            alt="奇美博物館與十鼓文化村"
+          >
+
+          <span class="image-label">
+            藝術・親子・散步
+          </span>
+        </div>
+
+        <div class="attraction-content">
+          <span class="travel-time">
+            🚗 從民宿行車約15分鐘
+          </span>
+
+          <h2>奇美博物館與十鼓文化村</h2>
+
+          <p class="description">
+            從典雅的博物館建築、寬闊草地，到充滿生命力的鼓樂文化，
+            一趟行程就能同時享受藝術、散步與親子體驗。
+          </p>
+
+          <ul class="advantages">
+            <li>適合在草地野餐、拍照與悠閒散步</li>
+            <li>館內可欣賞藝術、樂器與歷史展覽</li>
+            <li>十鼓文化村適合親子共同體驗</li>
+            <li>兩個景點距離相近，可安排同日遊覽</li>
+            <li>適合家庭、朋友與喜歡文化行程的旅客</li>
+          </ul>
+
+          <a
+            class="button"
+            href="https://www.google.com/maps/search/?api=1&query=奇美博物館"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            查看地圖與路線
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="attraction-card">
+        <div class="image-wrap">
+          <img
+            src="images/anping.jpg"
+            alt="台南安平老街與安平周邊景點"
+          >
+
+          <span class="image-label">
+            古蹟・美食・夕陽
+          </span>
+        </div>
+
+        <div class="attraction-content">
+          <span class="travel-time">
+            🚗 從民宿行車約30分鐘
+          </span>
+
+          <h2>台南安平</h2>
+
+          <p class="description">
+            漫步老街與巷弄，品嘗在地小吃、探訪古蹟，
+            傍晚再到海邊欣賞夕陽，感受台南悠閒而迷人的生活節奏。
+          </p>
+
+          <ul class="advantages">
+            <li>可安排安平老街、安平古堡與安平樹屋</li>
+            <li>沿途可品嘗蝦捲、豆花與蜜餞等小吃</li>
+            <li>老街巷弄與古蹟適合散步及拍照</li>
+            <li>傍晚可順遊漁光島或安平港欣賞夕陽</li>
+            <li>適合家庭、情侶及朋友安排半日或一日遊</li>
+          </ul>
+
+          <a
+            class="button"
+            href="https://www.google.com/maps/search/?api=1&query=台南安平"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            查看地圖與路線
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+    </section>
+
+    <section class="booking-callout">
+      <h2>從湖內三層雲，展開一趟輕鬆旅程</h2>
+
+      <p>
+        白天探索台南與高雄，晚上回到舒適的包棟空間，
+        與家人朋友自在聊天、休息，為旅程留下更多美好回憶。
+      </p>
+
+      <a class="button" href="index.html#booking">
+        查看包棟房價
+      </a>
+    </section>
+
+  </main>
+
+  <footer>
+    <strong>湖內三層雲</strong>
+    高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
+  </footer>
+
+</body>
+</html>
