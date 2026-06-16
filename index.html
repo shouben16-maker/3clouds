@@ -770,10 +770,13 @@
         min-width: 0;
       }
 
-      .booking-form input,
-      .booking-form textarea {
-        min-width: 0;
-      }
+.booking-form input,
+.booking-form textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
 
       .form-group.full-width,
       .submit-row,
@@ -784,9 +787,27 @@
       .submit-row .button {
         width: 100%;
       }
-        .booking-form .date-field {
-    grid-column: 1 / -1;
-  }
+
+/* 修正 iPhone 日期欄位超出表單邊框 */
+
+.booking-form .date-field {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.booking-form input[type="date"] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+
     }
 
     @media (max-width: 860px) {
