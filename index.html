@@ -806,6 +806,33 @@
   -webkit-appearance: none;
   appearance: none;
 }
+  .booking-form input[type="date"] {
+    width: 100%;
+    min-width: 0;
+    height: 58px;
+    min-height: 58px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    font-size: 17px;
+    line-height: 1.2;
+    background-color: #fffdfa;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .booking-form input[type="date"]::-webkit-date-and-time-value {
+    min-height: 28px;
+    line-height: 28px;
+    text-align: left;
+  }
+
+  .booking-form input[type="date"]::-webkit-calendar-picker-indicator {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    padding: 4px;
+    cursor: pointer;
+  }
 
 
     }
