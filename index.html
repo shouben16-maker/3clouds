@@ -336,13 +336,13 @@
       background-color: #eee8df;
     }
 
-    .features {
-      max-width: 900px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
+.features {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
 
     .card {
       min-height: 285px;
@@ -390,6 +390,7 @@
       margin: 0;
       color: var(--text-light);
     }
+    
 
 
 
@@ -588,10 +589,10 @@
         font-size: 14px;
       }
 
-      .features {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
+  .features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
     @media (max-width: 860px) {
       .about-layout {
@@ -680,11 +681,12 @@
         font-size: 16px;
       }
 
-      .features {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
 
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
       .card {
         min-height: auto;
         padding: 28px 22px;
@@ -782,6 +784,24 @@
   }
 }
     }
+
+/* 電腦版：調整價目表與訂房表單間距 */
+
+@media (min-width: 861px) {
+
+  /* 左右兩欄之間的距離加寬 */
+  .booking-area {
+    gap: 85px;
+  }
+
+  /* 縮短標題介紹與下方卡片之間的空白 */
+  .booking-heading {
+    min-height: 125px;
+    margin-bottom: 14px;
+  }
+}
+
+
   </style>
 </head>
 
@@ -922,6 +942,38 @@
 
           </article>
 
+<article class="card">
+
+  <div class="card-icon" aria-hidden="true">
+    ✨
+  </div>
+
+  <h3>全棟新居</h3>
+
+  <p>
+    2026 年全新完工，
+    從客房、衛浴到公共空間皆為全新規劃，
+    並非老宅翻新，入住環境更加舒適安心。
+  </p>
+
+</article>
+
+<article class="card">
+
+  <div class="card-icon" aria-hidden="true">
+    🌡️
+  </div>
+
+  <h3>冷暖空調</h3>
+
+  <p>
+    不只客房，全棟包含客廳與廚房
+    皆設有冷暖氣空調，
+    無論夏季聚會或冬季入住都舒適自在。
+  </p>
+
+</article>
+
           <article class="card">
 
             <div class="card-icon" aria-hidden="true">
@@ -970,6 +1022,10 @@
             </p>
 
           </article>
+
+
+
+
 
         </div>
       </div>
@@ -1044,7 +1100,7 @@
       <h2>訂房詢問</h2>
 
       <p>
-        填寫預計入住日期、人數與聯絡方式，
+        填寫預計入住日期、人數與聯絡方式，<br class="desktop-break">
         方便我們協助確認房況與實際價格。
       </p>
 
