@@ -542,6 +542,57 @@
   text-align: center;
 }
 
+/* 訂房表單狀態與基本防垃圾 */
+
+.honeypot-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.booking-form .button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.form-status {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.form-status.show {
+  display: block;
+}
+
+.form-status.success {
+  color: #315f3b;
+  background-color: #edf7ef;
+  border: 1px solid #bddbc3;
+}
+
+.form-status.error {
+  color: #8a3d35;
+  background-color: #fff1ef;
+  border: 1px solid #e7c0bb;
+}
+
+.form-status a {
+  display: inline-block;
+  margin-left: 6px;
+  color: inherit;
+  font-weight: 800;
+}
+
 
 
     /* 頁尾 */
@@ -605,12 +656,12 @@
     }
 
     /* 手機 */
-@media (max-width: 700px) {
-  .desktop-break {
-    display: none;
-  }
-}
+
     @media (max-width: 700px) {
+      .desktop-break {
+        display: none;
+      }
+
       .top-bar {
         position: static;
       }
@@ -655,10 +706,6 @@
         width: 100%;
       }
 
-      .section,
-      .price-section,
-
-
       .section {
         padding-top: 58px;
         padding-bottom: 58px;
@@ -681,26 +728,33 @@
         font-size: 16px;
       }
 
+      .features {
+        grid-template-columns: 1fr;
+      }
 
-
-  .features {
-    grid-template-columns: 1fr;
-  }
-}
       .card {
         min-height: auto;
         padding: 28px 22px;
       }
 
+      .booking-area {
+        padding: 58px 16px 70px;
+        gap: 52px;
+      }
 
-
-      .price {
-        min-height: 420px;
-        padding: 48px 22px;
+      .price-list-card {
+        max-width: 100%;
+        padding: 14px;
         border-radius: 18px;
       }
 
- 
+      .price-image-link {
+        border-radius: 12px;
+      }
+
+      .price-list-card .button {
+        width: 100%;
+      }
 
       .booking-form-wrap {
         padding: 28px 20px;
@@ -708,81 +762,40 @@
       }
 
       .booking-form {
-        grid-template-columns: 1fr;
-        gap: 18px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .form-group {
+        min-width: 0;
+      }
+
+      .booking-form input,
+      .booking-form textarea {
+        min-width: 0;
       }
 
       .form-group.full-width,
-      .submit-row {
-        grid-column: auto;
+      .submit-row,
+      .form-status {
+        grid-column: 1 / -1;
       }
 
       .submit-row .button {
         width: 100%;
       }
-      .price-list-card {
-  padding: 14px;
-  border-radius: 18px;
-}
+    }
 
-.price-image-link {
-  border-radius: 12px;
-}
+    @media (max-width: 860px) {
+      .booking-area {
+        grid-template-columns: 1fr;
+        gap: 58px;
+      }
 
-.price-list-card .button {
-  width: 100%;
-}
-@media (max-width: 860px) {
-  .booking-area {
-    grid-template-columns: 1fr;
-    gap: 58px;
-  }
-
-  .booking-heading {
-    min-height: auto;
-    margin-bottom: 28px;
-  }
-}
-
-@media (max-width: 700px) {
-  .booking-area {
-    padding: 58px 16px 70px;
-    gap: 52px;
-  }
-
-  .price-list-card {
-    max-width: 100%;
-    padding: 14px;
-    border-radius: 18px;
-  }
-
-  .price-image-link {
-    border-radius: 12px;
-  }
-
-  .price-list-card .button {
-    width: 100%;
-  }
-
-  .booking-form-wrap {
-    padding: 28px 20px;
-    border-radius: 18px;
-  }
-
-  .booking-form {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .form-group.full-width,
-  .submit-row {
-    grid-column: auto;
-  }
-
-  .submit-row .button {
-    width: 100%;
-  }
-}
+      .booking-heading {
+        min-height: auto;
+        margin-bottom: 28px;
+      }
     }
 
 /* 電腦版：調整價目表與訂房表單間距 */
@@ -1100,15 +1113,38 @@
       <h2>訂房詢問</h2>
 
       <p>
-        填寫預計入住日期、人數與聯絡方式，<br class="desktop-break">
-        方便我們協助確認房況與實際價格。
+我們重視每位旅客的隱私。若您目前只想先詢問房況，不需提供手機號碼，只要留下姓名與 Email，即可先確認房況與實際價格。
+
       </p>
 
     </div>
 
     <div class="booking-form-wrap">
 
-      <form class="booking-form">
+      <form
+        class="booking-form"
+        id="bookingForm"
+        action="https://formspree.io/f/xwvjzwka"
+        method="POST"
+      >
+
+        <input
+          type="hidden"
+          name="_subject"
+          value="湖內三層雲｜新訂房詢問"
+        >
+
+        <!-- 隱藏陷阱欄位：正常房客不會看到或填寫 -->
+        <div class="honeypot-field" aria-hidden="true">
+          <label for="website">網站</label>
+          <input
+            type="text"
+            id="website"
+            name="_gotcha"
+            tabindex="-1"
+            autocomplete="off"
+          >
+        </div>
 
         <div class="form-group">
 
@@ -1119,6 +1155,7 @@
             id="name"
             name="name"
             autocomplete="name"
+            maxlength="50"
             required
           >
 
@@ -1126,13 +1163,31 @@
 
         <div class="form-group">
 
-          <label for="phone">手機號碼</label>
+          <label for="guests">入住人數</label>
 
           <input
-            type="tel"
-            id="phone"
-            name="phone"
-            autocomplete="tel"
+            type="number"
+            id="guests"
+            name="guests"
+            min="1"
+            max="12"
+            placeholder="例如：8"
+            required
+          >
+
+        </div>
+
+        <div class="form-group full-width">
+
+          <label for="email">Email</label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            maxlength="120"
+            placeholder="例如：guest@example.com"
             required
           >
 
@@ -1164,34 +1219,6 @@
 
         </div>
 
-        <div class="form-group">
-
-          <label for="guests">入住人數</label>
-
-          <input
-            type="number"
-            id="guests"
-            name="guests"
-            min="1"
-            placeholder="例如：8"
-            required
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label for="contact-time">方便聯絡時段</label>
-
-          <input
-            type="text"
-            id="contact-time"
-            name="contact-time"
-            placeholder="例如：晚上 7 點後"
-          >
-
-        </div>
-
         <div class="form-group full-width">
 
           <label for="message">其他需求</label>
@@ -1200,6 +1227,7 @@
             id="message"
             name="message"
             rows="5"
+            maxlength="500"
             placeholder="例如：是否有兒童、需要使用廚房、烤肉或其他住宿需求"
           ></textarea>
 
@@ -1207,16 +1235,27 @@
 
         <div class="submit-row">
 
-          <button type="submit" class="button">
+          <button
+            type="submit"
+            class="button"
+            id="bookingSubmit"
+          >
             送出訂房詢問
           </button>
 
         </div>
 
+        <div
+          id="formStatus"
+          class="form-status"
+          role="status"
+          aria-live="polite"
+        ></div>
+
       </form>
 
       <p class="form-note">
-        目前表單仍為畫面示範，按下送出後尚不會傳送資料。
+        送出後，訂房需求會寄到民宿信箱。
         也可以使用左側 LINE 按鈕直接詢問。
       </p>
 
@@ -1234,6 +1273,211 @@
     <strong>湖內三層雲</strong>
     高雄湖內包棟住宿｜白天探索台南與高雄，晚上自在相聚
   </footer>
+
+
+  <script>
+    (function () {
+      "use strict";
+
+      const bookingForm = document.getElementById("bookingForm");
+      const bookingSubmit = document.getElementById("bookingSubmit");
+      const formStatus = document.getElementById("formStatus");
+      const checkinInput = document.getElementById("checkin");
+      const checkoutInput = document.getElementById("checkout");
+
+      const STORAGE_KEY = "sancengyun_booking_submit_times";
+      const TIME_WINDOW_MS = 300 * 1000;
+      const MAX_SUBMITS = 2;
+      const LINE_URL = "https://line.me/ti/p/~shouben16";
+
+      function getTodayString() {
+        const now = new Date();
+        const timezoneOffset = now.getTimezoneOffset() * 60000;
+        return new Date(now.getTime() - timezoneOffset)
+          .toISOString()
+          .split("T")[0];
+      }
+
+      function addOneDay(dateString) {
+        const date = new Date(dateString + "T00:00:00");
+        date.setDate(date.getDate() + 1);
+
+        const timezoneOffset = date.getTimezoneOffset() * 60000;
+        return new Date(date.getTime() - timezoneOffset)
+          .toISOString()
+          .split("T")[0];
+      }
+
+      function getRecentSubmitTimes() {
+        const now = Date.now();
+        let submitTimes = [];
+
+        try {
+          submitTimes = JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+          ) || [];
+        } catch (error) {
+          submitTimes = [];
+        }
+
+        return submitTimes
+          .filter(function (time) {
+            return Number.isFinite(time) && now - time < TIME_WINDOW_MS;
+          })
+          .sort(function (a, b) {
+            return a - b;
+          });
+      }
+
+      function saveSubmitTime() {
+        const submitTimes = getRecentSubmitTimes();
+        submitTimes.push(Date.now());
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(submitTimes));
+      }
+
+      function getRemainingSeconds(submitTimes) {
+        if (submitTimes.length < MAX_SUBMITS) {
+          return 0;
+        }
+
+        return Math.max(
+          1,
+          Math.ceil(
+            (TIME_WINDOW_MS - (Date.now() - submitTimes[0])) / 1000
+          )
+        );
+      }
+
+      function showStatus(type, message, includeLineLink) {
+        formStatus.className = "form-status show " + type;
+        formStatus.textContent = message;
+
+        if (includeLineLink) {
+          const lineLink = document.createElement("a");
+          lineLink.href = LINE_URL;
+          lineLink.target = "_blank";
+          lineLink.rel = "noopener noreferrer";
+          lineLink.textContent = "使用 LINE 繼續詢問 →";
+          formStatus.appendChild(lineLink);
+        }
+      }
+
+      function clearStatus() {
+        formStatus.className = "form-status";
+        formStatus.textContent = "";
+      }
+
+      function setSubmitting(isSubmitting) {
+        bookingSubmit.disabled = isSubmitting;
+        bookingSubmit.textContent = isSubmitting
+          ? "資料傳送中…"
+          : "送出訂房詢問";
+      }
+
+      const today = getTodayString();
+      checkinInput.min = today;
+      checkoutInput.min = today;
+
+      checkinInput.addEventListener("change", function () {
+        if (!checkinInput.value) {
+          checkoutInput.min = today;
+          return;
+        }
+
+        const minimumCheckout = addOneDay(checkinInput.value);
+        checkoutInput.min = minimumCheckout;
+
+        if (
+          checkoutInput.value &&
+          checkoutInput.value < minimumCheckout
+        ) {
+          checkoutInput.value = "";
+        }
+      });
+
+      bookingForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        clearStatus();
+
+        if (!bookingForm.checkValidity()) {
+          bookingForm.reportValidity();
+          return;
+        }
+
+        if (
+          checkinInput.value &&
+          checkoutInput.value &&
+          checkoutInput.value <= checkinInput.value
+        ) {
+          showStatus(
+            "error",
+            "退房日期必須晚於入住日期。",
+            false
+          );
+          checkoutInput.focus();
+          return;
+        }
+
+        const submitTimes = getRecentSubmitTimes();
+
+        if (submitTimes.length >= MAX_SUBMITS) {
+          const remainingSeconds = getRemainingSeconds(submitTimes);
+          showStatus(
+            "error",
+            "300 秒內最多只能送出 2 次，請於 " +
+              remainingSeconds +
+              " 秒後再試。",
+            false
+          );
+          return;
+        }
+
+        if (bookingForm.action.includes("你的表單代碼")) {
+          showStatus(
+            "error",
+            "尚未設定 Formspree 表單網址，請先替換表單代碼。",
+            false
+          );
+          return;
+        }
+
+        setSubmitting(true);
+
+        try {
+          const response = await fetch(bookingForm.action, {
+            method: "POST",
+            body: new FormData(bookingForm),
+            headers: {
+              Accept: "application/json"
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error("Form submission failed");
+          }
+
+          saveSubmitTime();
+          bookingForm.reset();
+          checkinInput.min = today;
+          checkoutInput.min = today;
+
+          showStatus(
+            "success",
+            "訂房詢問已成功送出，我們會透過 Email 與您聯絡。",
+            true
+          );
+        } catch (error) {
+          showStatus(
+            "error",
+            "資料暫時無法送出，請稍後再試，或改用 LINE 與我們聯絡。",
+            true
+          );
+        } finally {
+          setSubmitting(false);
+        }
+      });
+    })();
+  </script>
 
 </body>
 </html>
