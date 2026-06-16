@@ -392,19 +392,47 @@
     }
 
 
-/* 房價區塊 */
 
-.price-section {
+/* 房價與訂房並排區 */
+
+.booking-area {
   max-width: var(--content-width);
-  margin: auto;
-  padding: 82px 28px 40px;
+  margin: 0 auto;
+  padding: 82px 28px 96px;
+  display: grid;
+  grid-template-columns: minmax(340px, 0.8fr) minmax(0, 1.2fr);
+  gap: 38px;
+  align-items: start;
 }
 
+.price-column,
+.booking-column {
+  min-width: 0;
+}
+
+.booking-heading {
+  min-height: 190px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.booking-heading h2 {
+  margin-bottom: 12px;
+}
+
+.booking-heading p {
+  max-width: 520px;
+}
+
+/* 價目表 */
+
 .price-list-card {
-  max-width: 900px;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 28px;
-  overflow: hidden;
+  padding: 22px;
   border: 1px solid var(--border);
   border-radius: var(--radius-large);
   background-color: var(--surface);
@@ -415,12 +443,13 @@
 .price-image-link {
   display: block;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 14px;
   background-color: var(--surface-soft);
   cursor: zoom-in;
 }
 
 .price-list-image {
+  display: block;
   width: 100%;
   height: auto;
   margin: 0 auto;
@@ -433,92 +462,86 @@
 }
 
 .price-note {
-  margin: 22px auto 0;
+  margin: 20px auto 0;
   color: var(--text-light);
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .price-list-card .button {
-  margin-top: 22px;
+  margin-top: 20px;
+}
+
+/* 訂房表單 */
+
+.booking-form-wrap {
+  padding: 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-large);
+  background-color: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.booking-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.form-group {
+  display: grid;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.booking-form label {
+  color: #484139;
+  font-weight: 700;
+}
+
+.booking-form input,
+.booking-form textarea {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid #d4cdc3;
+  border-radius: 10px;
+  color: var(--text);
+  background-color: #fffdfa;
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.booking-form input:focus,
+.booking-form textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(139, 111, 71, 0.12);
+}
+
+.booking-form textarea {
+  min-height: 115px;
+  resize: vertical;
+}
+
+.submit-row {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  text-align: center;
+}
+
+.form-note {
+  margin: 16px 0 0;
+  color: var(--text-light);
+  font-size: 13px;
+  text-align: center;
 }
 
 
-
-    /* 訂房表單 */
-
-    .booking-section {
-      max-width: 900px;
-      margin: auto;
-      padding: 70px 28px 96px;
-    }
-
-    .booking-form-wrap {
-      padding: 42px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-large);
-      background-color: var(--surface);
-      box-shadow: var(--shadow);
-    }
-
-    .booking-form {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .form-group {
-      display: grid;
-      gap: 8px;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-
-    .booking-form label {
-      color: #484139;
-      font-weight: 700;
-    }
-
-    .booking-form input,
-    .booking-form textarea {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d4cdc3;
-      border-radius: 10px;
-      color: var(--text);
-      background-color: #fffdfa;
-      font-family: inherit;
-      font-size: 16px;
-      outline: none;
-      transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    .booking-form input:focus,
-    .booking-form textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(139, 111, 71, 0.12);
-    }
-
-    .booking-form textarea {
-      resize: vertical;
-      min-height: 130px;
-    }
-
-    .form-note {
-      margin: 18px 0 0;
-      color: var(--text-light);
-      font-size: 14px;
-      text-align: center;
-    }
-
-    .submit-row {
-      grid-column: 1 / -1;
-      margin-top: 4px;
-      text-align: center;
-    }
 
     /* 頁尾 */
 
@@ -581,7 +604,11 @@
     }
 
     /* 手機 */
-
+@media (max-width: 700px) {
+  .desktop-break {
+    display: none;
+  }
+}
     @media (max-width: 700px) {
       .top-bar {
         position: static;
@@ -629,10 +656,7 @@
 
       .section,
       .price-section,
-      .booking-section {
-        padding-right: 16px;
-        padding-left: 16px;
-      }
+
 
       .section {
         padding-top: 58px;
@@ -666,9 +690,7 @@
         padding: 28px 22px;
       }
 
-      .price-section {
-        padding-top: 58px;
-      }
+
 
       .price {
         min-height: 420px;
@@ -676,10 +698,7 @@
         border-radius: 18px;
       }
 
-      .booking-section {
-        padding-top: 52px;
-        padding-bottom: 70px;
-      }
+ 
 
       .booking-form-wrap {
         padding: 28px 20px;
@@ -710,6 +729,57 @@
 
 .price-list-card .button {
   width: 100%;
+}
+@media (max-width: 860px) {
+  .booking-area {
+    grid-template-columns: 1fr;
+    gap: 58px;
+  }
+
+  .booking-heading {
+    min-height: auto;
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 700px) {
+  .booking-area {
+    padding: 58px 16px 70px;
+    gap: 52px;
+  }
+
+  .price-list-card {
+    max-width: 100%;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .price-image-link {
+    border-radius: 12px;
+  }
+
+  .price-list-card .button {
+    width: 100%;
+  }
+
+  .booking-form-wrap {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+  .booking-form {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .form-group.full-width,
+  .submit-row {
+    grid-column: auto;
+  }
+
+  .submit-row .button {
+    width: 100%;
+  }
 }
     }
   </style>
@@ -846,7 +916,7 @@
 
             <p>
               不與陌生旅客共用空間，
-              可自在聊天、KTV 歡唱與烤肉，
+              可自在聊天、娛樂與烤肉，
               享受不受打擾的相聚時光。
             </p>
 
@@ -861,9 +931,9 @@
             <h3>豐富娛樂設備</h3>
 
             <p>
-              提供免費 KTV、Netflix、Switch、
-              麻將與德州撲克，
-              下雨天也能在民宿盡情同樂。
+              提供免費 KTV、Netflix、Switch、電動麻將桌<br class="desktop-break">
+                
+              　與德州撲克桌遊組，能跟親朋好友盡情同樂。
             </p>
 
           </article>
@@ -878,7 +948,7 @@
 
             <p>
               車庫可停放三台汽車，
-              並附設電動車充電樁，
+              並附設電動車充電樁，<br class="desktop-break">
               多人出遊停車更加方便。
             </p>
 
@@ -894,9 +964,9 @@
 
             <p>
               距離路竹交流道約 7 分鐘，
-              台南高鐵站約 15 分鐘，
+              台南高鐵站約 15 分鐘，<br class="desktop-break">
               無論自駕或搭乘高鐵，
-              都能輕鬆串連台南與高雄行程。
+              輕鬆串連台南與高雄行程。
             </p>
 
           </article>
@@ -905,192 +975,202 @@
       </div>
     </section>
 
+<section class="booking-area" id="booking">
 
-<section class="price-section" id="booking">
+  <!-- 左側：價目表 -->
 
-  <div class="section-heading">
-    <span class="section-label">
-      PRICE LIST
-    </span>
+  <div class="price-column">
 
-    <h2>包棟房價</h2>
+    <div class="section-heading booking-heading">
 
-    <p>
-      查看湖內三層雲最新包棟價目表，
-      實際房價仍會依入住日期、人數與連續假期調整。
-    </p>
+      <span class="section-label">
+        PRICE LIST
+      </span>
+
+      <h2>包棟房價</h2>
+
+      <p>
+        查看湖內三層雲包棟價目表，
+        實際價格會依入住日期、人數與連續假期調整。
+      </p>
+
+    </div>
+
+    <div class="price-list-card">
+
+      <a
+        class="price-image-link"
+        href="images/price.png"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="放大查看湖內三層雲價目表"
+      >
+        <img
+          class="price-list-image"
+          src="images/price.png"
+          alt="湖內三層雲包棟民宿價目表"
+        >
+      </a>
+
+      <p class="price-note">
+        點擊價目表可開啟原始大圖，
+        實際價格請以訂房詢問時的報價為準。
+      </p>
+
+      <a
+        class="button"
+        href="https://line.me/ti/p/~shouben16"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        LINE 詢問空房
+        <span aria-hidden="true">→</span>
+      </a>
+
+    </div>
+
   </div>
 
-  <div class="price-list-card">
+  <!-- 右側：訂房詢問 -->
 
-    <a
-      class="price-image-link"
-      href="images/price.png"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="放大查看湖內三層雲價目表"
-    >
-      <img
-        class="price-list-image"
-        src="images/price.png"
-        alt="湖內三層雲包棟民宿價目表"
-      >
-    </a>
+  <div class="booking-column" id="booking-form">
 
-    <p class="price-note">
-      點擊價目表可開啟原始大圖。
-      實際價格請以訂房詢問時的報價為準。
-    </p>
+    <div class="section-heading booking-heading">
 
-    <a
-      class="button"
-      href="https://line.me/ti/p/~shouben16"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      LINE 詢問空房
-      <span aria-hidden="true">→</span>
-    </a>
+      <span class="section-label">
+        BOOKING INQUIRY
+      </span>
+
+      <h2>訂房詢問</h2>
+
+      <p>
+        填寫預計入住日期、人數與聯絡方式，
+        方便我們協助確認房況與實際價格。
+      </p>
+
+    </div>
+
+    <div class="booking-form-wrap">
+
+      <form class="booking-form">
+
+        <div class="form-group">
+
+          <label for="name">姓名</label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            autocomplete="name"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="phone">手機號碼</label>
+
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            autocomplete="tel"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="checkin">入住日期</label>
+
+          <input
+            type="date"
+            id="checkin"
+            name="checkin"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="checkout">退房日期</label>
+
+          <input
+            type="date"
+            id="checkout"
+            name="checkout"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="guests">入住人數</label>
+
+          <input
+            type="number"
+            id="guests"
+            name="guests"
+            min="1"
+            placeholder="例如：8"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="contact-time">方便聯絡時段</label>
+
+          <input
+            type="text"
+            id="contact-time"
+            name="contact-time"
+            placeholder="例如：晚上 7 點後"
+          >
+
+        </div>
+
+        <div class="form-group full-width">
+
+          <label for="message">其他需求</label>
+
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            placeholder="例如：是否有兒童、需要使用廚房、烤肉或其他住宿需求"
+          ></textarea>
+
+        </div>
+
+        <div class="submit-row">
+
+          <button type="submit" class="button">
+            送出訂房詢問
+          </button>
+
+        </div>
+
+      </form>
+
+      <p class="form-note">
+        目前表單仍為畫面示範，按下送出後尚不會傳送資料。
+        也可以使用左側 LINE 按鈕直接詢問。
+      </p>
+
+    </div>
 
   </div>
 
 </section>
 
 
-
-    <section class="booking-section" id="booking-form">
-
-      <div class="section-heading">
-
-        <span class="section-label">
-          BOOKING INQUIRY
-        </span>
-
-        <h2>訂房詢問</h2>
-
-        <p>
-          填寫預計入住日期、人數與聯絡方式，
-          方便我們協助確認房況與實際價格。
-        </p>
-
-      </div>
-
-      <div class="booking-form-wrap">
-
-        <form class="booking-form">
-
-          <div class="form-group">
-
-            <label for="name">姓名</label>
-
-            <input
-              type="text"
-              id="name"
-              name="name"
-              autocomplete="name"
-              required
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="phone">手機號碼</label>
-
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              autocomplete="tel"
-              required
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="checkin">入住日期</label>
-
-            <input
-              type="date"
-              id="checkin"
-              name="checkin"
-              required
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="checkout">退房日期</label>
-
-            <input
-              type="date"
-              id="checkout"
-              name="checkout"
-              required
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="guests">入住人數</label>
-
-            <input
-              type="number"
-              id="guests"
-              name="guests"
-              min="1"
-              placeholder="例如：8"
-              required
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="contact-time">方便聯絡時段</label>
-
-            <input
-              type="text"
-              id="contact-time"
-              name="contact-time"
-              placeholder="例如：晚上 7 點後"
-            >
-
-          </div>
-
-          <div class="form-group full-width">
-
-            <label for="message">其他需求</label>
-
-            <textarea
-              id="message"
-              name="message"
-              rows="5"
-              placeholder="例如：是否有兒童、需要使用廚房、烤肉或其他住宿需求"
-            ></textarea>
-
-          </div>
-
-          <div class="submit-row">
-
-            <button type="submit" class="button">
-              送出訂房詢問
-            </button>
-
-          </div>
-
-        </form>
-
-        <p class="form-note">
-          目前表單仍為畫面示範，按下送出後尚不會傳送資料。
-          也可以直接使用上方 LINE 按鈕詢問。
-        </p>
-
-      </div>
-    </section>
 
   </main>
 
