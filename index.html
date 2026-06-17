@@ -865,6 +865,80 @@
   }
 }
 
+/* 訂房日期規則提示 */
+
+.date-rule-message {
+  margin: -2px 0 0;
+  padding: 11px 14px;
+  border-radius: 10px;
+  color: var(--primary-dark);
+  background-color: var(--surface-soft);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.date-rule-message.is-error {
+  color: #a33f35;
+  background-color: #f8e8e5;
+}
+
+.date-rule-message.is-success {
+  color: #476b4d;
+  background-color: #e8f2e9;
+}
+
+/* 連假與特殊日期詢問 */
+
+.special-date-box {
+  gap: 10px;
+}
+
+.special-date-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #484139;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.special-date-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin: 5px 0 0;
+  padding: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.date-rule-message {
+  margin: 0;
+  padding: 11px 14px;
+  border-radius: 10px;
+  color: var(--primary-dark);
+  background-color: var(--surface-soft);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.date-rule-message.is-error {
+  color: #a33f35;
+  background-color: #f8e8e5;
+}
+
+.date-rule-message.is-success {
+  color: #476b4d;
+  background-color: #e8f2e9;
+}
+
+.date-rule-message.is-special {
+  color: #675326;
+  background-color: #f5edd8;
+}
+
+
+
 
   </style>
 </head>
@@ -1000,7 +1074,7 @@
 
             <p>
               不與陌生旅客共用空間，
-              可自在聊天、娛樂與烤肉，
+              自在聊天、娛樂、歡唱、遊戲、烤肉，
               享受不受打擾的相聚時光。
             </p>
 
@@ -1017,7 +1091,7 @@
   <p>
     2026 年全新完工，
     從客房、衛浴到公共空間皆為全新規劃，
-    並非老宅翻新，入住環境更加舒適安心。
+    並非老宅重新裝潢，入住環境更加舒適安心。
   </p>
 
 </article>
@@ -1031,8 +1105,7 @@
   <h3>冷暖空調</h3>
 
   <p>
-    不只客房，全棟包含客廳與廚房
-    皆設有冷暖氣空調，
+    不只客房，全棟包含客廳與廚房皆設有冷暖氣空調，
     無論夏季聚會或冬季入住都舒適自在。
   </p>
 
@@ -1047,9 +1120,8 @@
             <h3>豐富娛樂設備</h3>
 
             <p>
-              提供免費 KTV、Netflix、Switch、電動麻將桌<br class="desktop-break">
-                
-              　與德州撲克桌遊組，能跟親朋好友盡情同樂。
+              提供免費 KTV、Netflix、Switch、電動麻將桌              
+              與德州撲克桌遊組，能跟親朋好友盡情同樂。
             </p>
 
           </article>
@@ -1064,7 +1136,7 @@
 
             <p>
               車庫可停放三台汽車，
-              並附設電動車充電樁，<br class="desktop-break">
+              並附設電動車充電樁，
               多人出遊停車更加方便。
             </p>
 
@@ -1080,7 +1152,7 @@
 
             <p>
               距離路竹交流道約 7 分鐘，
-              台南高鐵站約 15 分鐘，<br class="desktop-break">
+              台南高鐵站約 15 分鐘，
               無論自駕或搭乘高鐵，
               輕鬆串連台南與高雄行程。
             </p>
@@ -1221,8 +1293,8 @@
             id="guests"
             name="guests"
             min="1"
-            max="12"
-            placeholder="例如：8"
+            max="14"
+            placeholder="2歲以下嬰幼兒不計入人數"
             required
           >
 
@@ -1244,45 +1316,75 @@
 
         </div>
 
-        <div class="form-group date-field">
 
-          <label for="checkin">入住日期</label>
+<div class="form-group">
 
-          <input
-            type="date"
-            id="checkin"
-            name="checkin"
-            required
-          >
+  <label for="checkin">入住日期</label>
 
-        </div>
+  <input
+    type="date"
+    id="checkin"
+    name="checkin"
+    required
+  >
 
-        <div class="form-group date-field">
+</div>
 
-          <label for="checkout">退房日期</label>
+<div class="form-group">
 
-          <input
-            type="date"
-            id="checkout"
-            name="checkout"
-            required
-          >
+  <label for="checkout">退房日期</label>
 
-        </div>
+  <input
+    type="date"
+    id="checkout"
+    name="checkout"
+    required
+  >
 
-        <div class="form-group full-width">
+</div>
 
-          <label for="message">其他需求</label>
+<div class="form-group full-width special-date-box">
 
-          <textarea
-            id="message"
-            name="message"
-            rows="5"
-            maxlength="500"
-            placeholder="例如：是否有兒童、需要使用廚房、烤肉或其他住宿需求"
-          ></textarea>
+  <label
+    class="special-date-option"
+    for="special-date-inquiry"
+  >
+    <input
+      type="checkbox"
+      id="special-date-inquiry"
+      name="其他特殊詢問"
+      value="是"
+    >
 
-        </div>
+    <span>其他特殊詢問</span>
+  </label>
+
+  <p
+    id="dateRuleMessage"
+    class="date-rule-message"
+    aria-live="polite"
+  >
+    一般訂房僅開放週五、週六入住，並於同一週末的週六或週日退房；如有連假或其他需求，可勾選「其他特殊詢問」。
+  </p>
+
+</div>
+
+
+<div class="form-group full-width">
+
+  <label for="message">其他需求</label>
+
+  <textarea
+    id="message"
+    name="message"
+    rows="5"
+    maxlength="500"
+    placeholder="例如：詢問連假 10/9 入住、10/12 退房，或有兒童、烤肉、廚房等需求"
+  ></textarea>
+
+</div>
+
+
 
         <div class="submit-row">
 
@@ -1408,7 +1510,7 @@
           lineLink.href = LINE_URL;
           lineLink.target = "_blank";
           lineLink.rel = "noopener noreferrer";
-          lineLink.textContent = "使用 LINE 繼續詢問 →";
+          lineLink.textContent = "或使用 LINE 繼續詢問 →";
           formStatus.appendChild(lineLink);
         }
       }
@@ -1528,7 +1630,472 @@
         }
       });
     })();
+    
   </script>
+
+<script>
+(function () {
+  "use strict";
+
+  const checkinInput =
+    document.getElementById("checkin");
+
+  const checkoutInput =
+    document.getElementById("checkout");
+
+  const specialInquiryCheckbox =
+    document.getElementById("special-date-inquiry");
+
+  const dateRuleMessage =
+    document.getElementById("dateRuleMessage");
+
+  const messageInput =
+    document.getElementById("message");
+
+  const bookingForm =
+    document.getElementById("bookingForm") ||
+    document.querySelector(".booking-form");
+
+  if (
+    !checkinInput ||
+    !checkoutInput ||
+    !specialInquiryCheckbox ||
+    !bookingForm
+  ) {
+    return;
+  }
+
+  const normalRuleText =
+    "一般訂房僅開放週五、週六入住，並於同一週末的週六或週日退房；如有連假或其他需求，可勾選「其他特殊詢問」。";
+
+  function parseLocalDate(dateString) {
+    const parts = dateString
+      .split("-")
+      .map(Number);
+
+    return new Date(
+      parts[0],
+      parts[1] - 1,
+      parts[2]
+    );
+  }
+
+  function formatLocalDate(date) {
+    const year = date.getFullYear();
+
+    const month = String(
+      date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+      date.getDate()
+    ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function addDays(dateString, numberOfDays) {
+    const date =
+      parseLocalDate(dateString);
+
+    date.setDate(
+      date.getDate() + numberOfDays
+    );
+
+    return formatLocalDate(date);
+  }
+
+  function showDateMessage(
+    text,
+    type = "normal"
+  ) {
+    if (!dateRuleMessage) {
+      return;
+    }
+
+    dateRuleMessage.textContent = text;
+
+    dateRuleMessage.classList.remove(
+      "is-error",
+      "is-success",
+      "is-special"
+    );
+
+    if (type === "error") {
+      dateRuleMessage.classList.add(
+        "is-error"
+      );
+    }
+
+    if (type === "success") {
+      dateRuleMessage.classList.add(
+        "is-success"
+      );
+    }
+
+    if (type === "special") {
+      dateRuleMessage.classList.add(
+        "is-special"
+      );
+    }
+  }
+
+  function setTodayMinimum() {
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+
+    const todayString =
+      formatLocalDate(today);
+
+    checkinInput.min = todayString;
+    checkoutInput.min = todayString;
+  }
+
+  /*
+    一般入住日：
+    星期五 = 5
+    星期六 = 6
+  */
+  function isNormalCheckinDate(
+    checkinDate
+  ) {
+    const dayOfWeek =
+      parseLocalDate(checkinDate)
+        .getDay();
+
+    return (
+      dayOfWeek === 5 ||
+      dayOfWeek === 6
+    );
+  }
+
+  /*
+    星期五入住：
+    可於星期六或星期日退房。
+
+    星期六入住：
+    只能於星期日退房。
+  */
+  function getNormalCheckoutDates(
+    checkinDate
+  ) {
+    const dayOfWeek =
+      parseLocalDate(checkinDate)
+        .getDay();
+
+    if (dayOfWeek === 5) {
+      return [
+        addDays(checkinDate, 1),
+        addDays(checkinDate, 2)
+      ];
+    }
+
+    if (dayOfWeek === 6) {
+      return [
+        addDays(checkinDate, 1)
+      ];
+    }
+
+    return [];
+  }
+
+  function validateNormalStay(
+    clearInvalid = true
+  ) {
+    const checkinDate =
+      checkinInput.value;
+
+    const checkoutDate =
+      checkoutInput.value;
+
+    if (!checkinDate) {
+      showDateMessage(
+        "請選擇入住日期。",
+        "error"
+      );
+
+      return false;
+    }
+
+    if (
+      !isNormalCheckinDate(checkinDate)
+    ) {
+      if (clearInvalid) {
+        checkinInput.value = "";
+        checkoutInput.value = "";
+      }
+
+      showDateMessage(
+        "一般訂房僅開放週五或週六入住。如有其他需求，請勾選「其他特殊詢問」。",
+        "error"
+      );
+
+      return false;
+    }
+
+    const allowedCheckoutDates =
+      getNormalCheckoutDates(
+        checkinDate
+      );
+
+    checkoutInput.min =
+      allowedCheckoutDates[0];
+
+    checkoutInput.max =
+      allowedCheckoutDates[
+        allowedCheckoutDates.length - 1
+      ];
+
+    if (!checkoutDate) {
+      showDateMessage(
+        "請選擇同一週末的退房日期。",
+        "error"
+      );
+
+      return false;
+    }
+
+    if (
+      !allowedCheckoutDates.includes(
+        checkoutDate
+      )
+    ) {
+      if (clearInvalid) {
+        checkoutInput.value = "";
+      }
+
+      showDateMessage(
+        "退房日期必須是同一週末的週六或週日，不可跨到下一週。",
+        "error"
+      );
+
+      return false;
+    }
+
+    showDateMessage(
+      "入住與退房日期符合一般週末開放規則。",
+      "success"
+    );
+
+    return true;
+  }
+
+  /*
+    其他特殊詢問：
+
+    1. 日期可以全部留白。
+    2. 若要填日期，入住與退房必須完整填寫。
+    3. 退房日期必須晚於入住日期。
+  */
+  function validateSpecialInquiry(
+    clearInvalid = true
+  ) {
+    const checkinDate =
+      checkinInput.value;
+
+    const checkoutDate =
+      checkoutInput.value;
+
+    checkoutInput.removeAttribute("max");
+
+    if (!checkinDate && !checkoutDate) {
+      showDateMessage(
+        "已切換為其他特殊詢問，入住與退房日期可以留白，請在「其他需求」中說明詢問內容。",
+        "special"
+      );
+
+      return true;
+    }
+
+    if (
+      (checkinDate && !checkoutDate) ||
+      (!checkinDate && checkoutDate)
+    ) {
+      showDateMessage(
+        "若要填寫日期，請同時填寫入住日期與退房日期；也可以將兩個日期都留白。",
+        "error"
+      );
+
+      return false;
+    }
+
+    if (
+      parseLocalDate(checkoutDate) <=
+      parseLocalDate(checkinDate)
+    ) {
+      if (clearInvalid) {
+        checkoutInput.value = "";
+      }
+
+      showDateMessage(
+        "退房日期必須晚於入住日期。",
+        "error"
+      );
+
+      return false;
+    }
+
+    showDateMessage(
+      "此筆將以其他特殊詢問送出，實際房況與價格將由民宿確認後回覆。",
+      "special"
+    );
+
+    return true;
+  }
+
+  function validateCurrentStay(
+    clearInvalid = true
+  ) {
+    if (specialInquiryCheckbox.checked) {
+      return validateSpecialInquiry(
+        clearInvalid
+      );
+    }
+
+    return validateNormalStay(
+      clearInvalid
+    );
+  }
+
+  function updateInquiryMode() {
+    if (specialInquiryCheckbox.checked) {
+      /*
+        特殊詢問時，日期不是必填。
+      */
+      checkinInput.required = false;
+      checkoutInput.required = false;
+
+      checkinInput.removeAttribute("max");
+      checkoutInput.removeAttribute("max");
+
+      setTodayMinimum();
+
+      showDateMessage(
+        "已切換為其他特殊詢問，請在「其他需求」中說明連假或其他詢問內容。",
+        "special"
+      );
+    } else {
+      /*
+        一般訂房時，日期恢復必填。
+      */
+      checkinInput.required = true;
+      checkoutInput.required = true;
+
+      checkoutInput.removeAttribute("max");
+
+      setTodayMinimum();
+
+      if (
+        checkinInput.value ||
+        checkoutInput.value
+      ) {
+        validateNormalStay();
+      } else {
+        showDateMessage(
+          normalRuleText
+        );
+      }
+    }
+  }
+
+  setTodayMinimum();
+  updateInquiryMode();
+
+  checkinInput.addEventListener(
+    "change",
+    function () {
+      /*
+        一般訂房更換入住日期後，
+        清空舊的退房日期。
+      */
+      if (
+        !specialInquiryCheckbox.checked
+      ) {
+        checkoutInput.value = "";
+      }
+
+      validateCurrentStay();
+    }
+  );
+
+  checkoutInput.addEventListener(
+    "change",
+    function () {
+      validateCurrentStay();
+    }
+  );
+
+  specialInquiryCheckbox.addEventListener(
+    "change",
+    updateInquiryMode
+  );
+
+  /*
+    在資料送往 Formspree 前驗證。
+  */
+  bookingForm.addEventListener(
+    "submit",
+    function (event) {
+      const stayIsValid =
+        validateCurrentStay(false);
+
+      if (!stayIsValid) {
+        event.preventDefault();
+
+        dateRuleMessage.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+        return;
+      }
+
+      /*
+        勾選其他特殊詢問時，
+        必須在其他需求中說明內容。
+      */
+      if (
+        specialInquiryCheckbox.checked &&
+        messageInput &&
+        !messageInput.value.trim()
+      ) {
+        event.preventDefault();
+
+        messageInput.setCustomValidity(
+          "請在其他需求中說明詢問內容。"
+        );
+
+        messageInput.reportValidity();
+
+        showDateMessage(
+          "其他特殊詢問可以不填日期，但請在「其他需求」中說明詢問內容。",
+          "error"
+        );
+
+        return;
+      }
+
+      if (messageInput) {
+        messageInput.setCustomValidity("");
+      }
+    },
+    true
+  );
+
+  if (messageInput) {
+    messageInput.addEventListener(
+      "input",
+      function () {
+        messageInput.setCustomValidity("");
+      }
+    );
+  }
+})();
+</script>
+
+
+
 
 </body>
 </html>
