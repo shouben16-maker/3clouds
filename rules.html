@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="湖內三層雲旅宿公約，包含訂房訂金、入住押金、入住人數、環境清潔、娛樂設備與取消規定。"
+  >
+  <title>旅宿公約｜湖內三層雲</title>
+
+  <style>
+    :root {
+      --background: #f7f4ef;
+      --surface: #ffffff;
+      --surface-soft: #eee6da;
+      --text: #332f2a;
+      --text-light: #6f675e;
+      --primary: #8b6f47;
+      --primary-dark: #6f5635;
+      --dark: #38342d;
+      --border: rgba(86, 74, 60, 0.16);
+      --warning: #a34236;
+      --warning-soft: #f8ece9;
+      --shadow: 0 14px 38px rgba(59, 49, 39, 0.1);
+      --radius: 8px;
+      --radius-large: 22px;
+      --radius-small: 10px;
+      --content-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background-color: var(--background);
+      font-family:
+        Arial,
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
+      line-height: 1.8;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(56, 52, 45, 0.96);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: var(--content-width);
+      min-height: 68px;
+      margin: auto;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .nav-links a:hover {
+      transform: translateY(-1px);
+    }
+
+    .page-header {
+      min-height: 430px;
+      padding: 90px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+background:
+  linear-gradient(
+    rgba(24, 22, 19, 0.38),
+    rgba(24, 22, 19, 0.62)
+  ),
+  url("images/rules-hero.png")
+  center / cover no-repeat;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .page-header::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -1px;
+      left: 0;
+      z-index: -1;
+      height: 90px;
+      background:
+        linear-gradient(
+          to top,
+          var(--background),
+          rgba(247, 244, 239, 0)
+        );
+    }
+
+    .header-content {
+      max-width: 760px;
+      animation: fade-up 0.7s ease both;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      background-color: rgba(0, 0, 0, 0.18);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      backdrop-filter: blur(5px);
+    }
+
+    .page-header h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 66px);
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-header p {
+      max-width: 680px;
+      margin: 18px auto 0;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 19px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    main {
+      max-width: var(--content-width);
+      margin: auto;
+      padding: 36px 28px 96px;
+    }
+
+    .summary {
+      margin-bottom: 62px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-item {
+      min-height: 142px;
+      padding: 25px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-align: left;
+    }
+
+    .summary-item + .summary-item {
+      border-left: 1px solid var(--border);
+    }
+
+    .summary-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid rgba(139, 111, 71, 0.36);
+      border-radius: 50%;
+      color: var(--primary-dark);
+      background-color: var(--surface-soft);
+      font-size: 23px;
+    }
+
+    .summary-label {
+      display: block;
+      color: var(--text-light);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .summary-value {
+      display: block;
+      margin-top: 1px;
+      color: var(--text);
+      font-size: clamp(23px, 3vw, 32px);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .summary-value small {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .rules-heading {
+      max-width: 720px;
+      margin: 0 auto 36px;
+      text-align: center;
+    }
+
+    .section-label {
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+    }
+
+    .rules-heading h2 {
+      margin: 7px 0 10px;
+      font-size: clamp(28px, 4vw, 38px);
+      line-height: 1.35;
+    }
+
+    .rules-heading p {
+      margin: 0;
+      color: var(--text-light);
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rule-section {
+      min-width: 0;
+      padding: 38px 34px 40px;
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rule-section:nth-child(odd) {
+      border-right: 1px solid var(--border);
+    }
+
+    .rule-section:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .rule-number {
+      grid-column: 1;
+      grid-row: 1;
+      padding-top: 1px;
+      text-align: center;
+      color: var(--primary);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .rule-icon {
+      grid-column: 1;
+      grid-row: 1;
+      width: 100%;
+      height: 72px;
+      margin-top: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rule-icon img {
+      width: 68px;
+      height: 68px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .rule-content {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .rule-content h3 {
+      margin: 0 0 14px;
+      padding-bottom: 11px;
+      border-bottom: 1px solid rgba(86, 74, 60, 0.1);
+      font-size: 23px;
+      line-height: 1.35;
+    }
+
+    .rule-content ol,
+    .rule-content ul {
+      margin: 0;
+      padding-left: 1.4em;
+      color: #514b44;
+    }
+
+    .rule-content li + li {
+      margin-top: 8px;
+    }
+
+    .rule-content p {
+      margin: 0;
+      color: #514b44;
+    }
+
+    .warning {
+      color: var(--warning);
+      font-weight: 700;
+    }
+
+    .button {
+      padding: 13px 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: var(--radius-small);
+      color: white;
+      background-color: var(--primary);
+      box-shadow: 0 7px 18px rgba(139, 111, 71, 0.22);
+      text-decoration: none;
+      font-weight: 700;
+      transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(139, 111, 71, 0.3);
+    }
+
+    .booking-callout {
+      margin-top: 70px;
+      padding: 48px 30px;
+      border-radius: var(--radius-large);
+      color: white;
+      text-align: center;
+      background:
+        linear-gradient(
+          rgba(46, 40, 33, 0.72),
+          rgba(46, 40, 33, 0.78)
+        ),
+        url("images/lobby.jpg")
+        center / cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+
+    .booking-callout h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 38px);
+    }
+
+    .booking-callout p {
+      max-width: 650px;
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .booking-callout .button {
+      margin-top: 24px;
+      color: var(--dark);
+      background-color: white;
+      box-shadow: none;
+    }
+
+    .booking-callout .button:hover {
+      background-color: #f1ece4;
+    }
+
+    footer {
+      padding: 34px 24px;
+      color: rgba(255, 255, 255, 0.82);
+      background-color: var(--dark);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer strong {
+      display: block;
+      margin-bottom: 4px;
+      color: white;
+      font-size: 16px;
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+
+      .rule-section {
+        padding: 32px 24px 34px;
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 20px;
+      }
+
+      .rule-number {
+        font-size: 32px;
+      }
+
+      .rule-icon {
+        width: 100%;
+        height: 62px;
+      }
+
+      .rule-icon img {
+        width: 58px;
+        height: 58px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      main {
+        padding: 22px 16px 68px;
+      }
+
+      .summary {
+        grid-template-columns: 1fr;
+        margin-bottom: 48px;
+      }
+
+      .summary-item {
+        min-height: 104px;
+        padding: 20px;
+        justify-content: flex-start;
+      }
+
+      .summary-item + .summary-item {
+        border-top: 1px solid var(--border);
+        border-left: 0;
+      }
+
+      .rules-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rule-section,
+      .rule-section:nth-child(odd),
+      .rule-section:nth-last-child(-n + 2) {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .rule-section:last-child {
+        border-bottom: 0;
+      }
+
+    }
+
+    @media (max-width: 700px) {
+      .top-bar {
+        position: static;
+      }
+
+      .nav-inner {
+        min-height: auto;
+        padding: 14px 16px;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .nav-links a {
+        padding: 7px 9px;
+        font-size: 13px;
+      }
+
+      .page-header {
+        min-height: 340px;
+        padding: 64px 20px 80px;
+      }
+
+      .page-header p {
+        font-size: 16px;
+      }
+
+      .booking-callout {
+        margin-top: 42px;
+        padding: 38px 22px;
+      }
+
+      .booking-callout .button {
+        width: 100%;
+        margin-top: 23px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .rule-section {
+        padding: 28px 8px 30px;
+        grid-template-columns: 58px minmax(0, 1fr);
+        gap: 11px;
+      }
+
+      .rule-number {
+        font-size: 26px;
+      }
+
+      .rule-icon {
+        width: 100%;
+        height: 52px;
+        margin-top: 54px;
+      }
+
+      .rule-icon img {
+        width: 48px;
+        height: 48px;
+      }
+
+      .rule-content h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="top-bar">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">湖內三層雲</a>
+
+      <div class="nav-links">
+        <a href="index.html">民宿首頁</a>
+        <a href="rooms.html">房型介紹</a>
+        <a href="attractions.html">周邊景點</a>
+        <a href="food.html">美食推薦</a>
+        <a class="active" href="rules.html">旅宿公約</a>
+        <a href="index.html#booking">查看房價</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="header-content">
+      <span class="eyebrow">HOUSE RULES</span>
+      <h1>旅宿公約</h1>
+      <p>
+        為維護舒適的住宿環境，訂房前請詳閱以下內容。
+        完成訂房即表示您與同行旅客皆同意遵守本公約。
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section class="summary" aria-label="訂房重要資訊">
+      <div class="summary-item">
+        <span class="summary-icon" aria-hidden="true">訂</span>
+        <div>
+          <span class="summary-label">訂房訂金</span>
+          <span class="summary-value">2,000 <small>元</small></span>
+        </div>
+      </div>
+
+      <div class="summary-item">
+        <span class="summary-icon" aria-hidden="true">押</span>
+        <div>
+          <span class="summary-label">入住押金</span>
+          <span class="summary-value">3,000 <small>元</small></span>
+        </div>
+      </div>
+
+      <div class="summary-item">
+        <span class="summary-icon" aria-hidden="true">時</span>
+        <div>
+          <span class="summary-label">入住／退房</span>
+          <span class="summary-value">14:00／11:30</span>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="rules-title">
+      <div class="rules-heading">
+        <span class="section-label">BEFORE YOUR STAY</span>
+        <h2 id="rules-title">入住前，請留意以下事項</h2>
+        <p>清楚了解住宿規定，讓每一段相聚時光都更加安心自在。</p>
+      </div>
+
+      <div class="rules-grid">
+        <article class="rule-section">
+          <div class="rule-number">01</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/01-checkin.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>入住與押金</h3>
+            <ol>
+              <li>請先與民宿人員確認入住日期，並繳交 2,000 元訂金，才算完成訂房手續。</li>
+              <li>入住時請繳清尾款及 3,000 元押金，並出示身分證件供登記。</li>
+              <li>下午 2:00 後入住，上午 11:30 前退房。</li>
+              <li>退房確認無異常後退還押金；如有損壞、遺失或額外清潔費用，將由押金中扣除，不足部分另行收取。</li>
+            </ol>
+          </div>
+        </article>
+
+        <article class="rule-section">
+          <div class="rule-number">02</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/02-guests.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>入住人數</h3>
+            <ol>
+              <li>請依訂房人數入住；如需加人，請於入住前 3 天告知。加人費用每人 1,000 元，含基本備品。</li>
+              <li>未滿 2 歲孩童可免費入住，但不含床位、被品及備品；滿 2 歲依一般入住人數計費。</li>
+              <li><span class="warning">未經告知超過訂房人數，本民宿有權拒絕入住，且不退還訂金。</span></li>
+            </ol>
+          </div>
+        </article>
+
+        <article class="rule-section">
+          <div class="rule-number">03</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/03-cleaning.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>環境與清潔</h3>
+            <ol>
+              <li><span class="warning">全棟室內及浴室全面禁菸，並絕對禁止使用毒品或從事違法行為。</span></li>
+              <li>違反禁菸規定，或留下檳榔渣及污漬，將收取每間 1,000 元清潔費。</li>
+              <li>廚房僅供無明火烹煮；餐具及公共空間使用後，請做基本清潔並放回原位。</li>
+            </ol>
+          </div>
+        </article>
+
+        <article class="rule-section">
+          <div class="rule-number">04</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/04-barbecue.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>烤肉與餐飲</h3>
+            <ol>
+              <li>烤肉區提供烤肉架、烤網及瓦斯噴槍；食材與個人衛生用品請自行準備。</li>
+              <li>使用後請完成基本清潔及垃圾整理；如環境髒亂，將酌收 1,000 元清潔費。</li>
+            </ol>
+          </div>
+        </article>
+
+        <article class="rule-section">
+          <div class="rule-number">05</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/05-entertainment.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>娛樂與安寧</h3>
+            <ol>
+              <li><span class="warning">KTV 開放至晚上 11:00</span>，其餘娛樂活動晚間請降低音量。</li>
+              <li>KTV、Switch、電動麻將桌等設備如因不當使用造成損壞，須依實際費用賠償。</li>
+            </ol>
+          </div>
+        </article>
+
+        <article class="rule-section">
+          <div class="rule-number">06</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/06-pets.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>寵物規定</h3>
+            <p>
+              <span class="warning">本民宿不開放攜帶寵物。</span>
+              未經同意攜帶寵物者，本民宿有權拒絕入住，且不退還訂金及押金。
+            </p>
+          </div>
+        </article>
+
+        <article class="rule-section">
+          <div class="rule-number">07</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/07-cancellation.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>延期與取消</h3>
+            <p>
+              因天災因素而無法入住，可退還訂金。若因個人因素取消或無法入住，將依民宿訂房及取消規定辦理。
+            </p>
+          </div>
+        </article>
+
+        <article class="rule-section">
+          <div class="rule-number">08</div>
+          <div class="rule-icon" aria-hidden="true">
+            <img src="images/rules/08-other.png" alt="">
+          </div>
+          <div class="rule-content">
+            <h3>其他事項</h3>
+            <ol>
+              <li>個人貴重物品請自行妥善保管；外出時請關閉電器、冷暖空調及水源。</li>
+              <li>如有特殊需求，請於訂房前提出詢問。</li>
+            </ol>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="booking-callout">
+      <h2>確認旅宿公約，安心展開相聚時光</h2>
+
+      <p>
+        感謝您的理解與配合。完成訂房即表示您與同行旅客
+        皆已閱讀並同意遵守旅宿公約。
+      </p>
+
+      <a class="button" href="index.html#booking">
+        查看包棟房價
+        <span aria-hidden="true">→</span>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <strong>湖內三層雲</strong>
+    高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
+  </footer>
+</body>
+</html>
