@@ -1,20 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta
     name="description"
-    content="湖內三層雲周邊景點介紹，鄰近奇美博物館、十鼓文化村、台南安平與興達港觀光漁市。"
+    content="湖內三層雲館內設施介紹，提供親子遊戲區、繪本、玩具與適合親友相聚的多元休閒空間。"
   >
-
-  <title>周邊景點｜湖內三層雲</title>
+  <title>館內設施｜湖內三層雲</title>
 
   <style>
     :root {
@@ -29,7 +22,6 @@
       --border: rgba(86, 74, 60, 0.12);
       --shadow: 0 14px 38px rgba(59, 49, 39, 0.1);
       --radius-large: 22px;
-      --radius-small: 10px;
       --content-width: 1120px;
     }
 
@@ -43,14 +35,14 @@
 
     body {
       margin: 0;
+      color: var(--text);
+      background-color: var(--background);
       font-family:
         Arial,
         "Noto Sans TC",
         "PingFang TC",
         "Microsoft JhengHei",
         sans-serif;
-      color: var(--text);
-      background-color: var(--background);
       line-height: 1.8;
     }
 
@@ -62,8 +54,6 @@
     a {
       color: inherit;
     }
-
-    /* 上方導覽列 */
 
     .top-bar {
       position: sticky;
@@ -125,8 +115,6 @@
       transform: translateY(-1px);
     }
 
-    /* 頁首主視覺 */
-
     .page-header {
       min-height: 430px;
       padding: 90px 24px;
@@ -138,14 +126,13 @@
       overflow: hidden;
       color: white;
       text-align: center;
-
       background:
         linear-gradient(
           rgba(24, 22, 19, 0.34),
           rgba(24, 22, 19, 0.58)
         ),
-        url("images/chimei.jpg")
-        center 48% / cover no-repeat;
+        url("images/living-room.jpg")
+        center / cover no-repeat;
     }
 
     .page-header::after {
@@ -198,8 +185,6 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
-    /* 主要內容 */
-
     main {
       max-width: var(--content-width);
       margin: auto;
@@ -233,17 +218,15 @@
       font-size: 17px;
     }
 
-    /* 景點卡片 */
-
-    .attractions-list {
+    .facilities-list {
       display: grid;
       gap: 54px;
     }
 
-    .attraction-card {
+    .facility-card {
+      min-height: 480px;
       display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-      min-height: 480px;
       overflow: hidden;
       border: 1px solid var(--border);
       border-radius: var(--radius-large);
@@ -254,26 +237,26 @@
         box-shadow 0.3s ease;
     }
 
-    .attraction-card:hover {
+    .facility-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 20px 50px rgba(59, 49, 39, 0.14);
     }
 
-    .attraction-card:nth-child(even) {
+    .facility-card:nth-child(even) {
       grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
     }
 
-    .attraction-card:nth-child(even) .image-wrap {
+    .facility-card:nth-child(even) .image-wrap {
       order: 2;
     }
 
-    .attraction-card:nth-child(even) .attraction-content {
+    .facility-card:nth-child(even) .facility-content {
       order: 1;
     }
 
     .image-wrap {
-      position: relative;
       min-height: 100%;
+      position: relative;
       overflow: hidden;
       background-color: #ddd4c8;
     }
@@ -286,7 +269,7 @@
       transition: transform 0.6s ease;
     }
 
-    .attraction-card:hover .image-wrap img {
+    .facility-card:hover .image-wrap img {
       transform: scale(1.035);
     }
 
@@ -303,7 +286,7 @@
       backdrop-filter: blur(6px);
     }
 
-    .attraction-content {
+    .facility-content {
       padding: 52px 48px;
       display: flex;
       flex-direction: column;
@@ -311,10 +294,9 @@
       justify-content: center;
     }
 
-    .travel-time {
+    .floor-label {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
       margin-bottom: 18px;
       padding: 7px 14px;
       border-radius: 999px;
@@ -324,7 +306,7 @@
       font-weight: 700;
     }
 
-    .attraction-content h2 {
+    .facility-content h2 {
       margin: 0 0 16px;
       font-size: clamp(28px, 4vw, 36px);
       line-height: 1.35;
@@ -359,35 +341,6 @@
       font-weight: 800;
     }
 
-    /* 按鈕 */
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 28px;
-      padding: 13px 22px;
-      border-radius: var(--radius-small);
-      color: white;
-      background-color: var(--primary);
-      box-shadow: 0 7px 18px rgba(139, 111, 71, 0.22);
-      text-decoration: none;
-      font-weight: 700;
-      transition:
-        background-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    .button:hover {
-      background-color: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(139, 111, 71, 0.3);
-    }
-
-    /* 下方行動區 */
-
     .booking-callout {
       margin-top: 70px;
       padding: 48px 30px;
@@ -399,7 +352,7 @@
           rgba(46, 40, 33, 0.72),
           rgba(46, 40, 33, 0.78)
         ),
-        url("images/chimei.jpg")
+        url("images/living-room.jpg")
         center / cover no-repeat;
       box-shadow: var(--shadow);
     }
@@ -415,18 +368,27 @@
       color: rgba(255, 255, 255, 0.9);
     }
 
-    .booking-callout .button {
+    .button {
       margin-top: 24px;
+      padding: 13px 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 10px;
       color: var(--dark);
       background-color: white;
-      box-shadow: none;
+      text-decoration: none;
+      font-weight: 700;
+      transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
     }
 
-    .booking-callout .button:hover {
+    .button:hover {
       background-color: #f1ece4;
+      transform: translateY(-2px);
     }
-
-    /* 頁尾 */
 
     footer {
       padding: 34px 24px;
@@ -455,8 +417,6 @@
       }
     }
 
-    /* 平板導覽列 */
-
     @media (max-width: 960px) {
       .nav-inner {
         padding: 0 20px;
@@ -472,17 +432,15 @@
       }
     }
 
-    /* 平板內容 */
-
     @media (max-width: 860px) {
-      .attraction-card,
-      .attraction-card:nth-child(even) {
-        grid-template-columns: 1fr;
+      .facility-card,
+      .facility-card:nth-child(even) {
         min-height: auto;
+        grid-template-columns: 1fr;
       }
 
-      .attraction-card:nth-child(even) .image-wrap,
-      .attraction-card:nth-child(even) .attraction-content {
+      .facility-card:nth-child(even) .image-wrap,
+      .facility-card:nth-child(even) .facility-content {
         order: initial;
       }
 
@@ -491,12 +449,10 @@
         min-height: 0;
       }
 
-      .attraction-content {
+      .facility-content {
         padding: 38px 34px 42px;
       }
     }
-
-    /* 手機 */
 
     @media (max-width: 700px) {
       .top-bar {
@@ -547,11 +503,11 @@
         font-size: 16px;
       }
 
-      .attractions-list {
+      .facilities-list {
         gap: 30px;
       }
 
-      .attraction-card {
+      .facility-card {
         border-radius: 17px;
       }
 
@@ -564,11 +520,11 @@
         bottom: 12px;
       }
 
-      .attraction-content {
+      .facility-content {
         padding: 28px 22px 32px;
       }
 
-      .travel-time {
+      .floor-label {
         margin-bottom: 14px;
       }
 
@@ -580,373 +536,196 @@
         margin-bottom: 9px;
       }
 
-      .button {
-        width: 100%;
-        margin-top: 23px;
-      }
-
       .booking-callout {
         margin-top: 42px;
         padding: 38px 22px;
+      }
+
+      .button {
+        width: 100%;
+        margin-top: 23px;
       }
     }
   </style>
 </head>
 
 <body>
-<nav class="top-bar">
-  <div class="nav-inner">
+  <nav class="top-bar">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">湖內三層雲</a>
 
-    <a class="brand" href="index.html">
-      湖內三層雲
-    </a>
-
-    <div class="nav-links">
-      <a href="index.html">民宿首頁</a>
-<a href="rooms.html">房型介紹</a>
-<a href="amenities.html">館內設施</a>
-<a href="attractions.html">周邊景點</a>
-      <a href="food.html">美食推薦</a>
-      <a href="rules.html">旅宿公約</a>
-      <a href="index.html#booking">查看房價</a>
+      <div class="nav-links">
+        <a href="index.html">民宿首頁</a>
+        <a href="rooms.html">房型介紹</a>
+        <a class="active" href="amenities.html">館內設施</a>
+        <a href="attractions.html">周邊景點</a>
+        <a href="food.html">美食推薦</a>
+        <a href="rules.html">旅宿公約</a>
+        <a href="index.html#booking">查看房價</a>
+      </div>
     </div>
+  </nav>
 
-  </div>
-</nav>
   <header class="page-header">
     <div class="header-content">
-
-      <span class="eyebrow">
-        EXPLORE NEARBY
-      </span>
-
-      <h1>周邊景點</h1>
-
+      <span class="eyebrow">AMENITIES</span>
+      <h1>館內設施</h1>
       <p>
-        從民宿輕鬆出發，串連藝術、古蹟、美食與自然風景，
-        讓住宿不只是休息，也成為旅程的一部分。
+        館內備有適合親友相聚的多元設施與親子遊戲區。
+        無論大人放鬆聊天，或孩子自在玩樂，都能在包棟時光裡找到各自喜愛的休閒方式。
       </p>
-
     </div>
   </header>
 
   <main>
-
     <section class="intro">
-
-      <span class="section-label">
-        TRAVEL WITH EASE
-      </span>
-
-      <h2>離景點近，行程安排更輕鬆</h2>
-
+      <span class="section-label">ENJOY YOUR STAY</span>
+      <h2>一起玩，也一起好好陪伴</h2>
       <p>
-        民宿鄰近台南與高雄多個熱門景點，
-        不論是親子家庭、朋友出遊或情侶旅行，
-        都能依照喜好安排悠閒又豐富的一日行程。
+        從親子共讀到自在遊戲，讓孩子在安心的空間裡探索，
+        也讓大人放慢步調，享受相聚的每一刻。
       </p>
-
     </section>
 
-    <section class="attractions-list">
-
-      <!-- 奇美博物館 -->
-
-      <article class="attraction-card">
-
+    <section class="facilities-list">
+      <article class="facility-card">
         <div class="image-wrap">
-
           <img
-            src="images/chimei.jpg"
-            alt="奇美博物館"
+            src="images/kids-playroom.jpg"
+            alt="湖內三層雲一樓親子遊戲區"
           >
 
-          <span class="image-label">
-            藝術・親子・散步
-          </span>
-
+          <span class="image-label">親子・繪本・無 3C</span>
         </div>
 
-        <div class="attraction-content">
-
-          <span class="travel-time">
-            🚗 從民宿行車約 15 分鐘
-          </span>
-
-          <h2>奇美博物館</h2>
+        <div class="facility-content">
+          <span class="floor-label">1F｜親子遊戲區</span>
+          <h2>親子遊戲區</h2>
 
           <p class="description">
-            典雅的博物館建築搭配寬闊草地與湖畔景觀，
-            無論入館欣賞藝術展覽，或在戶外散步、野餐與拍照，
-            都能感受悠閒而富有文化氣息的旅行時光。
+            以閱讀、遊戲與親子陪伴為核心的小天地。空間內不設置電視及電子遊樂設備，
+            讓孩子暫時離開螢幕，在繪本與玩具中自在探索。
           </p>
 
           <ul class="advantages">
-            <li>適合在草地野餐、拍照與悠閒散步</li>
-            <li>館內可欣賞藝術、樂器與歷史展覽</li>
-            <li>戶外園區寬敞，適合親子家庭放慢步調</li>
-            <li>鄰近十鼓文創園區，可安排同日遊覽</li>
-            <li>適合家庭、朋友與喜歡文化行程的旅客</li>
+            <li>鋪設舒適地墊，提供安心玩樂空間</li>
+            <li>備有適合兒童閱讀的繪本</li>
+            <li>提供多款玩具，增添遊戲樂趣</li>
+            <li>空間內不設電視，讓孩子遠離3C</li>
+            <li>地墊、繪本與玩具皆定期清潔消毒</li>
+          
           </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=奇美博物館"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
-
         </div>
-
       </article>
 
-      <!-- 十鼓文創園區 -->
-
-      <article class="attraction-card">
-
+      <article class="facility-card">
         <div class="image-wrap">
-
           <img
-            src="images/tendrum.jpg"
-            alt="十鼓文創園區老糖廠與鼓樂文化空間"
+            src="images/living-room.jpg"
+            alt="湖內三層雲一樓客廳與公共娛樂空間"
           >
 
-          <span class="image-label">
-            鼓樂・糖廠・親子冒險
-          </span>
-
+          <span class="image-label">歡唱・影音・桌遊</span>
         </div>
 
-        <div class="attraction-content">
-
-          <span class="travel-time">
-            🚗 從民宿行車約 15 分鐘
-          </span>
-
-          <h2>十鼓文創園區</h2>
+        <div class="facility-content">
+          <span class="floor-label">1F｜公共空間</span>
+          <h2>客廳</h2>
 
           <p class="description">
-            由老糖廠轉型而成的文化園區，
-            保留工業建築與製糖設備，並融入十鼓擊樂、特色展演、
-            魔法工廠與多樣體驗空間，適合安排一趟充滿聲光、探索與驚喜的旅程。
+            寬敞明亮的客廳是親友相聚的主要空間，從歡唱、追劇到主機遊戲與桌遊，
+            無論大人或孩子，都能找到喜愛的娛樂方式，一起享受熱鬧自在的包棟時光。
           </p>
 
           <ul class="advantages">
-            <li>老糖廠工業風景與鼓樂文化交織，園區氛圍獨特</li>
-            <li>可欣賞十鼓擊樂展演，感受震撼而有生命力的鼓聲</li>
-            <li>魔法工廠、糖業展覽與特色場景適合探索及拍照</li>
-            <li>設有多項親子與體驗設施，適合家庭及朋友同行</li>
-            <li>鄰近奇美博物館，可安排同日遊覽</li>
-            <li>旁有台糖仁德糖廠冰品部，順道品嘗冰棒與冰淇淋</li>
+            <li>75 吋大尺寸液晶電視</li>
+            <li>免費 KTV 歡唱設備</li>
+            <li>提供 Netflix 影音娛樂</li>
+            <li>Switch 遊戲主機及多款熱門遊戲</li>
+            <li>提供德州撲克桌遊</li>
+            <li>10 人座原木長桌，適合聚餐、聊天與桌遊</li>
           </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=十鼓文創園區"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
-
         </div>
-
       </article>
 
-      <!-- 台南安平 -->
-
-      <article class="attraction-card">
-
+      <article class="facility-card">
         <div class="image-wrap">
-
           <img
-            src="images/anping.jpg"
-            alt="台南安平老街與安平周邊景點"
+            src="images/kitchen.jpg"
+            alt="湖內三層雲一樓廚房與中島備餐空間"
           >
 
-          <span class="image-label">
-            古蹟・美食・夕陽
-          </span>
-
+          <span class="image-label">備餐・料理・餐廚設備</span>
         </div>
 
-        <div class="attraction-content">
-
-          <span class="travel-time">
-            🚗 從民宿行車約 30 分鐘
-          </span>
-
-          <h2>台南安平</h2>
+        <div class="facility-content">
+          <span class="floor-label">1F｜公共空間</span>
+          <h2>廚房</h2>
 
           <p class="description">
-            漫步老街與巷弄，品嘗在地小吃、探訪古蹟，
-            傍晚再到海邊欣賞夕陽，
-            感受台南悠閒而迷人的生活節奏。
+            廚房設有中島與完整備餐空間，提供多種無明火烹調設備及常用餐廚用品。
+            無論簡單加熱或整理烤肉食材，都能輕鬆使用。
           </p>
 
           <ul class="advantages">
-            <li>可安排安平老街、安平古堡與安平樹屋</li>
-            <li>沿途可品嘗蝦捲、豆花與蜜餞等小吃</li>
-            <li>老街巷弄與古蹟適合散步及拍照</li>
-            <li>傍晚可順遊漁光島或安平港欣賞夕陽</li>
-            <li>適合家庭、情侶及朋友安排半日或一日遊</li>
+            <li>中島設有電磁爐，方便備餐與簡易烹煮</li>
+            <li>流理台、餐具及鍋具皆可使用</li>
+            <li>提供微波爐、電鍋、烤箱等無明火設備</li>
+            <li>飲水機定期清潔消毒並更換濾心</li>
+            <li>提供雙門冰箱，冷藏及冷凍空間皆可使用</li>
+            <li>廚房與烤肉區相鄰，方便準備、拿取及整理食材。</li>
           </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=台南安平"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
-
         </div>
-
       </article>
 
-<!-- 台南高鐵站與三井 Outlet -->
-
-<article class="attraction-card">
-
-  <div class="image-wrap">
-
-    <img
-      src="images/mitsui.jpg"
-      alt="台南高鐵站與 MITSUI OUTLET PARK 台南"
-    >
-
-    <span class="image-label">
-      購物・美食・親子
-    </span>
-
-  </div>
-
-  <div class="attraction-content">
-
-    <span class="travel-time">
-      🚗 從民宿行車約 20 分鐘
-    </span>
-
-    <h2>台南高鐵站與三井 Outlet</h2>
-
-    <p class="description">
-      MITSUI OUTLET PARK 台南就位於高鐵台南站前，
-      從國際品牌、運動用品到特色餐廳與親子娛樂一次滿足。
-      無論是抵達台南後先逛街用餐，
-      或退房後安排最後一站，都十分方便。
-    </p>
-
-    <ul class="advantages">
-      <li>匯集約 180 家國內外品牌與特色店舖</li>
-      <li>包含服飾、運動用品、生活雜貨與伴手禮</li>
-      <li>餐廳與美食選擇豐富，適合家庭及朋友聚餐</li>
-      <li>設有親子遊樂設施，雨天也能輕鬆安排行程</li>
-      <li>鄰近高鐵台南站與臺鐵沙崙站，交通便利</li>
-      <li>適合入住前採買，或退房後順遊購物</li>
-    </ul>
-
-    <a
-      class="button"
-      href="https://www.google.com/maps/search/?api=1&query=MITSUI+OUTLET+PARK+台南"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      查看地圖與路線
-      <span aria-hidden="true">→</span>
-    </a>
-
-  </div>
-
-</article>
-
-      <!-- 高雄月世界 -->
-
-      <article class="attraction-card">
-
+      <article class="facility-card">
         <div class="image-wrap">
-
           <img
-            src="images/moonworld.jpg"
-            alt="高雄田寮月世界泥岩惡地景觀"
+            src="images/bbq-area.jpg"
+            alt="湖內三層雲一樓戶外烤肉區"
           >
 
-          <span class="image-label">
-            地質奇景・健行・在地美食
-          </span>
-
+          <span class="image-label">戶外・烤肉・歡聚時光</span>
         </div>
 
-        <div class="attraction-content">
-
-          <span class="travel-time">
-            🚗 從民宿行車約 30 分鐘
-          </span>
-
-          <h2>高雄月世界</h2>
+        <div class="facility-content">
+          <span class="floor-label">1F｜戶外空間</span>
+          <h2>烤肉區</h2>
 
           <p class="description">
-            田寮月世界以特殊的泥岩惡地地形聞名，
-            經過長年雨水侵蝕，形成宛如月球表面的壯麗景觀。
-            可沿著步道欣賞月景農塘與層層山稜，
-            感受高雄郊區少見而獨特的自然風貌。
+            戶外烤肉區設有照明與桌椅，在舒適燈光與自在氣氛中，
+            享受親友一起備餐、烤肉及聊天的歡聚時光。
           </p>
 
           <ul class="advantages">
-            <li>榮登港澳旅客最喜愛的高雄十大景點之首</li>
-            <li>月世界園區免費參觀，不需購買門票</li>
-            <li>泥岩惡地景觀宛如月球表面，十分適合拍照</li>
-            <li>可沿環湖步道散步，欣賞月景農塘與觀景平台</li>
-            <li>周邊有多家知名土雞城，適合安排午餐或晚餐</li>
-            <li>園區遮蔽物較少，建議陰涼天氣前往並攜帶飲水</li>
+            <li>設有戶外照明設備，營造舒適聚會氣氛</li>
+            <li>提供戶外桌椅，方便用餐與休息</li>
+            <li>提供木炭、烤肉架、烤肉網及自動旋轉烤肉串設備</li>
+            <li>烤肉區與廚房相鄰，方便準備、拿取及整理食材。</li>
+            <li>步行約 5 分鐘即可抵達超市，臨時採買食材便利</li>
+            <li>如使用烤肉區及設備，酌收使用費 1,000 元</li>
           </ul>
-
-          <a
-            class="button"
-            href="https://www.google.com/maps/search/?api=1&query=田寮月世界"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            查看地圖與路線
-            <span aria-hidden="true">→</span>
-          </a>
-
         </div>
-
       </article>
-
-
     </section>
 
     <section class="booking-callout">
-
-      <h2>從湖內三層雲，展開一趟輕鬆旅程</h2>
-
+      <h2>讓每一位旅客，都有自在相聚的空間</h2>
       <p>
-        白天探索台南與高雄，晚上回到舒適的包棟空間，
-        與家人朋友自在聊天、歡唱與休息，
-        為旅程留下更多美好回憶。
+        大人可以放鬆聊天，孩子也能安心玩樂，
+        一起在湖內三層雲留下溫暖而愉快的包棟回憶。
       </p>
 
       <a class="button" href="index.html#booking">
         查看包棟房價
         <span aria-hidden="true">→</span>
       </a>
-
     </section>
-
   </main>
 
   <footer>
     <strong>湖內三層雲</strong>
     高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
   </footer>
-
 </body>
 </html>
-
