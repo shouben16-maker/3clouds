@@ -122,13 +122,13 @@
       justify-content: center;
       color: white;
       text-align: center;
-background:
-  linear-gradient(
-    rgba(24, 22, 19, 0.38),
-    rgba(24, 22, 19, 0.62)
-  ),
-  url("images/rules-hero.png")
-  center / cover no-repeat;
+      background:
+        linear-gradient(
+          rgba(24, 22, 19, 0.38),
+          rgba(24, 22, 19, 0.62)
+        ),
+        url("images/rules-hero.png")
+        center / cover no-repeat;
       position: relative;
       isolation: isolate;
       overflow: hidden;
@@ -187,66 +187,7 @@ background:
     main {
       max-width: var(--content-width);
       margin: auto;
-      padding: 36px 28px 96px;
-    }
-
-    .summary {
-      margin-bottom: 62px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background-color: rgba(255, 255, 255, 0.76);
-      box-shadow: var(--shadow);
-    }
-
-    .summary-item {
-      min-height: 142px;
-      padding: 25px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      text-align: left;
-    }
-
-    .summary-item + .summary-item {
-      border-left: 1px solid var(--border);
-    }
-
-    .summary-icon {
-      width: 50px;
-      height: 50px;
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
-      border: 1px solid rgba(139, 111, 71, 0.36);
-      border-radius: 50%;
-      color: var(--primary-dark);
-      background-color: var(--surface-soft);
-      font-size: 23px;
-    }
-
-    .summary-label {
-      display: block;
-      color: var(--text-light);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .summary-value {
-      display: block;
-      margin-top: 1px;
-      color: var(--text);
-      font-size: clamp(23px, 3vw, 32px);
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    .summary-value small {
-      font-size: 14px;
-      font-weight: 700;
+      padding: 72px 28px 96px;
     }
 
     .rules-heading {
@@ -486,26 +427,6 @@ background:
     }
 
     @media (max-width: 760px) {
-      main {
-        padding: 22px 16px 68px;
-      }
-
-      .summary {
-        grid-template-columns: 1fr;
-        margin-bottom: 48px;
-      }
-
-      .summary-item {
-        min-height: 104px;
-        padding: 20px;
-        justify-content: flex-start;
-      }
-
-      .summary-item + .summary-item {
-        border-top: 1px solid var(--border);
-        border-left: 0;
-      }
-
       .rules-grid {
         grid-template-columns: 1fr;
       }
@@ -558,6 +479,10 @@ background:
 
       .page-header p {
         font-size: 16px;
+      }
+
+      main {
+        padding: 50px 16px 68px;
       }
 
       .booking-callout {
@@ -628,32 +553,6 @@ background:
   </header>
 
   <main>
-    <section class="summary" aria-label="訂房重要資訊">
-      <div class="summary-item">
-        <span class="summary-icon" aria-hidden="true">訂</span>
-        <div>
-          <span class="summary-label">訂房訂金</span>
-          <span class="summary-value">2,000 <small>元</small></span>
-        </div>
-      </div>
-
-      <div class="summary-item">
-        <span class="summary-icon" aria-hidden="true">押</span>
-        <div>
-          <span class="summary-label">入住押金</span>
-          <span class="summary-value">3,000 <small>元</small></span>
-        </div>
-      </div>
-
-      <div class="summary-item">
-        <span class="summary-icon" aria-hidden="true">時</span>
-        <div>
-          <span class="summary-label">入住／退房</span>
-          <span class="summary-value">14:00／11:30</span>
-        </div>
-      </div>
-    </section>
-
     <section aria-labelledby="rules-title">
       <div class="rules-heading">
         <span class="section-label">BEFORE YOUR STAY</span>
@@ -668,12 +567,11 @@ background:
             <img src="images/rules/01-checkin.png" alt="">
           </div>
           <div class="rule-content">
-            <h3>入住與押金</h3>
+            <h3>訂房與押金</h3>
             <ol>
-              <li>請先與民宿人員確認入住日期，並繳交 2,000 元訂金，才算完成訂房手續。</li>
-              <li>入住時請繳清尾款及 3,000 元押金，並出示身分證件供登記。</li>
-              <li>下午 2:00 後入住，上午 11:30 前退房。</li>
-              <li>退房確認無異常後退還押金；如有損壞、遺失或額外清潔費用，將由押金中扣除，不足部分另行收取。</li>
+              <li>請先與民宿人員確認入住日期及房價，民宿將另行告知訂金金額；完成房價 30% 訂金付款後，才算完成訂房手續。</li>
+              <li>入住時請繳清尾款及 3,000 元押金，並出示身分證件供登記。退房確認無異常後，全額退還押金。</li>
+              <li>下午 3:00 後入住，上午 11:30 前退房。</li>
             </ol>
           </div>
         </article>
@@ -687,7 +585,7 @@ background:
             <h3>入住人數</h3>
             <ol>
               <li>請依訂房人數入住；如需加人，請於入住前 3 天告知。加人費用每人 1,000 元，含基本備品。</li>
-              <li>未滿 2 歲孩童可免費入住，但不含床位、被品及備品；滿 2 歲依一般入住人數計費。</li>
+              <li>未滿 6 歲孩童可免費入住，但不含床位、被品及備品；滿 6 歲依一般入住人數計費。</li>
               <li><span class="warning">未經告知超過訂房人數，本民宿有權拒絕入住，且不退還訂金。</span></li>
             </ol>
           </div>
@@ -703,7 +601,7 @@ background:
             <ol>
               <li><span class="warning">全棟室內及浴室全面禁菸，並絕對禁止使用毒品或從事違法行為。</span></li>
               <li>違反禁菸規定，或留下檳榔渣及污漬，將收取每間 1,000 元清潔費。</li>
-              <li>廚房僅供無明火烹煮；餐具及公共空間使用後，請做基本清潔並放回原位。</li>
+              <li>廚房可供無明火烹煮；餐具及公共空間使用後，請清潔並放回原位。</li>
             </ol>
           </div>
         </article>
@@ -739,14 +637,15 @@ background:
         <article class="rule-section">
           <div class="rule-number">06</div>
           <div class="rule-icon" aria-hidden="true">
-            <img src="images/rules/06-pets.png" alt="">
+            <img src="images/rules/06-kids-play.png" alt="">
           </div>
           <div class="rule-content">
-            <h3>寵物規定</h3>
-            <p>
-              <span class="warning">本民宿不開放攜帶寵物。</span>
-              未經同意攜帶寵物者，本民宿有權拒絕入住，且不退還訂金及押金。
-            </p>
+            <h3>兒童遊戲區</h3>
+<ol>
+  <li>進入兒童遊戲區前，請先脫鞋。</li>
+  <li>遊戲區地墊、繪本與玩具皆會定期清潔消毒。</li>
+  <li>使用後請陪同孩子整理，並將物品放回原位。</li>
+</ol>
           </div>
         </article>
 
@@ -757,9 +656,10 @@ background:
           </div>
           <div class="rule-content">
             <h3>延期與取消</h3>
-            <p>
-              因天災因素而無法入住，可退還訂金。若因個人因素取消或無法入住，將依民宿訂房及取消規定辦理。
-            </p>
+            <ol>
+               <li>如因天災或主要交通中斷而無法入住，可辦理延期或退還訂金。</li>
+               <li>若因個人因素取消或無法入住，將依現行旅宿訂房規定，按取消通知日期比例退還訂金。</li>
+            </ol>
           </div>
         </article>
 
@@ -772,7 +672,7 @@ background:
             <h3>其他事項</h3>
             <ol>
               <li>個人貴重物品請自行妥善保管；外出時請關閉電器、冷暖空調及水源。</li>
-              <li>如有特殊需求，請於訂房前提出詢問。</li>
+              <li>退房前，請將房間及大廳內的遙控器等物品放回原位。</li>
             </ol>
           </div>
         </article>
