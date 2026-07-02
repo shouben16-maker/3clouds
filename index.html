@@ -248,6 +248,30 @@
       background-color: white;
     }
 
+    .button-line {
+      color: white;
+      background-color: #6f7a5d;
+      box-shadow: 0 8px 20px rgba(111, 122, 93, 0.22);
+    }
+
+    .button-line:hover {
+      color: white;
+      background-color: #5f694f;
+      box-shadow: 0 10px 24px rgba(111, 122, 93, 0.3);
+    }
+
+    .line-mark {
+      min-width: 40px;
+      padding: 3px 7px 4px;
+      border-radius: 999px;
+      color: #5f694f;
+      background-color: #fbf7ef;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
     /* 共用區塊 */
 
     .section {
@@ -394,30 +418,20 @@
 
 
 
-/* 房價與訂房並排區 */
+/* 房價與訂房區 */
 
 .booking-area {
   max-width: var(--content-width);
   margin: 0 auto;
   padding: 82px 28px 96px;
-  display: grid;
-  grid-template-columns: minmax(340px, 0.8fr) minmax(0, 1.2fr);
-  gap: 38px;
-  align-items: start;
 }
 
-.price-column,
-.booking-column {
-  min-width: 0;
+.price-section {
+  margin-bottom: 72px;
 }
 
 .booking-heading {
-  min-height: 190px;
   margin-bottom: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
 
 .booking-heading h2 {
@@ -426,50 +440,147 @@
 
 .booking-heading p {
   max-width: 520px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 /* 價目表 */
 
-.price-list-card {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 22px;
+.price-quick-card {
+  padding: 34px;
   border: 1px solid var(--border);
   border-radius: var(--radius-large);
   background-color: var(--surface);
   box-shadow: var(--shadow);
+}
+
+.price-quick-note {
+  margin: 0 0 24px;
+  padding: 14px 18px;
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-small);
+  color: var(--text-light);
+  background-color: rgba(139, 111, 71, 0.08);
+  font-size: 15px;
+}
+
+.price-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.price-item {
+  min-height: 180px;
+  padding: 24px 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background-color: #fffdfa;
   text-align: center;
 }
 
-.price-image-link {
-  display: block;
-  overflow: hidden;
-  border-radius: 14px;
-  background-color: var(--surface-soft);
-  cursor: zoom-in;
+.price-item-featured {
+  border-color: rgba(139, 111, 71, 0.42);
+  background-color: #fff8e8;
+  box-shadow: 0 12px 30px rgba(139, 111, 71, 0.16);
 }
 
-.price-list-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 0 auto;
-  object-fit: contain;
-  transition: transform 0.35s ease;
+.price-item h3 {
+  margin: 0;
+  color: var(--primary-dark);
+  font-size: 19px;
 }
 
-.price-image-link:hover .price-list-image {
-  transform: scale(1.015);
+.price-item-price {
+  margin: 18px 0 10px;
+  color: var(--text);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.price-item-price span {
+  color: var(--text-light);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.price-item p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 15px;
 }
 
 .price-note {
-  margin: 20px auto 0;
+  margin: 22px auto 0;
   color: var(--text-light);
   font-size: 14px;
+  text-align: center;
 }
 
-.price-list-card .button {
-  margin-top: 20px;
+.price-actions {
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.price-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background-color: rgba(24, 22, 19, 0.72);
+}
+
+.price-modal.is-open {
+  display: flex;
+}
+
+.price-modal-content {
+  width: min(760px, 100%);
+  max-height: 90vh;
+  overflow: hidden;
+  padding: 18px;
+  position: relative;
+  border-radius: var(--radius-large);
+  background-color: var(--surface);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+}
+
+.price-modal-close {
+  width: 42px;
+  height: 42px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  color: white;
+  background-color: var(--dark);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.price-modal img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(90vh - 92px);
+  height: auto;
+  margin: 12px auto 0;
+  border-radius: 14px;
+  background-color: var(--surface-soft);
+  object-fit: contain;
 }
 
 /* 訂房表單 */
@@ -539,6 +650,11 @@
   margin: 16px 0 0;
   color: var(--text-light);
   font-size: 13px;
+  text-align: center;
+}
+
+.form-actions {
+  margin-top: 18px;
   text-align: center;
 }
 
@@ -663,7 +779,8 @@
       }
 
       .top-bar {
-        position: static;
+        position: sticky;
+        top: 0;
       }
 
       .nav-inner {
@@ -739,21 +856,49 @@
 
       .booking-area {
         padding: 58px 16px 70px;
-        gap: 52px;
       }
 
-      .price-list-card {
-        max-width: 100%;
-        padding: 14px;
+      .price-section {
+        margin-bottom: 58px;
+      }
+
+      .price-quick-card {
+        padding: 24px 18px;
         border-radius: 18px;
       }
 
-      .price-image-link {
-        border-radius: 12px;
+      .price-quick-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
 
-      .price-list-card .button {
+      .price-item {
+        min-height: auto;
+        padding: 20px 18px;
+      }
+
+      .price-item-price {
+        margin: 10px 0 6px;
+        font-size: 26px;
+      }
+
+      .price-actions .button {
         width: 100%;
+      }
+
+      .price-modal {
+        padding: 12px;
+      }
+
+      .price-modal-content {
+        max-height: 88vh;
+        padding: 12px;
+        border-radius: 18px;
+      }
+
+      .price-modal img {
+        max-height: calc(88vh - 76px);
+        border-radius: 12px;
       }
 
       .booking-form-wrap {
@@ -785,6 +930,10 @@
       }
 
       .submit-row .button {
+        width: 100%;
+      }
+
+      .form-actions .button {
         width: 100%;
       }
 
@@ -837,30 +986,22 @@
 
     }
 
-    @media (max-width: 860px) {
-      .booking-area {
-        grid-template-columns: 1fr;
-        gap: 58px;
+    @media (min-width: 701px) and (max-width: 860px) {
+      .booking-heading {
+        margin-bottom: 28px;
       }
 
-      .booking-heading {
-        min-height: auto;
-        margin-bottom: 28px;
+      .price-quick-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
-/* 電腦版：調整價目表與訂房表單間距 */
+/* 電腦版：調整房價與訂房區塊間距 */
 
 @media (min-width: 861px) {
 
-  /* 左右兩欄之間的距離加寬 */
-  .booking-area {
-    gap: 85px;
-  }
-
   /* 縮短標題介紹與下方卡片之間的空白 */
   .booking-heading {
-    min-height: 125px;
     margin-bottom: 14px;
   }
 }
@@ -958,7 +1099,8 @@
 <a href="attractions.html">周邊景點</a>
       <a href="food.html">美食推薦</a>
       <a href="rules.html">旅宿公約</a>
-      <a href="index.html#booking">查看房價</a>
+      <a href="index.html#price">查看房價</a>
+      <a href="index.html#booking">訂房詢問</a>
     </div>
 
   </div>
@@ -979,7 +1121,7 @@
 
       <div class="hero-actions">
 
-        <a class="button" href="#booking">
+        <a class="button" href="#price">
           立即查看房價
           <span aria-hidden="true">→</span>
         </a>
@@ -1166,65 +1308,104 @@
       </div>
     </section>
 
-<section class="booking-area" id="booking">
+<section class="booking-area" id="price">
 
-  <!-- 左側：價目表 -->
+  <!-- 房價快速參考 -->
 
-  <div class="price-column">
+  <div class="price-section">
 
     <div class="section-heading booking-heading">
 
       <span class="section-label">
-        PRICE LIST
+        PRICE
       </span>
 
       <h2>包棟房價</h2>
 
       <p>
-        查看湖內三層雲包棟價目表，
-        實際價格會依入住日期、人數與連續假期調整。
+        湖內三層雲採整棟包棟入住，
+        房價依入住日期、人數與連續假期調整。
+        以下為快速參考，實際金額以訂房確認為準。
       </p>
 
     </div>
 
-    <div class="price-list-card">
+    <div class="price-quick-card">
 
-      <a
-        class="price-image-link"
-        href="images/price.png"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="放大查看湖內三層雲價目表"
-      >
-        <img
-          class="price-list-image"
-          src="images/price.png"
-          alt="湖內三層雲包棟民宿價目表"
-        >
-      </a>
-
-      <p class="price-note">
-        點擊價目表可開啟原始大圖，
-        實際價格請以訂房詢問時的報價為準。
+      <p class="price-quick-note">
+        建議先確認可入住日期與人數；連假、特殊日期或其他需求，可在下方訂房詢問中備註。
       </p>
 
-      <a
-        class="button"
-        href="https://line.me/ti/p/~shouben16"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        LINE 詢問空房
-        <span aria-hidden="true">→</span>
-      </a>
+      <div class="price-quick-grid">
+
+        <article class="price-item price-item-featured">
+          <h3>週五／週六包棟入住</h3>
+          <div class="price-item-price">
+            每晚NT$ 13,000 <span>起</span>
+          </div>
+          <p>
+            週末包棟主要入住時段，
+            適合親友聚會與家庭旅遊。
+          </p>
+        </article>
+
+        <article class="price-item">
+          <h3>連假／節日</h3>
+          <div class="price-item-price">
+            另行報價
+          </div>
+          <p>
+            春節、連假與特殊節日，
+            請先詢問確認。
+          </p>
+        </article>
+
+        <article class="price-item">
+          <h3>平日</h3>
+          <div class="price-item-price">
+            暫不開放
+          </div>
+          <p>
+           目前主要開放週末與連假，平日暫不開放一般訂房。
+          
+          </p>
+        </article>
+
+      </div>
+
+      <p class="price-note">
+       實際房價需依入住人數與日期確認，訂房前請查看完整價目表。
+      </p>
+
+      <div class="price-actions">
+        <button
+          type="button"
+          class="button"
+          id="openPriceModal"
+        >
+          查看完整價目表
+          <span aria-hidden="true">→</span>
+        </button>
+
+        <a
+          class="button button-line"
+          href="https://line.me/ti/p/~shouben16"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="line-mark" aria-hidden="true">LINE</span>
+          LINE 聯絡我們
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
 
     </div>
 
   </div>
 
-  <!-- 右側：訂房詢問 -->
+  <!-- 訂房詢問 -->
 
-  <div class="booking-column" id="booking-form">
+  <div class="booking-section" id="booking">
 
     <div class="section-heading booking-heading">
 
@@ -1363,7 +1544,7 @@
     class="date-rule-message"
     aria-live="polite"
   >
-    一般訂房僅開放週五、週六入住，並於同一週末的週六或週日退房；如有連假或其他需求，可勾選「其他特殊詢問」。
+    一般訂房僅開放週五、週六入住；如有連假詢問，可勾選「其他特殊詢問」。
   </p>
 
 </div>
@@ -1408,8 +1589,21 @@
 
       <p class="form-note">
         送出後，訂房需求會寄到民宿信箱。
-        也可以使用左側 LINE 按鈕直接詢問。
+        若想先快速確認房況，也可以透過 LINE 聯絡。
       </p>
+
+      <div class="form-actions">
+        <a
+          class="button button-line"
+          href="https://line.me/ti/p/~shouben16"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="line-mark" aria-hidden="true">LINE</span>
+          LINE 聯絡我們
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
 
     </div>
 
@@ -1420,6 +1614,30 @@
 
 
   </main>
+
+  <div
+    class="price-modal"
+    id="priceModal"
+    aria-hidden="true"
+    role="dialog"
+    aria-label="湖內三層雲完整價目表"
+  >
+    <div class="price-modal-content">
+      <button
+        type="button"
+        class="price-modal-close"
+        id="closePriceModal"
+        aria-label="關閉完整價目表"
+      >
+        ×
+      </button>
+
+      <img
+        src="images/price.png"
+        alt="湖內三層雲包棟民宿完整價目表"
+      >
+    </div>
+  </div>
 
   <footer>
     <strong>湖內三層雲</strong>
@@ -1636,6 +1854,50 @@
 (function () {
   "use strict";
 
+  const openButton = document.getElementById("openPriceModal");
+  const closeButton = document.getElementById("closePriceModal");
+  const priceModal = document.getElementById("priceModal");
+
+  if (!openButton || !closeButton || !priceModal) {
+    return;
+  }
+
+  function openModal() {
+    priceModal.classList.add("is-open");
+    priceModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    closeButton.focus();
+  }
+
+  function closeModal() {
+    priceModal.classList.remove("is-open");
+    priceModal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    openButton.focus();
+  }
+
+  openButton.addEventListener("click", openModal);
+  closeButton.addEventListener("click", closeModal);
+
+  priceModal.addEventListener("click", function (event) {
+    if (event.target === priceModal) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (
+      event.key === "Escape" &&
+      priceModal.classList.contains("is-open")
+    ) {
+      closeModal();
+    }
+  });
+})();
+
+(function () {
+  "use strict";
+
   const checkinInput =
     document.getElementById("checkin");
 
@@ -1665,7 +1927,7 @@
   }
 
   const normalRuleText =
-    "一般訂房僅開放週五、週六入住，並於同一週末的週六或週日退房；如有連假或其他需求，可勾選「其他特殊詢問」。";
+    " 一般訂房僅開放週五、週六入住；如有連假詢問，可勾選「其他特殊詢問」。";
 
   function parseLocalDate(dateString) {
     const parts = dateString
@@ -1826,7 +2088,7 @@
       }
 
       showDateMessage(
-        "一般訂房僅開放週五或週六入住。如有其他需求，請勾選「其他特殊詢問」。",
+        " 一般訂房僅開放週五、週六入住；如有連假詢問，可勾選「其他特殊詢問」。",
         "error"
       );
 
@@ -2098,4 +2360,3 @@
 
 </body>
 </html>
-
