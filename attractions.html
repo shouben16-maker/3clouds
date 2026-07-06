@@ -11,10 +11,10 @@
 
   <meta
     name="description"
-    content="湖內三層雲周邊景點介紹，鄰近奇美博物館、十鼓文化村、台南安平與興達港觀光漁市。"
+    content="湖內三層雲交通景點介紹，位於高雄湖內區，鄰近湖內區蕃茄會社，適合安排台南與高雄雙城旅遊。"
   >
 
-  <title>周邊景點｜湖內三層雲</title>
+  <title>交通景點｜湖內三層雲</title>
 
   <style>
     :root {
@@ -231,6 +231,93 @@
       margin: 0;
       color: var(--text-light);
       font-size: 17px;
+    }
+
+    /* 交通資訊 */
+
+    .location-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 24px;
+      margin-bottom: 58px;
+      align-items: stretch;
+    }
+
+    .location-info,
+    .map-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-large);
+      background-color: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .location-info {
+      padding: 38px 38px 40px;
+    }
+
+    .location-info h2 {
+      margin: 0 0 14px;
+      font-size: clamp(26px, 4vw, 34px);
+      line-height: 1.35;
+    }
+
+    .location-info p {
+      margin: 0 0 16px;
+      color: var(--text-light);
+      font-size: 16px;
+    }
+
+    .license-line {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 8px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      color: var(--primary-dark);
+      background-color: var(--surface-soft);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .traffic-list {
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--border);
+    }
+
+    .traffic-list li {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      gap: 18px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .traffic-list strong {
+      color: var(--dark);
+      font-size: 16px;
+    }
+
+    .traffic-list span {
+      color: var(--text-light);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .map-card {
+      position: relative;
+      min-height: 430px;
+      background-color: #ddd4c8;
+    }
+
+    .map-card iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+      border: 0;
+      display: block;
     }
 
     /* 景點卡片 */
@@ -475,6 +562,10 @@
     /* 平板內容 */
 
     @media (max-width: 860px) {
+      .location-panel {
+        grid-template-columns: 1fr;
+      }
+
       .attraction-card,
       .attraction-card:nth-child(even) {
         grid-template-columns: 1fr;
@@ -548,6 +639,30 @@
         font-size: 16px;
       }
 
+      .location-panel {
+        gap: 18px;
+        margin-bottom: 38px;
+      }
+
+      .location-info {
+        padding: 28px 22px 30px;
+      }
+
+      .traffic-list {
+        margin-top: 24px;
+      }
+
+      .traffic-list li {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 14px 0;
+      }
+
+      .map-card,
+      .map-card iframe {
+        min-height: 300px;
+      }
+
       .attractions-list {
         gap: 30px;
       }
@@ -606,7 +721,7 @@
       <a href="index.html">民宿首頁</a>
 <a href="rooms.html">房型介紹</a>
 <a href="amenities.html">館內設施</a>
-<a href="attractions.html">周邊景點</a>
+<a class="active" href="attractions.html">交通景點</a>
       <a href="food.html">美食推薦</a>
       <a href="rules.html">旅宿公約</a>
       <a href="index.html#price">查看房價</a>
@@ -619,20 +734,82 @@
     <div class="header-content">
 
       <span class="eyebrow">
-        EXPLORE NEARBY
+        ACCESS & ATTRACTIONS
       </span>
 
-      <h1>周邊景點</h1>
+      <h1>交通景點</h1>
 
       <p>
-        從民宿輕鬆出發，串連藝術、古蹟、美食與自然風景，
-        讓住宿不只是休息，也成為旅程的一部分。
+        位於台南與高雄之間，掌握交通位置，
+        也把兩座城市的景點放進旅程裡。
       </p>
 
     </div>
   </header>
 
   <main>
+
+    <section class="intro">
+
+      <span class="section-label">
+        TRAVEL
+      </span>
+
+      <h2>自駕、搭車、雙城旅遊</h2>
+
+      <p>
+        湖內三層雲位於台南與高雄之間，交通便利，
+        適合安排雙城旅遊。
+      </p>
+
+    </section>
+
+    <section class="location-panel" aria-label="交通位置資訊">
+
+      <div class="location-info">
+
+        <span class="section-label">
+          LOCATION
+        </span>
+
+        <h2>位置｜鄰近湖內區蕃茄會社</h2>
+
+        <p>
+          為維持住宿品質，網站以鄰近地標作為位置參考；</br>
+詳細門牌於訂房確認後提供，或依合法旅宿登記資訊查詢。
+        </p>
+
+        <span class="license-line">
+          合法旅宿登記字號｜高雄市民宿第＿＿號
+        </span>
+
+        <ul class="traffic-list" aria-label="主要交通方式">
+          <li>
+            <strong>自駕</strong>
+            <span>國道一號路竹交流道約 7 分鐘；</br>86 快速道路台南交流道約 15 分鐘。</span>
+          </li>
+          <li>
+            <strong>高鐵</strong>
+            <span>台南高鐵站約 15 分鐘。</span>
+          </li>
+          <li>
+            <strong>火車</strong>
+            <span>大湖火車站約 5 分鐘。</span>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="map-card" aria-label="湖內區蕃茄會社周邊地圖">
+        <iframe
+          title="湖內區蕃茄會社周邊地圖"
+          src="https://www.google.com/maps?q=%E6%B9%96%E5%85%A7%E5%8D%80%E8%95%83%E8%8C%84%E6%9C%83%E7%A4%BE&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
+    </section>
 
     <section class="intro">
 
@@ -644,7 +821,7 @@
 
       <p>
         民宿鄰近台南與高雄多個熱門景點，
-        不論是親子家庭、朋友出遊或情侶旅行，
+        不論是親子家庭、朋友出遊，
         都能依照喜好安排悠閒又豐富的一日行程。
       </p>
 
@@ -865,7 +1042,7 @@
 
 </article>
 
-<!-- 台南高鐵站與三井 Outlet -->
+<!-- 三井 Outlet -->
 
 <article class="attraction-card">
 
@@ -888,7 +1065,7 @@
       🚗 從民宿行車約 20 分鐘
     </span>
 
-    <h2>台南高鐵站與三井 Outlet</h2>
+    <h2>台南三井 Outlet</h2>
 
     <p class="description">
       MITSUI OUTLET PARK 台南就位於高鐵台南站前，
