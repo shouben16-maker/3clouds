@@ -417,6 +417,71 @@
       }
     }
 
+
+
+    /* 親子遊戲區圖片圖庫 */
+    .kids-gallery {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 480px;
+      background-color: #ddd4c8;
+    }
+
+    .kids-gallery-main {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .kids-gallery-main img {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+      transition: opacity 0.2s ease, transform 0.6s ease;
+    }
+
+    .facility-card:hover .kids-gallery-main img {
+      transform: scale(1.035);
+    }
+
+    .kids-gallery-thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 10px;
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .kids-gallery-thumb {
+      padding: 0;
+      overflow: hidden;
+      border: 3px solid transparent;
+      border-radius: 8px;
+      background: none;
+      cursor: pointer;
+      aspect-ratio: 4 / 3;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .kids-gallery-thumb:hover {
+      transform: translateY(-1px);
+    }
+
+    .kids-gallery-thumb.active {
+      border-color: #e53935;
+    }
+
+    .kids-gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+    }
+
     @media (max-width: 960px) {
       .nav-inner {
         padding: 0 20px;
@@ -537,6 +602,22 @@
         margin-bottom: 9px;
       }
 
+
+
+      .kids-gallery {
+        min-height: 0;
+      }
+
+      .kids-gallery-main {
+        height: 250px;
+        flex: none;
+      }
+
+      .kids-gallery-thumbs {
+        gap: 8px;
+        padding: 8px;
+      }
+
       .booking-callout {
         margin-top: 42px;
         padding: 38px 22px;
@@ -590,13 +671,51 @@
 
     <section class="facilities-list">
       <article class="facility-card">
-        <div class="image-wrap">
-          <img
-            src="images/kids-playroom.jpg"
-            alt="湖內三層雲一樓親子遊戲區"
-          >
+        <div class="image-wrap kids-gallery" data-kids-gallery>
+          <div class="kids-gallery-main">
+            <img
+              src="images/kids-playroom.jpg"
+              alt="湖內三層雲一樓親子遊戲區"
+              data-kids-main
+            >
 
-          <span class="image-label">親子・繪本・無 3C</span>
+            <span class="image-label">親子・繪本・無 3C</span>
+          </div>
+
+          <div class="kids-gallery-thumbs" aria-label="親子遊戲區照片切換">
+            <button
+              type="button"
+              class="kids-gallery-thumb active"
+              data-src="images/kids-playroom.jpg"
+              data-alt="湖內三層雲一樓親子遊戲區照片一"
+              aria-label="查看親子遊戲區照片一"
+              aria-pressed="true"
+            >
+              <img src="images/kids-playroom.jpg" alt="">
+            </button>
+
+            <button
+              type="button"
+              class="kids-gallery-thumb"
+              data-src="images/kids-playroom-2.jpg"
+              data-alt="湖內三層雲一樓親子遊戲區照片二"
+              aria-label="查看親子遊戲區照片二"
+              aria-pressed="false"
+            >
+              <img src="images/kids-playroom-2.jpg" alt="">
+            </button>
+
+            <button
+              type="button"
+              class="kids-gallery-thumb"
+              data-src="images/kids-playroom-3.jpg"
+              data-alt="湖內三層雲一樓親子遊戲區照片三"
+              aria-label="查看親子遊戲區照片三"
+              aria-pressed="false"
+            >
+              <img src="images/kids-playroom-3.jpg" alt="">
+            </button>
+          </div>
         </div>
 
         <div class="facility-content">
@@ -834,5 +953,28 @@
     <strong>湖內三層雲</strong>
     高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
   </footer>
+
+  <script>
+    document.querySelectorAll("[data-kids-gallery]").forEach(function (gallery) {
+      const mainImage = gallery.querySelector("[data-kids-main]");
+      const thumbs = gallery.querySelectorAll(".kids-gallery-thumb");
+
+      thumbs.forEach(function (thumb) {
+        thumb.addEventListener("click", function () {
+          mainImage.src = thumb.dataset.src;
+          mainImage.alt = thumb.dataset.alt || "湖內三層雲一樓親子遊戲區";
+
+          thumbs.forEach(function (item) {
+            item.classList.remove("active");
+            item.setAttribute("aria-pressed", "false");
+          });
+
+          thumb.classList.add("active");
+          thumb.setAttribute("aria-pressed", "true");
+        });
+      });
+    });
+  </script>
+
 </body>
 </html>
