@@ -419,8 +419,8 @@
 
 
 
-    /* 親子遊戲區圖片圖庫 */
-    .kids-gallery {
+    /* 設施圖片圖庫 */
+    .facility-gallery {
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -428,14 +428,14 @@
       background-color: #ddd4c8;
     }
 
-    .kids-gallery-main {
+    .facility-gallery-main {
       position: relative;
       flex: 1;
       min-height: 0;
       overflow: hidden;
     }
 
-    .kids-gallery-main img {
+    .facility-gallery-main img {
       width: 100%;
       height: 100%;
       min-height: 0;
@@ -443,11 +443,11 @@
       transition: opacity 0.2s ease, transform 0.6s ease;
     }
 
-    .facility-card:hover .kids-gallery-main img {
+    .facility-card:hover .facility-gallery-main img {
       transform: scale(1.035);
     }
 
-    .kids-gallery-thumbs {
+    .facility-gallery-thumbs {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
@@ -456,7 +456,7 @@
       border-top: 1px solid var(--border);
     }
 
-    .kids-gallery-thumb {
+    .facility-gallery-thumb {
       padding: 0;
       overflow: hidden;
       border: 3px solid transparent;
@@ -467,15 +467,15 @@
       transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
-    .kids-gallery-thumb:hover {
+    .facility-gallery-thumb:hover {
       transform: translateY(-1px);
     }
 
-    .kids-gallery-thumb.active {
+    .facility-gallery-thumb.active {
       border-color: #e53935;
     }
 
-    .kids-gallery-thumb img {
+    .facility-gallery-thumb img {
       width: 100%;
       height: 100%;
       min-height: 0;
@@ -604,23 +604,23 @@
 
 
 
-      .kids-gallery {
+      .facility-gallery {
         min-height: 0;
       }
 
-      .kids-gallery-main {
+      .facility-gallery-main {
         height: 250px;
         flex: none;
       }
 
-      .kids-gallery-thumbs {
+      .facility-gallery-thumbs {
         gap: 8px;
         padding: 8px;
       }
 
       /* 手機版縮圖維持與電腦版相同的完整取景比例，
          避免被上方 .image-wrap img 的 250px 高度規則放大裁切 */
-      .kids-gallery-thumb img {
+      .facility-gallery-thumb img {
         width: 100%;
         height: 100%;
         min-height: 0;
@@ -680,21 +680,88 @@
 
     <section class="facilities-list">
       <article class="facility-card">
-        <div class="image-wrap kids-gallery" data-kids-gallery>
-          <div class="kids-gallery-main">
+        <div class="image-wrap facility-gallery" data-facility-gallery>
+          <div class="facility-gallery-main">
+            <img
+              src="images/living-room.jpg"
+              alt="湖內三層雲一樓客廳與公共娛樂空間"
+              data-gallery-main
+            >
+
+            <span class="image-label">歡唱・影音・桌遊</span>
+          </div>
+
+          <div class="facility-gallery-thumbs" aria-label="客廳照片切換">
+            <button
+              type="button"
+              class="facility-gallery-thumb active"
+              data-src="images/living-room.jpg"
+              data-alt="湖內三層雲一樓客廳照片一"
+              aria-label="查看客廳照片一"
+              aria-pressed="true"
+            >
+              <img src="images/living-room.jpg" alt="">
+            </button>
+
+            <button
+              type="button"
+              class="facility-gallery-thumb"
+              data-src="images/living-room-2.jpg"
+              data-alt="湖內三層雲一樓客廳照片二"
+              aria-label="查看客廳照片二"
+              aria-pressed="false"
+            >
+              <img src="images/living-room-2.jpg" alt="">
+            </button>
+
+            <button
+              type="button"
+              class="facility-gallery-thumb"
+              data-src="images/living-room-3.jpg"
+              data-alt="湖內三層雲一樓客廳照片三"
+              aria-label="查看客廳照片三"
+              aria-pressed="false"
+            >
+              <img src="images/living-room-3.jpg" alt="">
+            </button>
+          </div>
+        </div>
+
+        <div class="facility-content">
+          <span class="floor-label">1F｜公共空間</span>
+          <h2>客廳</h2>
+
+          <p class="description">
+            寬敞明亮的客廳是親友相聚的主要空間，從歡唱、追劇到主機遊戲與桌遊，
+            一起享受熱鬧自在的包棟時光。
+          </p>
+
+          <ul class="advantages">
+            <li>75 吋大尺寸液晶電視</li>
+            <li>免費 KTV 歡唱設備</li>
+            <li>提供 Netflix 影音娛樂</li>
+            <li>Switch 遊戲主機及多款熱門遊戲</li>
+            <li>10 人座原木長桌，適合聚餐、聊天與桌遊</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="facility-card">
+        <div class="image-wrap facility-gallery" data-facility-gallery>
+          <div class="facility-gallery-main">
             <img
               src="images/kids-playroom.jpg"
               alt="湖內三層雲一樓親子遊戲區"
-              data-kids-main
+              data-gallery-main
             >
 
             <span class="image-label">親子・繪本・無 3C</span>
           </div>
 
-          <div class="kids-gallery-thumbs" aria-label="親子遊戲區照片切換">
+          <div class="facility-gallery-thumbs" aria-label="親子遊戲區照片切換">
             <button
               type="button"
-              class="kids-gallery-thumb active"
+              class="facility-gallery-thumb active"
               data-src="images/kids-playroom.jpg"
               data-alt="湖內三層雲一樓親子遊戲區照片一"
               aria-label="查看親子遊戲區照片一"
@@ -705,7 +772,7 @@
 
             <button
               type="button"
-              class="kids-gallery-thumb"
+              class="facility-gallery-thumb"
               data-src="images/kids-playroom-2.jpg"
               data-alt="湖內三層雲一樓親子遊戲區照片二"
               aria-label="查看親子遊戲區照片二"
@@ -716,7 +783,7 @@
 
             <button
               type="button"
-              class="kids-gallery-thumb"
+              class="facility-gallery-thumb"
               data-src="images/kids-playroom-3.jpg"
               data-alt="湖內三層雲一樓親子遊戲區照片三"
               aria-label="查看親子遊戲區照片三"
@@ -742,36 +809,6 @@
             <li>提供多款玩具，增添遊戲樂趣</li>
             <li>空間內不設電視，讓孩子遠離3C</li>
             <li>地墊、繪本與玩具皆定期清潔消毒</li>
-          
-          </ul>
-        </div>
-      </article>
-
-      <article class="facility-card">
-        <div class="image-wrap">
-          <img
-            src="images/living-room.jpg"
-            alt="湖內三層雲一樓客廳與公共娛樂空間"
-          >
-
-          <span class="image-label">歡唱・影音・桌遊</span>
-        </div>
-
-        <div class="facility-content">
-          <span class="floor-label">1F｜公共空間</span>
-          <h2>客廳</h2>
-
-          <p class="description">
-            寬敞明亮的客廳是親友相聚的主要空間，從歡唱、追劇到主機遊戲與桌遊，
-            一起享受熱鬧自在的包棟時光。
-          </p>
-
-          <ul class="advantages">
-            <li>75 吋大尺寸液晶電視</li>
-            <li>免費 KTV 歡唱設備</li>
-            <li>提供 Netflix 影音娛樂</li>
-            <li>Switch 遊戲主機及多款熱門遊戲</li>
-            <li>10 人座原木長桌，適合聚餐、聊天與桌遊</li>
           </ul>
         </div>
       </article>
@@ -964,14 +1001,14 @@
   </footer>
 
   <script>
-    document.querySelectorAll("[data-kids-gallery]").forEach(function (gallery) {
-      const mainImage = gallery.querySelector("[data-kids-main]");
-      const thumbs = gallery.querySelectorAll(".kids-gallery-thumb");
+    document.querySelectorAll("[data-facility-gallery]").forEach(function (gallery) {
+      const mainImage = gallery.querySelector("[data-gallery-main]");
+      const thumbs = gallery.querySelectorAll(".facility-gallery-thumb");
 
       thumbs.forEach(function (thumb) {
         thumb.addEventListener("click", function () {
           mainImage.src = thumb.dataset.src;
-          mainImage.alt = thumb.dataset.alt || "湖內三層雲一樓親子遊戲區";
+          mainImage.alt = thumb.dataset.alt || "湖內三層雲館內設施";
 
           thumbs.forEach(function (item) {
             item.classList.remove("active");
