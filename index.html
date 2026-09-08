@@ -72,6 +72,12 @@
       background-color: rgba(56, 52, 45, 0.96);
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
       backdrop-filter: blur(8px);
+      transition: transform 0.28s ease;
+      will-change: transform;
+    }
+
+    .top-bar.is-hidden {
+      transform: translateY(-100%);
     }
 
     .nav-inner {
@@ -1610,6 +1616,54 @@
   <script>
     (function () {
       "use strict";
+
+      /* 手機版導覽列：向下捲動時隱藏，向上捲動時顯示 */
+      const topBar = document.querySelector(".top-bar");
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+
+      function updateMobileTopBar() {
+        if (!topBar || window.innerWidth > 700) {
+          if (topBar) {
+            topBar.classList.remove("is-hidden");
+          }
+          lastScrollY = window.scrollY;
+          ticking = false;
+          return;
+        }
+
+        const currentScrollY = window.scrollY;
+        const delta = currentScrollY - lastScrollY;
+
+        if (currentScrollY <= 8) {
+          topBar.classList.remove("is-hidden");
+        } else if (delta > 6) {
+          topBar.classList.add("is-hidden");
+        } else if (delta < -6) {
+          topBar.classList.remove("is-hidden");
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+      }
+
+      window.addEventListener(
+        "scroll",
+        function () {
+          if (!ticking) {
+            window.requestAnimationFrame(updateMobileTopBar);
+            ticking = true;
+          }
+        },
+        { passive: true }
+      );
+
+      window.addEventListener("resize", function () {
+        if (window.innerWidth > 700 && topBar) {
+          topBar.classList.remove("is-hidden");
+        }
+        lastScrollY = window.scrollY;
+      });
 
       const bookingForm = document.getElementById("bookingForm");
       const bookingSubmit = document.getElementById("bookingSubmit");
