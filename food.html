@@ -72,6 +72,12 @@
       background-color: rgba(56, 52, 45, 0.96);
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
       backdrop-filter: blur(8px);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .top-bar.is-hidden {
+      transform: translateY(-100%);
     }
 
     .nav-inner {
@@ -1026,6 +1032,98 @@
     <strong>湖內三層雲</strong>
     高雄湖內包棟住宿｜鄰近湖內與台南人氣美食
   </footer>
+
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* 手機版導覽列：累積滾動距離後再隱藏／顯示，避免手指微小回彈造成抖動 */
+      const topBar = document.querySelector(".top-bar");
+      const HIDE_THRESHOLD = 50;
+      const SHOW_THRESHOLD = 25;
+      const TOP_RESET_DISTANCE = 12;
+
+      let lastScrollY = window.scrollY;
+      let downwardDistance = 0;
+      let upwardDistance = 0;
+      let ticking = false;
+
+      function resetScrollDistances() {
+        downwardDistance = 0;
+        upwardDistance = 0;
+      }
+
+      function updateMobileTopBar() {
+        if (!topBar || window.innerWidth > 700) {
+          if (topBar) {
+            topBar.classList.remove("is-hidden");
+          }
+          lastScrollY = window.scrollY;
+          resetScrollDistances();
+          ticking = false;
+          return;
+        }
+
+        const currentScrollY = Math.max(0, window.scrollY);
+        const delta = currentScrollY - lastScrollY;
+
+        if (currentScrollY <= TOP_RESET_DISTANCE) {
+          topBar.classList.remove("is-hidden");
+          resetScrollDistances();
+          lastScrollY = currentScrollY;
+          ticking = false;
+          return;
+        }
+
+        if (delta > 0) {
+          downwardDistance += delta;
+          upwardDistance = 0;
+
+          if (
+            downwardDistance >= HIDE_THRESHOLD &&
+            !topBar.classList.contains("is-hidden")
+          ) {
+            topBar.classList.add("is-hidden");
+            resetScrollDistances();
+          }
+        } else if (delta < 0) {
+          upwardDistance += Math.abs(delta);
+          downwardDistance = 0;
+
+          if (
+            upwardDistance >= SHOW_THRESHOLD &&
+            topBar.classList.contains("is-hidden")
+          ) {
+            topBar.classList.remove("is-hidden");
+            resetScrollDistances();
+          }
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+      }
+
+      window.addEventListener(
+        "scroll",
+        function () {
+          if (!ticking) {
+            window.requestAnimationFrame(updateMobileTopBar);
+            ticking = true;
+          }
+        },
+        { passive: true }
+      );
+
+      window.addEventListener("resize", function () {
+        if (topBar && window.innerWidth > 700) {
+          topBar.classList.remove("is-hidden");
+        }
+        lastScrollY = window.scrollY;
+        resetScrollDistances();
+      });
+    })();
+  </script>
 
 </body>
 </html>
