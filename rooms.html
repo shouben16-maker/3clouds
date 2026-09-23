@@ -350,8 +350,39 @@
       isolation: isolate;
     }
 
-    /* 僅在照片比例差異較大時啟用的柔和延伸背景 */
-    .photo-gallery-backdrop {
+    /* 圖片以兩個完整 slide 串接滑動：不重疊、不換 src 閃爍，手機也較穩定 */
+    .photo-gallery-track {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 200%;
+      height: 100%;
+      display: flex;
+      transform: translate3d(0, 0, 0);
+      transition: none;
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .photo-gallery-track.is-animating {
+      transition: transform 0.34s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .photo-gallery-slide {
+      position: relative;
+      flex: 0 0 50%;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #ddd4c8;
+      contain: paint;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .photo-gallery-slide-backdrop {
       position: absolute;
       inset: -34px;
       z-index: 1;
@@ -359,12 +390,13 @@
       background-size: cover;
       background-repeat: no-repeat;
       filter: blur(32px) saturate(0.72) brightness(1.12);
-      transform: scale(1.12);
+      transform: scale(1.12) translateZ(0);
       opacity: 0;
-      transition: opacity 0.22s ease, background-image 0s linear;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
-    .photo-gallery-backdrop::after {
+    .photo-gallery-slide-backdrop::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -378,11 +410,11 @@
         );
     }
 
-    .photo-gallery-main.is-contain .photo-gallery-backdrop {
+    .photo-gallery-slide.is-contain .photo-gallery-slide-backdrop {
       opacity: 0.38;
     }
 
-    .image-wrap .photo-gallery-main .photo-gallery-image {
+    .image-wrap .photo-gallery-slide .photo-gallery-image {
       position: absolute;
       inset: 0;
       z-index: 2;
@@ -391,44 +423,13 @@
       min-height: 0;
       object-fit: cover;
       object-position: center;
-      opacity: 1;
-      transform: translateX(0);
-      transition:
-        transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.18s ease;
-      will-change: transform, opacity;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
-    /* 比例差異太大時才完整顯示整張圖；外框尺寸完全不變 */
-    .image-wrap .photo-gallery-main .photo-gallery-image.is-contain-fit {
+    .image-wrap .photo-gallery-slide.is-contain .photo-gallery-image {
       object-fit: contain;
-    }
-
-    /* 單張圖片分兩段滑動：舊圖先退出，換圖後新圖再滑入，避免兩張圖重疊 */
-    .image-wrap .photo-gallery-main .photo-gallery-image.slide-out-left {
-      transform: translateX(-22%);
-      opacity: 0;
-    }
-
-    .image-wrap .photo-gallery-main .photo-gallery-image.slide-out-right {
-      transform: translateX(22%);
-      opacity: 0;
-    }
-
-    .image-wrap .photo-gallery-main .photo-gallery-image.prep-from-right {
-      transform: translateX(22%);
-      opacity: 0;
-      transition: none;
-    }
-
-    .image-wrap .photo-gallery-main .photo-gallery-image.prep-from-left {
-      transform: translateX(-22%);
-      opacity: 0;
-      transition: none;
-    }
-
-    .photo-gallery-main.is-contain .photo-gallery-backdrop.is-switching {
-      opacity: 0.18;
     }
 
     .photo-gallery-arrow {
@@ -1055,33 +1056,22 @@
       "use strict";
 
       const MAX_CROP_FRACTION = 0.18;
-      const OUT_DURATION = 180;
-      const IN_DURATION = 190;
+      const SLIDE_DURATION = 340;
 
       document.querySelectorAll("[data-photo-gallery]").forEach(function (gallery) {
         const mainStage = gallery.querySelector(".photo-gallery-main");
-        const mainImage = gallery.querySelector("[data-gallery-main]");
+        const originalImage = gallery.querySelector("[data-gallery-main]");
         const prevButton = gallery.querySelector("[data-gallery-prev]");
         const nextButton = gallery.querySelector("[data-gallery-next]");
         const dotsWrap = gallery.querySelector("[data-gallery-dots]");
         const base = gallery.dataset.galleryBase;
         const count = Math.max(1, Number.parseInt(gallery.dataset.galleryCount, 10) || 1);
         const altBase = gallery.dataset.galleryAlt || "湖內三層雲客房照片";
+
         let activeIndex = 0;
-        let activeNaturalWidth = 0;
-        let activeNaturalHeight = 0;
         let isAnimating = false;
-
-        mainImage.classList.add("photo-gallery-image");
-
-        let backdrop = gallery.querySelector("[data-gallery-backdrop]");
-        if (!backdrop && mainStage) {
-          backdrop = document.createElement("div");
-          backdrop.className = "photo-gallery-backdrop";
-          backdrop.setAttribute("data-gallery-backdrop", "");
-          backdrop.setAttribute("aria-hidden", "true");
-          mainStage.insertBefore(backdrop, mainImage);
-        }
+        let currentSlide;
+        let bufferSlide;
 
         function imagePath(index) {
           return base + "-" + (index + 1) + ".jpg";
@@ -1107,10 +1097,43 @@
           return cropFraction > MAX_CROP_FRACTION;
         }
 
-        function applyFitMode() {
-          const containMode = shouldContain(activeNaturalWidth, activeNaturalHeight);
-          mainStage.classList.toggle("is-contain", containMode);
-          mainImage.classList.toggle("is-contain-fit", containMode);
+        function createSlide(existingImage) {
+          const slide = document.createElement("div");
+          const backdrop = document.createElement("div");
+          const image = existingImage || document.createElement("img");
+
+          slide.className = "photo-gallery-slide";
+          backdrop.className = "photo-gallery-slide-backdrop";
+          backdrop.setAttribute("aria-hidden", "true");
+
+          image.classList.add("photo-gallery-image");
+          image.loading = "eager";
+          image.decoding = "async";
+
+          slide.appendChild(backdrop);
+          slide.appendChild(image);
+          return slide;
+        }
+
+        function getSlideImage(slide) {
+          return slide.querySelector(".photo-gallery-image");
+        }
+
+        function getSlideBackdrop(slide) {
+          return slide.querySelector(".photo-gallery-slide-backdrop");
+        }
+
+        function configureSlide(slide, src, index, loadedImage) {
+          const image = getSlideImage(slide);
+          const backdrop = getSlideBackdrop(slide);
+          const naturalWidth = loadedImage.naturalWidth || image.naturalWidth;
+          const naturalHeight = loadedImage.naturalHeight || image.naturalHeight;
+          const containMode = shouldContain(naturalWidth, naturalHeight);
+
+          image.src = src;
+          image.alt = altBase + (index + 1);
+          slide.classList.toggle("is-contain", containMode);
+          backdrop.style.backgroundImage = 'url("' + src + '")';
         }
 
         function renderDots() {
@@ -1126,26 +1149,51 @@
           }
         }
 
-        function applyLoadedImage(src, loadedImage) {
-          activeNaturalWidth = loadedImage && loadedImage.naturalWidth
-            ? loadedImage.naturalWidth
-            : mainImage.naturalWidth;
-          activeNaturalHeight = loadedImage && loadedImage.naturalHeight
-            ? loadedImage.naturalHeight
-            : mainImage.naturalHeight;
+        function waitUntilDecoded(src) {
+          return new Promise(function (resolve) {
+            const preload = new Image();
+            preload.decoding = "async";
+            preload.src = src;
 
-          mainImage.src = src;
-          mainImage.alt = altBase + (activeIndex + 1);
+            const finish = function () {
+              if (typeof preload.decode === "function") {
+                preload.decode().catch(function () {}).finally(function () {
+                  resolve(preload);
+                });
+              } else {
+                resolve(preload);
+              }
+            };
 
-          if (backdrop) {
-            backdrop.style.backgroundImage = 'url("' + src + '")';
-          }
+            if (preload.complete && preload.naturalWidth) {
+              finish();
+            } else {
+              preload.addEventListener("load", finish, { once: true });
+              preload.addEventListener("error", function () {
+                resolve(preload);
+              }, { once: true });
+            }
+          });
+        }
 
-          applyFitMode();
+        const track = document.createElement("div");
+        track.className = "photo-gallery-track";
+
+        currentSlide = createSlide(originalImage);
+        bufferSlide = createSlide();
+        track.appendChild(currentSlide);
+        track.appendChild(bufferSlide);
+        mainStage.insertBefore(track, prevButton);
+
+        async function initialize() {
+          const src = imagePath(0);
+          const loaded = await waitUntilDecoded(src);
+          activeIndex = 0;
+          configureSlide(currentSlide, src, activeIndex, loaded);
           renderDots();
         }
 
-        function showImage(index, direction) {
+        async function showImage(index, direction) {
           if (isAnimating || count <= 1) {
             return;
           }
@@ -1155,70 +1203,68 @@
             return;
           }
 
+          isAnimating = true;
           const nextSrc = imagePath(nextIndex);
-          const preload = new Image();
-          preload.src = nextSrc;
+          const loaded = await waitUntilDecoded(nextSrc);
+          configureSlide(bufferSlide, nextSrc, nextIndex, loaded);
 
-          const beginTransition = function () {
-            isAnimating = true;
-            const outClass = direction < 0 ? "slide-out-right" : "slide-out-left";
-            const prepClass = direction < 0 ? "prep-from-left" : "prep-from-right";
+          track.classList.remove("is-animating");
 
-            mainImage.classList.add(outClass);
-            if (backdrop) {
-              backdrop.classList.add("is-switching");
+          if (direction < 0) {
+            track.insertBefore(bufferSlide, currentSlide);
+            track.style.transform = "translate3d(-50%, 0, 0)";
+          } else {
+            if (track.firstElementChild !== currentSlide) {
+              track.insertBefore(currentSlide, bufferSlide);
+            }
+            track.style.transform = "translate3d(0, 0, 0)";
+          }
+
+          /* 先讓瀏覽器完成離屏 slide 的合成，再開始 GPU transform，避免手機切圖閃白 */
+          void track.offsetWidth;
+
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              track.classList.add("is-animating");
+              track.style.transform = direction < 0
+                ? "translate3d(0, 0, 0)"
+                : "translate3d(-50%, 0, 0)";
+            });
+          });
+
+          const finishTransition = function () {
+            track.removeEventListener("transitionend", finishTransition);
+
+            const oldCurrent = currentSlide;
+            currentSlide = bufferSlide;
+            bufferSlide = oldCurrent;
+            activeIndex = nextIndex;
+
+            track.classList.remove("is-animating");
+
+            if (track.firstElementChild !== currentSlide) {
+              track.insertBefore(currentSlide, track.firstElementChild);
+            }
+            if (track.lastElementChild !== bufferSlide) {
+              track.appendChild(bufferSlide);
             }
 
-            window.setTimeout(function () {
-              activeIndex = nextIndex;
-              mainImage.classList.remove(outClass);
-              mainImage.classList.add(prepClass);
-
-              applyLoadedImage(nextSrc, preload);
-
-              /* 強制瀏覽器先套用起始位置，再開始新圖滑入 */
-              void mainImage.offsetWidth;
-
-              mainImage.classList.remove(prepClass);
-
-              window.setTimeout(function () {
-                if (backdrop) {
-                  backdrop.classList.remove("is-switching");
-                }
-                isAnimating = false;
-              }, IN_DURATION);
-            }, OUT_DURATION);
+            track.style.transform = "translate3d(0, 0, 0)";
+            renderDots();
+            isAnimating = false;
           };
 
-          if (preload.complete) {
-            beginTransition();
-          } else {
-            preload.addEventListener("load", beginTransition, { once: true });
-            preload.addEventListener("error", beginTransition, { once: true });
-          }
-        }
+          track.addEventListener("transitionend", finishTransition, { once: true });
 
-        function initialize() {
-          const src = imagePath(0);
-          const preload = new Image();
-          preload.src = src;
-
-          const finish = function () {
-            activeIndex = 0;
-            applyLoadedImage(src, preload);
-          };
-
-          if (preload.complete) {
-            finish();
-          } else {
-            preload.addEventListener("load", finish, { once: true });
-            preload.addEventListener("error", finish, { once: true });
-          }
+          window.setTimeout(function () {
+            if (isAnimating) {
+              finishTransition();
+            }
+          }, SLIDE_DURATION + 80);
         }
 
         for (let index = 0; index < count; index += 1) {
-          const preload = new Image();
-          preload.src = imagePath(index);
+          waitUntilDecoded(imagePath(index));
         }
 
         prevButton.classList.toggle("is-hidden", count <= 1);
@@ -1233,7 +1279,12 @@
         });
 
         window.addEventListener("resize", function () {
-          applyFitMode();
+          [currentSlide, bufferSlide].forEach(function (slide) {
+            const image = getSlideImage(slide);
+            if (image && image.naturalWidth && image.naturalHeight) {
+              slide.classList.toggle("is-contain", shouldContain(image.naturalWidth, image.naturalHeight));
+            }
+          });
         });
 
         initialize();
