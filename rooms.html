@@ -10,7 +10,7 @@
 
   <meta
     name="description"
-    content="湖內三層雲房型介紹。提供 1F 四人客房可加一床、2F 四人客房可加一床、3F 六人客房，皆附獨立衛浴。"
+    content="湖內三層雲房型介紹。提供 1F 四人客房、2F 四人客房、3F 六人客房，皆附獨立衛浴。"
   >
 
   <title>房型介紹｜湖內三層雲</title>
@@ -334,14 +334,179 @@
       transition: transform 0.6s ease;
     }
 
-    .room-card:hover .image-wrap img {
-      transform: scale(1.035);
+    /* 客房照片圖庫：固定主圖視窗，取消縮圖，左右箭頭直接切換照片 */
+    .photo-gallery {
+      position: relative;
+      height: 100%;
+      min-height: 480px;
+      background-color: #ddd4c8;
+    }
+
+    .photo-gallery-main {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background-color: #ddd4c8;
+      isolation: isolate;
+    }
+
+    /* 僅在照片比例差異較大時啟用的柔和延伸背景 */
+    .photo-gallery-backdrop {
+      position: absolute;
+      inset: -34px;
+      z-index: 1;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      filter: blur(32px) saturate(0.72) brightness(1.12);
+      transform: scale(1.12);
+      opacity: 0;
+      transition: opacity 0.22s ease, background-image 0s linear;
+    }
+
+    .photo-gallery-backdrop::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(247, 244, 239, 0.62),
+          rgba(247, 244, 239, 0.48) 35%,
+          rgba(247, 244, 239, 0.48) 65%,
+          rgba(247, 244, 239, 0.62)
+        );
+    }
+
+    .photo-gallery-main.is-contain .photo-gallery-backdrop {
+      opacity: 0.38;
+    }
+
+    .image-wrap .photo-gallery-main .photo-gallery-image {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+      object-position: center;
+      opacity: 1;
+      transform: translateX(0);
+      transition:
+        transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.18s ease;
+      will-change: transform, opacity;
+    }
+
+    /* 比例差異太大時才完整顯示整張圖；外框尺寸完全不變 */
+    .image-wrap .photo-gallery-main .photo-gallery-image.is-contain-fit {
+      object-fit: contain;
+    }
+
+    /* 單張圖片分兩段滑動：舊圖先退出，換圖後新圖再滑入，避免兩張圖重疊 */
+    .image-wrap .photo-gallery-main .photo-gallery-image.slide-out-left {
+      transform: translateX(-22%);
+      opacity: 0;
+    }
+
+    .image-wrap .photo-gallery-main .photo-gallery-image.slide-out-right {
+      transform: translateX(22%);
+      opacity: 0;
+    }
+
+    .image-wrap .photo-gallery-main .photo-gallery-image.prep-from-right {
+      transform: translateX(22%);
+      opacity: 0;
+      transition: none;
+    }
+
+    .image-wrap .photo-gallery-main .photo-gallery-image.prep-from-left {
+      transform: translateX(-22%);
+      opacity: 0;
+      transition: none;
+    }
+
+    .photo-gallery-main.is-contain .photo-gallery-backdrop.is-switching {
+      opacity: 0.18;
+    }
+
+    .photo-gallery-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 4;
+      width: 46px;
+      height: 46px;
+      padding: 0 0 3px;
+      border: 1px solid rgba(86, 74, 60, 0.18);
+      border-radius: 50%;
+      color: var(--dark);
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 5px 18px rgba(37, 33, 28, 0.14);
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      font-size: 30px;
+      line-height: 1;
+      transform: translateY(-50%);
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .photo-gallery-arrow[data-gallery-prev] {
+      left: 14px;
+    }
+
+    .photo-gallery-arrow[data-gallery-next] {
+      right: 14px;
+    }
+
+    .photo-gallery-arrow:hover {
+      color: white;
+      background-color: rgba(111, 86, 53, 0.92);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .photo-gallery-arrow.is-hidden {
+      display: none;
+    }
+
+    .photo-gallery-dots {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .photo-gallery-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .photo-gallery-dot.active {
+      background-color: rgba(255, 255, 255, 0.96);
+      transform: scale(1.18);
     }
 
     .image-label {
       position: absolute;
       right: 18px;
       bottom: 18px;
+      z-index: 3;
       padding: 8px 14px;
       border-radius: 999px;
       color: white;
@@ -541,6 +706,11 @@
         min-height: 0;
       }
 
+      .photo-gallery {
+        height: 360px;
+        min-height: 360px;
+      }
+
       .room-content {
         padding: 38px 34px 42px;
       }
@@ -626,6 +796,33 @@
 
       .image-wrap img {
         height: 250px;
+      }
+
+      .photo-gallery {
+        height: 250px;
+        min-height: 250px;
+      }
+
+      .photo-gallery-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 25px;
+      }
+
+      .photo-gallery-arrow[data-gallery-prev] {
+        left: 10px;
+      }
+
+      .photo-gallery-arrow[data-gallery-next] {
+        right: 10px;
+      }
+
+      .photo-gallery-counter {
+        left: 12px;
+        bottom: 12px;
+        min-width: 48px;
+        padding: 6px 10px;
+        font-size: 12px;
       }
 
       .image-label {
@@ -723,15 +920,20 @@
 
       <article class="room-card">
 
-        <div class="image-wrap">
-          <img
-            src="images/room-1f.jpg"
-            alt="湖內三層雲一樓四人客房"
-          >
-
-          <span class="image-label">
-            一樓・近廳
-          </span>
+        <div
+          class="image-wrap photo-gallery"
+          data-photo-gallery
+          data-gallery-base="images/room-1f"
+          data-gallery-count="5"
+          data-gallery-alt="湖內三層雲一樓四人客房照片"
+        >
+          <div class="photo-gallery-main">
+            <img src="images/room-1f-1.jpg" alt="湖內三層雲一樓四人客房" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張一樓客房照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張一樓客房照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">一樓・近廳</span>
+          </div>
         </div>
 
         <div class="room-content">
@@ -749,7 +951,7 @@
 
           <ul class="advantages">
             <li>配置兩張雙人床</li>
-            <li>四人客房，可加一床</li>
+            <li>四人客房，配置固定床位</li>
             <li>房間內附設獨立衛浴</li>
             <li>位於一樓，進出動線更方便</li>
             <li>適合長輩或親子家庭安排入住</li>
@@ -763,15 +965,20 @@
 
       <article class="room-card">
 
-        <div class="image-wrap">
-          <img
-            src="images/room-2f.jpg"
-            alt="湖內三層雲二樓四人客房"
-          >
-
-          <span class="image-label">
-            二樓・靜謐
-          </span>
+        <div
+          class="image-wrap photo-gallery"
+          data-photo-gallery
+          data-gallery-base="images/room-2f"
+          data-gallery-count="3"
+          data-gallery-alt="湖內三層雲二樓四人客房照片"
+        >
+          <div class="photo-gallery-main">
+            <img src="images/room-2f-1.jpg" alt="湖內三層雲二樓四人客房" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張二樓客房照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張二樓客房照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">二樓・靜謐</span>
+          </div>
         </div>
 
         <div class="room-content">
@@ -780,9 +987,9 @@
 
 <h2>二樓客房</h2>
 
-<p class="description"> 二樓為獨立四人客房，配置兩張雙人床。整層僅有一間客房，無其他公共空間。 </p>
+<p class="description"> 二樓為獨立四人客房，配置一張雙人床與兩張單人床。整層僅有一間客房，無其他公共空間。 </p>
 
-<ul class="advantages"> <li>配置兩張雙人床</li> <li>四人客房，可加一床</li> <li>房間內附設獨立衛浴</li> </ul>
+<ul class="advantages"> <li>配置一張雙人床與兩張單人床</li> <li>四人客房，配置固定床位</li> <li>房間內附設獨立衛浴</li> </ul>
 
         </div>
 
@@ -792,15 +999,20 @@
 
       <article class="room-card">
 
-        <div class="image-wrap">
-          <img
-            src="images/room-3f.jpg"
-            alt="湖內三層雲三樓六人客房"
-          >
-
-          <span class="image-label">
-            三樓・交誼
-          </span>
+        <div
+          class="image-wrap photo-gallery"
+          data-photo-gallery
+          data-gallery-base="images/room-3f"
+          data-gallery-count="3"
+          data-gallery-alt="湖內三層雲三樓六人客房照片"
+        >
+          <div class="photo-gallery-main">
+            <img src="images/room-3f-1.jpg" alt="湖內三層雲三樓六人客房" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張三樓客房照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張三樓客房照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">三樓・交誼</span>
+          </div>
         </div>
 
         <div class="room-content">
@@ -837,6 +1049,197 @@
     <strong>湖內三層雲</strong>
     高雄湖內包棟住宿｜1F・2F・3F 客房介紹
   </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const MAX_CROP_FRACTION = 0.18;
+      const OUT_DURATION = 180;
+      const IN_DURATION = 190;
+
+      document.querySelectorAll("[data-photo-gallery]").forEach(function (gallery) {
+        const mainStage = gallery.querySelector(".photo-gallery-main");
+        const mainImage = gallery.querySelector("[data-gallery-main]");
+        const prevButton = gallery.querySelector("[data-gallery-prev]");
+        const nextButton = gallery.querySelector("[data-gallery-next]");
+        const dotsWrap = gallery.querySelector("[data-gallery-dots]");
+        const base = gallery.dataset.galleryBase;
+        const count = Math.max(1, Number.parseInt(gallery.dataset.galleryCount, 10) || 1);
+        const altBase = gallery.dataset.galleryAlt || "湖內三層雲客房照片";
+        let activeIndex = 0;
+        let activeNaturalWidth = 0;
+        let activeNaturalHeight = 0;
+        let isAnimating = false;
+
+        mainImage.classList.add("photo-gallery-image");
+
+        let backdrop = gallery.querySelector("[data-gallery-backdrop]");
+        if (!backdrop && mainStage) {
+          backdrop = document.createElement("div");
+          backdrop.className = "photo-gallery-backdrop";
+          backdrop.setAttribute("data-gallery-backdrop", "");
+          backdrop.setAttribute("aria-hidden", "true");
+          mainStage.insertBefore(backdrop, mainImage);
+        }
+
+        function imagePath(index) {
+          return base + "-" + (index + 1) + ".jpg";
+        }
+
+        function shouldContain(naturalWidth, naturalHeight) {
+          if (!mainStage || !naturalWidth || !naturalHeight) {
+            return false;
+          }
+
+          const rect = mainStage.getBoundingClientRect();
+          if (!rect.width || !rect.height) {
+            return false;
+          }
+
+          const imageRatio = naturalWidth / naturalHeight;
+          const stageRatio = rect.width / rect.height;
+          const visibleFraction = imageRatio > stageRatio
+            ? stageRatio / imageRatio
+            : imageRatio / stageRatio;
+          const cropFraction = 1 - visibleFraction;
+
+          return cropFraction > MAX_CROP_FRACTION;
+        }
+
+        function applyFitMode() {
+          const containMode = shouldContain(activeNaturalWidth, activeNaturalHeight);
+          mainStage.classList.toggle("is-contain", containMode);
+          mainImage.classList.toggle("is-contain-fit", containMode);
+        }
+
+        function renderDots() {
+          if (!dotsWrap) {
+            return;
+          }
+
+          dotsWrap.replaceChildren();
+          for (let index = 0; index < count; index += 1) {
+            const dot = document.createElement("span");
+            dot.className = "photo-gallery-dot" + (index === activeIndex ? " active" : "");
+            dotsWrap.appendChild(dot);
+          }
+        }
+
+        function applyLoadedImage(src, loadedImage) {
+          activeNaturalWidth = loadedImage && loadedImage.naturalWidth
+            ? loadedImage.naturalWidth
+            : mainImage.naturalWidth;
+          activeNaturalHeight = loadedImage && loadedImage.naturalHeight
+            ? loadedImage.naturalHeight
+            : mainImage.naturalHeight;
+
+          mainImage.src = src;
+          mainImage.alt = altBase + (activeIndex + 1);
+
+          if (backdrop) {
+            backdrop.style.backgroundImage = 'url("' + src + '")';
+          }
+
+          applyFitMode();
+          renderDots();
+        }
+
+        function showImage(index, direction) {
+          if (isAnimating || count <= 1) {
+            return;
+          }
+
+          const nextIndex = (index + count) % count;
+          if (nextIndex === activeIndex) {
+            return;
+          }
+
+          const nextSrc = imagePath(nextIndex);
+          const preload = new Image();
+          preload.src = nextSrc;
+
+          const beginTransition = function () {
+            isAnimating = true;
+            const outClass = direction < 0 ? "slide-out-right" : "slide-out-left";
+            const prepClass = direction < 0 ? "prep-from-left" : "prep-from-right";
+
+            mainImage.classList.add(outClass);
+            if (backdrop) {
+              backdrop.classList.add("is-switching");
+            }
+
+            window.setTimeout(function () {
+              activeIndex = nextIndex;
+              mainImage.classList.remove(outClass);
+              mainImage.classList.add(prepClass);
+
+              applyLoadedImage(nextSrc, preload);
+
+              /* 強制瀏覽器先套用起始位置，再開始新圖滑入 */
+              void mainImage.offsetWidth;
+
+              mainImage.classList.remove(prepClass);
+
+              window.setTimeout(function () {
+                if (backdrop) {
+                  backdrop.classList.remove("is-switching");
+                }
+                isAnimating = false;
+              }, IN_DURATION);
+            }, OUT_DURATION);
+          };
+
+          if (preload.complete) {
+            beginTransition();
+          } else {
+            preload.addEventListener("load", beginTransition, { once: true });
+            preload.addEventListener("error", beginTransition, { once: true });
+          }
+        }
+
+        function initialize() {
+          const src = imagePath(0);
+          const preload = new Image();
+          preload.src = src;
+
+          const finish = function () {
+            activeIndex = 0;
+            applyLoadedImage(src, preload);
+          };
+
+          if (preload.complete) {
+            finish();
+          } else {
+            preload.addEventListener("load", finish, { once: true });
+            preload.addEventListener("error", finish, { once: true });
+          }
+        }
+
+        for (let index = 0; index < count; index += 1) {
+          const preload = new Image();
+          preload.src = imagePath(index);
+        }
+
+        prevButton.classList.toggle("is-hidden", count <= 1);
+        nextButton.classList.toggle("is-hidden", count <= 1);
+
+        prevButton.addEventListener("click", function () {
+          showImage(activeIndex - 1, -1);
+        });
+
+        nextButton.addEventListener("click", function () {
+          showImage(activeIndex + 1, 1);
+        });
+
+        window.addEventListener("resize", function () {
+          applyFitMode();
+        });
+
+        initialize();
+      });
+    })();
+  </script>
 
 
   <script>
