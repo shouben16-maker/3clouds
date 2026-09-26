@@ -326,6 +326,30 @@
       -webkit-backface-visibility: hidden;
     }
 
+    /* 獨立縮放層：換圖由 track 負責，hover 放大由 zoom layer 負責，互不干擾 */
+    .photo-gallery-zoom {
+      position: absolute;
+      inset: 0;
+      transform: scale(1) translateZ(0);
+      transform-origin: center center;
+      transition: transform 0.6s ease;
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* 只有真正有滑鼠 hover 的裝置才啟用照片放大；手機觸控維持原本換圖 */
+    @media (hover: hover) and (pointer: fine) {
+      .facility-card:hover .photo-gallery-slide.is-current .photo-gallery-zoom {
+        transform: scale(1.035) translateZ(0);
+      }
+
+      .facility-card:hover .photo-gallery-track.is-animating .photo-gallery-zoom {
+        transform: scale(1) translateZ(0);
+        transition-duration: 0.18s;
+      }
+    }
+
     .photo-gallery-slide-backdrop {
       position: absolute;
       inset: -34px;
@@ -836,9 +860,14 @@
         </div>
       </article>
       <article class="facility-card">
-        <div class="image-wrap">
-          <img src="images/kitchen.jpg" alt="湖內三層雲一樓廚房與中島備餐空間">
-          <span class="image-label">備餐・料理・餐廚設備</span>
+        <div class="image-wrap photo-gallery" data-photo-gallery data-gallery-base="images/kitchen" data-gallery-count="1" data-first-unsuffixed="true" data-gallery-alt="湖內三層雲一樓廚房照片">
+          <div class="photo-gallery-main">
+            <img src="images/kitchen.jpg" alt="湖內三層雲一樓廚房與中島備餐空間" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張廚房照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張廚房照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">備餐・料理・餐廚設備</span>
+          </div>
         </div>
         <div class="facility-content">
           <span class="floor-label">1F｜公共空間</span>
@@ -855,9 +884,14 @@
         </div>
       </article>
       <article class="facility-card">
-        <div class="image-wrap">
-          <img src="images/bbq-area.jpg" alt="湖內三層雲一樓戶外烤肉區">
-          <span class="image-label">戶外・烤肉・歡聚時光</span>
+        <div class="image-wrap photo-gallery" data-photo-gallery data-gallery-base="images/bbq-area" data-gallery-count="4" data-first-unsuffixed="true" data-gallery-alt="湖內三層雲烤肉區照片">
+          <div class="photo-gallery-main">
+            <img src="images/bbq-area.jpg" alt="湖內三層雲一樓戶外烤肉區" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張烤肉區照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張烤肉區照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">戶外・烤肉・歡聚時光</span>
+          </div>
         </div>
         <div class="facility-content">
           <span class="floor-label">1F｜戶外空間</span>
@@ -873,9 +907,14 @@
         </div>
       </article>
       <article class="facility-card">
-        <div class="image-wrap">
-          <img src="images/mahjong-room.jpg" alt="湖內三層雲三樓麻將專屬獨立空間">
-          <span class="image-label">麻將・包廂・獨立空間</span>
+        <div class="image-wrap photo-gallery" data-photo-gallery data-gallery-base="images/mahjong-room" data-gallery-count="1" data-first-unsuffixed="true" data-gallery-alt="湖內三層雲私享交誼室照片">
+          <div class="photo-gallery-main">
+            <img src="images/mahjong-room.jpg" alt="湖內三層雲三樓麻將專屬獨立空間" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張私享交誼室照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張私享交誼室照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">麻將・包廂・獨立空間</span>
+          </div>
         </div>
         <div class="facility-content">
           <span class="floor-label">3F｜三樓包廂</span>
@@ -889,9 +928,14 @@
         </div>
       </article>
       <article class="facility-card">
-        <div class="image-wrap">
-          <img src="images/parking-garage.jpg" alt="湖內三層雲專屬停車空間與寬敞車庫">
-          <span class="image-label">停車・車庫・充電樁</span>
+        <div class="image-wrap photo-gallery" data-photo-gallery data-gallery-base="images/parking-garage" data-gallery-count="1" data-first-unsuffixed="true" data-gallery-alt="湖內三層雲停車空間照片">
+          <div class="photo-gallery-main">
+            <img src="images/parking-garage.jpg" alt="湖內三層雲專屬停車空間與寬敞車庫" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張停車空間照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張停車空間照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">停車・車庫・充電樁</span>
+          </div>
         </div>
         <div class="facility-content">
           <span class="floor-label">PARKING｜專屬停車空間</span>
@@ -905,9 +949,14 @@
         </div>
       </article>
       <article class="facility-card">
-        <div class="image-wrap">
-          <img src="images/baby-friendly.jpg" alt="湖內三層雲母嬰親善用品與親子住宿設備">
-          <span class="image-label">母嬰・親子・安心入住</span>
+        <div class="image-wrap photo-gallery" data-photo-gallery data-gallery-base="images/baby-friendly" data-gallery-count="1" data-first-unsuffixed="true" data-gallery-alt="湖內三層雲母嬰親善用品照片">
+          <div class="photo-gallery-main">
+            <img src="images/baby-friendly.jpg" alt="湖內三層雲母嬰親善用品與親子住宿設備" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張母嬰親善用品照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張母嬰親善用品照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">母嬰・親子・安心入住</span>
+          </div>
         </div>
         <div class="facility-content">
           <span class="floor-label">全棟｜母嬰親善</span>
@@ -921,9 +970,14 @@
         </div>
       </article>
       <article class="facility-card">
-        <div class="image-wrap">
-          <img src="images/anniversary-decoration.jpg" alt="湖內三層雲紀念日花藝與氣球場地佈置">
-          <span class="image-label">花藝・佈置・紀念日</span>
+        <div class="image-wrap photo-gallery" data-photo-gallery data-gallery-base="images/anniversary-decoration" data-gallery-count="1" data-first-unsuffixed="true" data-gallery-alt="湖內三層雲紀念日場地佈置照片">
+          <div class="photo-gallery-main">
+            <img src="images/anniversary-decoration.jpg" alt="湖內三層雲紀念日花藝與氣球場地佈置" data-gallery-main>
+            <button type="button" class="photo-gallery-arrow" data-gallery-prev aria-label="顯示上一張紀念日場地佈置照片">‹</button>
+            <button type="button" class="photo-gallery-arrow" data-gallery-next aria-label="顯示下一張紀念日場地佈置照片">›</button>
+            <div class="photo-gallery-dots" data-gallery-dots aria-hidden="true"></div>
+            <span class="image-label">花藝・佈置・紀念日</span>
+          </div>
         </div>
         <div class="facility-content">
           <span class="floor-label">全棟｜特別企劃</span>
@@ -999,10 +1053,12 @@
 
         function createSlide(existingImage) {
           const slide = document.createElement("div");
+          const zoomLayer = document.createElement("div");
           const backdrop = document.createElement("div");
           const image = existingImage || document.createElement("img");
 
           slide.className = "photo-gallery-slide";
+          zoomLayer.className = "photo-gallery-zoom";
           backdrop.className = "photo-gallery-slide-backdrop";
           backdrop.setAttribute("aria-hidden", "true");
 
@@ -1010,8 +1066,9 @@
           image.loading = "eager";
           image.decoding = "async";
 
-          slide.appendChild(backdrop);
-          slide.appendChild(image);
+          zoomLayer.appendChild(backdrop);
+          zoomLayer.appendChild(image);
+          slide.appendChild(zoomLayer);
           return slide;
         }
 
@@ -1041,6 +1098,13 @@
             return;
           }
 
+          if (count <= 1) {
+            dotsWrap.hidden = true;
+            dotsWrap.replaceChildren();
+            return;
+          }
+
+          dotsWrap.hidden = false;
           dotsWrap.replaceChildren();
           for (let index = 0; index < count; index += 1) {
             const dot = document.createElement("span");
@@ -1081,6 +1145,7 @@
 
         currentSlide = createSlide(originalImage);
         bufferSlide = createSlide();
+        currentSlide.classList.add("is-current");
         track.appendChild(currentSlide);
         track.appendChild(bufferSlide);
         mainStage.insertBefore(track, prevButton);
@@ -1140,6 +1205,8 @@
             bufferSlide = oldCurrent;
             activeIndex = nextIndex;
 
+            bufferSlide.classList.remove("is-current");
+            currentSlide.classList.add("is-current");
             track.classList.remove("is-animating");
 
             if (track.firstElementChild !== currentSlide) {
