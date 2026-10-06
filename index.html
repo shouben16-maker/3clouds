@@ -355,7 +355,7 @@
           rgba(35, 30, 25, 0.08),
           rgba(35, 30, 25, 0.12)
         ),
-        url("images/lobby.jpg")
+        url("images/lobby2.jpg")
         center / cover no-repeat;
     }
 
@@ -471,17 +471,36 @@
 
 .price-quick-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
 .price-item {
+  width: 100%;
   min-height: 180px;
   padding: 24px 20px;
   border: 1px solid var(--border);
   border-radius: 14px;
+  color: inherit;
   background-color: #fffdfa;
+  font: inherit;
   text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.price-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 111, 71, 0.42);
+  box-shadow: 0 10px 24px rgba(59, 49, 39, 0.10);
+}
+
+.price-item:focus-visible {
+  outline: 3px solid rgba(139, 111, 71, 0.28);
+  outline-offset: 3px;
 }
 
 .price-item-featured {
@@ -996,7 +1015,7 @@
         margin-bottom: 28px;
       }
 
-      .price-quick-grid {grid-template-columns: repeat(3, minmax(0, 1fr));
+      .price-quick-grid {grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -1289,9 +1308,7 @@
       <h2>包棟房價</h2>
 
       <p>
-        湖內三層雲採包棟入住，
-        房價依入住日期、人數與連續假期調整。
-        以下為快速參考，實際金額以訂房確認為準。
+        湖內三層雲採包棟入住，房價依入住日期、人數與連續假期調整。
       </p>
 
     </div>
@@ -1299,59 +1316,44 @@
     <div class="price-quick-card">
 
       <p class="price-quick-note">
-       確認入住人數與日期後，即可透過下方表單詢問訂房；連假、特殊日期或其他需求，歡迎一併備註。
+        點擊可參考完整價目資訊，並可加Line聯絡三層雲，或在下方詢問訂房。
       </p>
 
       <div class="price-quick-grid">
 
-        <article class="price-item price-item-featured">
+        <button
+          type="button"
+          class="price-item price-item-featured price-modal-trigger"
+          data-price-image="images/price.png"
+          data-price-alt="湖內三層雲週五週六包棟價目表"
+          aria-label="查看週五週六包棟價目表"
+        >
           <h3>週五／週六包棟入住</h3>
           <div class="price-item-price">
             每晚 NT$13,000 <span>起</span>
           </div>
-          <p>
-            目前主要開放週五、週六入住。
-          
-          </p>
-        </article>
+        </button>
 
-        <article class="price-item">
+        <button
+          type="button"
+          class="price-item price-modal-trigger"
+          data-price-image="images/price2.png"
+          data-price-alt="湖內三層雲連假節日價目表"
+          aria-label="查看連假節日價目表"
+        >
           <h3>連假／節日</h3>
           <div class="price-item-price">
-            另行報價
+            每晚 NT$14,500 <span>起</span>
           </div>
-          <p>
-            春節、連假與特殊節日，請先來訊詢問。
-          </p>
-        </article>
-
-        <article class="price-item">
-          <h3>平日</h3>
-          <div class="price-item-price">
-            暫不開放
-          </div>
-          <p>
-           目前暫不開放平日入住。
-          
-          </p>
-        </article>
+        </button>
 
       </div>
 
       <p class="price-note">
-       實際房價需依入住人數與日期確認，訂房前請查看完整價目表。
+        實際房價需依入住人數與日期確認，訂房前請查看完整價目表，續住另有優惠。
       </p>
 
       <div class="price-actions">
-        <button
-          type="button"
-          class="button"
-          id="openPriceModal"
-        >
-          查看完整價目表
-          <span aria-hidden="true">→</span>
-        </button>
-
         <a
           class="button button-line"
           href="https://lin.ee/5y4sJqF"
@@ -1599,6 +1601,7 @@
       </button>
 
       <img
+        id="priceModalImage"
         src="images/price.png"
         alt="湖內三層雲包棟民宿完整價目表"
       >
@@ -1672,9 +1675,11 @@
       const dateRuleMessage = document.getElementById("dateRuleMessage");
       const messageInput = document.getElementById("message");
 
-      const openButton = document.getElementById("openPriceModal");
+      const priceTriggerButtons = document.querySelectorAll(".price-modal-trigger");
       const closeButton = document.getElementById("closePriceModal");
       const priceModal = document.getElementById("priceModal");
+      const priceModalImage = document.getElementById("priceModalImage");
+      let lastPriceTrigger = null;
 
       const STORAGE_KEY = "sancengyun_booking_submit_times";
       const TIME_WINDOW_MS = 300 * 1000;
@@ -1927,8 +1932,17 @@
         bookingSubmit.textContent = isSubmitting ? "資料傳送中…" : "送出訂房詢問";
       }
 
-      if (openButton && closeButton && priceModal) {
-        function openModal() {
+      if (priceTriggerButtons.length && closeButton && priceModal && priceModalImage) {
+        function openModal(triggerButton) {
+          const imageSource = triggerButton.dataset.priceImage;
+          const imageAlt = triggerButton.dataset.priceAlt || "湖內三層雲價目表";
+
+          if (imageSource) {
+            priceModalImage.src = imageSource;
+          }
+          priceModalImage.alt = imageAlt;
+          lastPriceTrigger = triggerButton;
+
           priceModal.classList.add("is-open");
           priceModal.setAttribute("aria-hidden", "false");
           document.body.style.overflow = "hidden";
@@ -1939,10 +1953,18 @@
           priceModal.classList.remove("is-open");
           priceModal.setAttribute("aria-hidden", "true");
           document.body.style.overflow = "";
-          openButton.focus();
+
+          if (lastPriceTrigger) {
+            lastPriceTrigger.focus();
+          }
         }
 
-        openButton.addEventListener("click", openModal);
+        priceTriggerButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            openModal(button);
+          });
+        });
+
         closeButton.addEventListener("click", closeModal);
 
         priceModal.addEventListener("click", function (event) {
