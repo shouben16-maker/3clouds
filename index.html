@@ -344,6 +344,26 @@
       font-weight: 700;
     }
 
+    .about-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button-outline {
+      color: var(--primary-dark);
+      background-color: transparent;
+      border: 1px solid rgba(139, 111, 71, 0.38);
+      box-shadow: none;
+    }
+
+    .button-outline:hover {
+      color: white;
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
     .about-image {
       min-height: 410px;
       overflow: hidden;
@@ -540,6 +560,11 @@
   color: var(--text-light);
   font-size: 14px;
   text-align: center;
+}
+
+.price-note .stay-discount {
+  color: var(--primary-dark);
+  font-weight: 800;
 }
 
 .price-actions {
@@ -839,12 +864,21 @@
         font-size: 17px;
       }
 
-      .hero-actions {
+      .hero-actions,
+      .about-actions {
         width: 100%;
+        flex-wrap: nowrap;
+        gap: 10px;
       }
 
-      .hero-actions .button {
-        width: 100%;
+      .hero-actions .button,
+      .about-actions .button {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+        padding: 12px 10px;
+        font-size: 14px;
+        white-space: nowrap;
       }
 
       .section {
@@ -1122,13 +1156,13 @@
 
       <div class="hero-actions">
 
+        <a class="button button-light" href="rooms.html">
+          查看房型空間
+        </a>
+
         <a class="button" href="#price">
           立即查看房價
           <span aria-hidden="true">→</span>
-        </a>
-
-        <a class="button button-light" href="rooms.html">
-          查看房型空間
         </a>
 
       </div>
@@ -1164,10 +1198,16 @@
 享受寬敞舒適的包棟旅程。
           </div>
 
-          <a class="button" href="rooms.html">
-            查看房型介紹
-            <span aria-hidden="true">→</span>
-          </a>
+          <div class="about-actions">
+            <a class="button button-light" href="rooms.html">
+              查看房型空間
+            </a>
+
+            <a class="button" href="#price">
+              立即查看房價
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
 
         </div>
 
@@ -1350,7 +1390,7 @@
       </div>
 
       <p class="price-note">
-        實際房價需依入住人數與日期確認，訂房前請查看完整價目表，續住另有優惠。
+        實際房價需依入住人數與日期確認，訂房前請查看完整價目表，<strong class="stay-discount">續住另有優惠。</strong>
       </p>
 
       <div class="price-actions">
