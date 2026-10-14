@@ -923,13 +923,16 @@
       .hero-actions, .about-actions { width: 100%; gap: 6px; flex-wrap: nowrap; }
       .hero-actions .button, .about-actions .button {
         flex: 1 1 0; width: 0; min-width: 0;
-        padding: 11px 2px; font-size: clamp(10px, 2.8vw, 12px);
-        letter-spacing: -0.045em; border-radius: 10px;
+        padding: 12px 1px; font-size: clamp(12px, 3.5vw, 15px);
+        letter-spacing: 0; border-radius: 10px;
         white-space: nowrap; gap: 3px;
       }
-      /* 手機畫面狹窄時省略箭頭，避免按鈕文字被擠掉 */
+      /* 手機維持三鈕同排，省略箭頭留出文字寬度 */
       .hero-actions .button > span[aria-hidden="true"],
       .about-actions .button > span[aria-hidden="true"] { display: none; }
+    }
+    @media (max-width: 350px) {
+      .hero-actions .button, .about-actions .button { font-size: 12px; letter-spacing: -0.01em; }
     }
   </style>
 </head>
