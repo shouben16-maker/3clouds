@@ -901,6 +901,36 @@
 
 
 
+
+    /* 首頁三顆主按鈕：電腦與手機維持橫向排列 */
+    .hero-actions, .about-actions { flex-wrap: nowrap; }
+    .hero-actions .button, .about-actions .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      text-align: center; white-space: nowrap; min-width: 0;
+    }
+    .hero-actions .gallery-action, .about-actions .gallery-action {
+      background: #eee6da; color: #38342d;
+    }
+    .hero-actions .gallery-action:hover, .about-actions .gallery-action:hover {
+      background: #e5dacb; color: #38342d;
+    }
+    @media (min-width: 701px) and (max-width: 1170px) {
+      .nav-inner { padding: 0 16px; gap: 12px; }
+      .nav-links { gap: 2px; }
+      .nav-links a { padding: 8px 8px; font-size: 13px; }
+    }
+    @media (max-width: 700px) {
+      .hero-actions, .about-actions { width: 100%; gap: 6px; flex-wrap: nowrap; }
+      .hero-actions .button, .about-actions .button {
+        flex: 1 1 0; width: 0; min-width: 0;
+        padding: 11px 2px; font-size: clamp(10px, 2.8vw, 12px);
+        letter-spacing: -0.045em; border-radius: 10px;
+        white-space: nowrap; gap: 3px;
+      }
+      /* 手機畫面狹窄時省略箭頭，避免按鈕文字被擠掉 */
+      .hero-actions .button > span[aria-hidden="true"],
+      .about-actions .button > span[aria-hidden="true"] { display: none; }
+    }
   </style>
 </head>
 
@@ -920,6 +950,7 @@
       <a href="food.html">美食推薦</a>
       <a href="rules.html">旅宿公約</a>
       <a href="index.html#price">查看房價</a>
+      <a href="gallery.html">瀏覽相片</a>
     </div>
 
   </div>
@@ -939,6 +970,7 @@
       </p>
 
       <div class="hero-actions">
+        <a class="button button-light gallery-action" href="gallery.html">瀏覽民宿相簿</a>
 
         <a class="button button-light" href="rooms.html">
           查看房型空間
@@ -983,6 +1015,7 @@
           </div>
 
           <div class="about-actions">
+            <a class="button button-light gallery-action" href="gallery.html">瀏覽民宿相簿</a>
             <a class="button button-light" href="rooms.html">
               查看房型空間
             </a>
@@ -1226,7 +1259,7 @@
 
   <footer>
     <strong>湖內三層雲</strong>
-    高雄湖內包棟住宿｜白天探索台南與高雄，晚上自在相聚
+    高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
   </footer>
 
 

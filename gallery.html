@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>瀏覽相片｜湖內三層雲</title>
+<meta name="description" content="湖內三層雲民宿相片導覽，瀏覽客廳、廚房、三間客房、親子遊戲區與各式公共空間。">
+<style>
+:root{--bg:#f7f4ef;--surface:#fff;--ink:#332f2a;--muted:#6f675e;--accent:#8b6f47;--line:#e9e1d5;--max:1080px;--content-width:1120px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:82px}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}button,a{font:inherit}button{cursor:pointer}a{color:inherit}.top{position:sticky;top:0;z-index:20;background:rgba(247,244,239,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.top-inner{height:65px;max-width:1420px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:0 25px}.top-side{display:flex;align-items:center;gap:18px;min-width:130px}.top-side.right{justify-content:flex-end}.back{border:0;background:transparent;text-decoration:none;font-size:28px;line-height:1;padding:4px 7px}.top-title{font-size:17px;font-weight:650;letter-spacing:.05em}.tool{border:0;background:transparent;display:inline-flex;align-items:center;gap:7px;color:var(--ink);padding:8px}.tool svg{width:19px;height:19px}.page{max-width:var(--max);margin:0 auto;padding:48px 20px 100px}.page h1{font-size:22px;margin:0 0 26px;letter-spacing:.04em}.shortcuts{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:16px 13px;margin-bottom:50px}.shortcut{border:0;background:none;text-align:left;padding:0;color:var(--ink);min-width:0}.shortcut img{width:100%;aspect-ratio:1.53;object-fit:cover;display:block;border-radius:3px;background:var(--line)}.shortcut span{font-size:13px;display:block;padding-top:6px}.shortcut:focus-visible,.photo:focus-visible,.back:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.group{display:grid;grid-template-columns:32% 1fr;column-gap:16px;margin:0 0 62px;scroll-margin-top:90px}.detail{padding-top:3px}.detail h2{font-size:21px;margin:0 0 10px}.detail p{font-size:14px;line-height:1.8;color:var(--muted);max-width:280px;margin:0} .photos{display:flex;flex-direction:column;gap:8px;min-width:0}
+.photo-row{display:flex;gap:8px;width:100%;min-width:0;align-items:stretch}
+.photo{display:block;position:relative;border:0;padding:0;background:#e9e1d5;overflow:hidden;line-height:0;border-radius:4px;min-width:0;flex:1;aspect-ratio:1.47}
+.photo-row .photo.portrait{flex:.68;aspect-ratio:.8}
+.photo-row .photo.landscape{flex:1.32}
+.photo-row.hero-row .photo{flex:1;aspect-ratio:1.78}
+.photo-row.portrait-pair .photo.portrait{flex:1;aspect-ratio:.9}
+.photo-row.portrait-trio .photo.portrait{flex:1;aspect-ratio:.74}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s ease}
+.photo:hover img{transform:scale(1.018)}.photo:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.photo[data-missing]{display:none}.photo-row:empty{display:none}
+.lightbox{position:fixed;z-index:50;inset:0;background:rgba(18,18,19,.97);display:none;flex-direction:column;color:#fff}
+.lightbox.open{display:flex}.light-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:13px 22px;min-height:72px;gap:10px}
+.light-counter{justify-self:center;font-size:15px;font-weight:600;letter-spacing:.065em;font-variant-numeric:tabular-nums}
+.light-head .light-title{font-size:13px;color:#d7d0c8;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.icon-button{display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.36);background:rgba(255,255,255,.075);color:#fff;border-radius:50%;width:46px;height:46px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s;backdrop-filter:blur(9px)}
+.icon-button:hover{background:rgba(255,255,255,.19);border-color:rgba(255,255,255,.75)}.icon-button:active{transform:scale(.94)}.icon-button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.light-close{justify-self:end;width:39px;height:39px}
+.light-main{position:relative;display:flex;flex:1;min-height:0;align-items:center;justify-content:center;padding:0 80px 12px;touch-action:pan-y}
+.light-main img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;user-select:none}
+.light-nav{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.light-nav button{pointer-events:auto}.light-caption{text-align:center;padding:11px 24px 24px;color:#d7d0c8;font-size:13px}
+
+@media(max-width:700px){html{scroll-padding-top:72px}.top-inner{height:66px;padding:0 16px}.top-title{font-size:20px}.top-side{min-width:75px;gap:6px}.tool span{display:none}.tool{padding:7px}.page{padding:35px 20px 75px}.page h1,.shortcuts{display:none}.group{display:block;margin-bottom:73px;scroll-margin-top:90px}.detail{margin:0 0 25px}.detail h2{font-size:26px;letter-spacing:.03em}.detail p{max-width:none;font-size:15px}.photos,.photo-row{gap:6px}.photo{border-radius:17px}.photo-row.hero-row .photo{aspect-ratio:1.32}.photo-row .photo.portrait{aspect-ratio:.82}.photo-row.portrait-trio .photo.portrait{aspect-ratio:.67}.light-head{padding:9px 14px;min-height:60px}.light-main{padding:0 10px 8px}.light-nav{padding:0 5px}.icon-button{width:38px;height:38px;background:rgba(24,24,24,.56)}.icon-button svg{width:20px;height:20px}.light-caption{padding:8px 12px 22px}}
+
+/* 親子遊戲區：圖1左側跨兩列，圖2右上、圖3右下。 */
+.photos.kids-layout {display:grid;grid-template-columns:1.08fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:8px;aspect-ratio:1.58;}
+.kids-layout .photo {width:100%;height:100%;min-height:0;aspect-ratio:auto!important;flex:none;border-radius:4px;}
+.kids-layout .photo:nth-child(1) {grid-column:1;grid-row:1 / 3;}
+.kids-layout .photo:nth-child(2) {grid-column:2;grid-row:1;}
+.kids-layout .photo:nth-child(3) {grid-column:2;grid-row:2;}
+@media(max-width:700px){
+ .photos.kids-layout {gap:6px;aspect-ratio:1.08;}
+ .kids-layout .photo {border-radius:17px;}
+}
+
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.photo img{transition:none}}
+
+
+/* 與最新版 index.html 完全相同的 Top Bar 規格 */
+.site-top-bar{line-height:1.8}
+.site-top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(56, 52, 45, 0.96);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(8px);
+      transition: transform 0.28s ease;
+      will-change: transform;
+    }
+.site-top-bar.is-hidden {
+      transform: translateY(-100%);
+    }
+.site-nav-inner {
+      max-width: var(--content-width);
+      min-height: 68px;
+      margin: auto;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+.site-brand {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+.site-nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+.site-nav-links a {
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+    }
+.site-nav-links a:hover,
+    .site-nav-links a.active {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.14);
+    }
+.site-nav-links a:hover {
+      transform: translateY(-1px);
+    }
+@media (max-width: 960px) {
+.site-nav-inner {
+        padding: 0 20px;
+      }.site-nav-links {
+        gap: 2px;
+      }.site-nav-links a {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+}
+@media (max-width: 700px) {
+.site-top-bar {
+        position: sticky;
+        top: 0;
+      }.site-nav-inner {
+        min-height: auto;
+        padding: 14px 16px;
+        flex-direction: column;
+        gap: 10px;
+      }.site-brand {
+        font-size: 18px;
+      }.site-nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 4px;
+      }.site-nav-links a {
+        padding: 7px 9px;
+        font-size: 13px;
+      }
+}
+
+@media(max-width:700px){html{scroll-padding-top:125px}.group{scroll-margin-top:135px}.page h1{display:block;text-align:center;font-size:22px;margin:0 0 40px}}
+
+/* 相簿結尾邀請區：沿用全站照片背景與白色行動按鈕 */
+.gallery-callout {
+  margin-top:70px;
+  padding:52px 30px;
+  border-radius:22px;
+  color:#fff;
+  text-align:center;
+  background:linear-gradient(rgba(46,40,33,.70),rgba(46,40,33,.80)),
+             url("images/gallery-hero.jpg") center / cover no-repeat;
+  box-shadow:0 14px 38px rgba(59,49,39,.10);
+}
+.gallery-callout h2 {margin:0 0 10px;font-size:clamp(28px,5vw,38px);line-height:1.35;}
+.gallery-callout p {max-width:680px;margin:0 auto;color:rgba(255,255,255,.90);line-height:1.8;}
+.gallery-callout .gallery-price-button {
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:24px;padding:13px 22px;border-radius:10px;
+  color:#38342d;background:#fff;text-decoration:none;font-weight:700;
+  transition:background-color .2s ease,transform .2s ease;
+}
+.gallery-callout .gallery-price-button:hover {background:#f1ece4;transform:translateY(-2px);}
+.gallery-callout .gallery-price-button:focus-visible {outline:3px solid #fff;outline-offset:4px;}
+@media(max-width:700px) {
+  .gallery-callout {margin-top:42px;padding:38px 22px;}
+  .gallery-callout .gallery-price-button {width:100%;margin-top:23px;}
+}
+
+/* 與全站其他頁面一致的頁尾 */
+footer {padding:34px 24px;color:rgba(255,255,255,.82);background-color:#38342d;text-align:center;font-size:14px;line-height:1.8;}
+footer strong {display:block;margin-bottom:4px;color:white;font-size:16px;}
+
+/* 其他相片專屬版型：以清晰呈現橫直照片為優先 */
+.photos.other-layout .photo-row.other-hero .photo{aspect-ratio:4 / 3;}
+.photos.other-layout .photo-row.other-portraits .photo{flex:1 1 0;aspect-ratio:3 / 4;}
+@media(max-width:700px){
+  .photos.other-layout .photo-row.other-hero .photo{aspect-ratio:4 / 3;}
+  .photos.other-layout .photo-row.other-portraits .photo{aspect-ratio:3 / 4;}
+}
+
+</style>
+</head>
+<body>
+<nav class="site-top-bar" aria-label="網站主選單">
+  <div class="site-nav-inner">
+    <a class="site-brand" href="index.html">湖內三層雲</a>
+    <div class="site-nav-links">
+      <a href="index.html">民宿首頁</a>
+      <a href="rooms.html">房型介紹</a>
+      <a href="amenities.html">館內設施</a>
+      <a href="attractions.html">交通景點</a>
+      <a href="food.html">美食推薦</a>
+      <a href="rules.html">旅宿公約</a>
+      <a href="index.html#price">查看房價</a>
+      <a class="active" href="gallery.html" aria-current="page">瀏覽相片</a>
+    </div>
+  </div>
+</nav>
+<main class="page"><h1>瀏覽相片</h1><nav class="shortcuts" id="shortcuts" aria-label="快速選擇空間"></nav><div id="galleries"></div>
+<section class="gallery-callout" aria-labelledby="gallery-callout-title">
+  <h2 id="gallery-callout-title">此刻瀏覽的是下一段回憶的開始</h2>
+  <p>看過三層雲的每個角落，期待與你相聚。</p>
+  <a class="gallery-price-button" href="index.html#price">查看包棟房價 <span aria-hidden="true">→</span></a>
+</section>
+</main>
+<footer>
+  <strong>湖內三層雲</strong>
+  高雄湖內包棟住宿｜鄰近台南與高雄熱門景點
+</footer>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="照片放大檢視"><div class="light-head"><span class="light-title" id="light-title">湖內三層雲</span><span class="light-counter" id="light-count"></span><button class="icon-button light-close" id="close" aria-label="關閉相片"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><div class="light-main"><img id="light-img" alt=""><div class="light-nav"><button class="icon-button prev" id="prev" aria-label="上一張"><svg viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7"/></svg></button><button class="icon-button next" id="next" aria-label="下一張"><svg viewBox="0 0 24 24"><path d="m9.5 5 7 7-7 7"/></svg></button></div></div><div class="light-caption" id="light-caption"></div></div>
+<script>
+/* 與首頁一致：手機向下捲動隱藏 Top Bar，向上捲動恢復。 */
+(function(){
+ 'use strict';
+ const topBar=document.querySelector('.site-top-bar');
+ let lastScrollY=window.scrollY;
+ let ticking=false;
+ function updateMobileTopBar(){
+  if(!topBar||window.innerWidth>700){
+   if(topBar)topBar.classList.remove('is-hidden');
+   lastScrollY=window.scrollY;
+   ticking=false;
+   return;
+  }
+  const currentScrollY=window.scrollY;
+  const delta=currentScrollY-lastScrollY;
+  if(currentScrollY<=8)topBar.classList.remove('is-hidden');
+  else if(delta>6)topBar.classList.add('is-hidden');
+  else if(delta< -6)topBar.classList.remove('is-hidden');
+  lastScrollY=currentScrollY;
+  ticking=false;
+ }
+ window.addEventListener('scroll',function(){
+  if(!ticking){window.requestAnimationFrame(updateMobileTopBar);ticking=true;}
+ },{passive:true});
+ window.addEventListener('resize',function(){
+  if(window.innerWidth>700&&topBar)topBar.classList.remove('is-hidden');
+  lastScrollY=window.scrollY;
+ });
+})();
+/* 縮圖優先：images/thumbs/同檔名，若不存在則退回 images/原圖。
+   點開大圖永遠使用 images/原圖。
+   沿用原網站既有圖片命名。設施類：第1張 base.jpg，第2張起 base-2.jpg。
+   房型類：第1張 room-1f-1.jpg，後續 room-1f-2.jpg ...。
+   「其他相片」採 images/other-1.jpg、other-2.jpg ...，連續編號即可。 */
+const groups=[
+ {title:'客廳',base:'living-room',count:3,unsuffixed:true,desc:'寬敞的公共空間，與親友自在相聚。'},
+ {title:'廚房',base:'kitchen',count:6,unsuffixed:true,desc:'中島備餐區與各式便利廚房設備。'},
+ {title:'車庫',base:'parking-garage',count:1,unsuffixed:true,desc:'專屬停車空間。'},
+ {title:'親子遊戲區',base:'kids-playroom',count:3,unsuffixed:true,desc:'親子同樂的遊戲空間。'},
+ {title:'1F四人房',base:'room-1f',count:6,desc:'兩張雙人床，附獨立衛浴。'},
+ {title:'2F四人房',base:'room-2f',count:6,desc:'一張雙人床與兩張單人床，附獨立衛浴。'},
+ {title:'3F六人房',base:'room-3f',count:6,desc:'六人房，附獨立衛浴。'},
+ {title:'烤肉區',base:'bbq-area',count:4,unsuffixed:true,desc:'戶外烤肉與相聚空間。'},
+ {title:'交誼室',base:'mahjong-room',count:2,unsuffixed:true,desc:'三樓交誼空間。'},
+ {title:'其他相片',base:'other',count:5,auto:true,desc:'更多館內細節與戶外空間。'}
+];
+const filename=(g,n)=>`images/${g.base}${g.unsuffixed&&n===1?'':'-'+n}.jpg`;
+// 縮圖與原圖共用檔名；縮圖不存在時自動改讀原圖。
+const thumbnail=(g,n)=>filename(g,n).replace('images/','images/thumbs/');
+function setThumbnail(img,original,onOriginalMissing){
+ let switched=false;
+ img.addEventListener('error',()=>{
+  if(!switched){switched=true;img.src=original;}
+  else if(onOriginalMissing)onOriginalMissing();
+ });
+}
+const galleries=document.getElementById('galleries'),shortcuts=document.getElementById('shortcuts');
+let activePhotos=[],activeIndex=0,lastFocus=null;
+const verticals={'親子遊戲區':[1,3],'廚房':[4,6],'2F四人房':[5],'3F六人房':[5],'烤肉區':[1,3,4],'其他相片':[1,3,4,5]};
+const isPortrait=(g,n)=>(verticals[g.title]||[]).includes(n);
+function makeRow(photos,kind='pair') {const row=document.createElement('div');row.className='photo-row '+kind;photos.forEach(p=>row.append(p));return row;}
+function populate(g){
+ const node=g.photosNode;node.replaceChildren();
+ const nums=Array.from({length:g.count},(_,i)=>i+1);
+ node.classList.toggle('kids-layout',g.base==='kids-playroom'&&g.count===3);
+ if(!nums.length)return;
+ // 其他相片：餐桌橫幅、吊燈與衛浴直式並排、戶外兩張直式並排。
+ if(g.base==='other'&&g.count>=5){
+  node.classList.add('other-layout');
+  node.append(makeRow([tile(g,2)],'other-hero'));
+  node.append(makeRow([tile(g,1),tile(g,3)],'other-portraits'));
+  node.append(makeRow([tile(g,4),tile(g,5)],'other-portraits'));
+  const remaining=nums.filter(n=>n>5);
+  while(remaining.length)node.append(makeRow(remaining.splice(0,2).map(n=>tile(g,n)),'pair'));
+  return;
+ }
+ if(g.base==='kids-playroom'&&g.count===3){
+  [1,2,3].forEach(n=>node.append(tile(g,n)));
+  return;
+ }
+ // 以清楚易讀的照片組合為優先：用第一張橫圖當主視覺，其餘直圖優先配對。
+ const hero=nums.find(n=>!isPortrait(g,n));
+ if(hero!==undefined && nums.length>=3){node.append(makeRow([tile(g,hero)],'hero-row'));nums.splice(nums.indexOf(hero),1)}
+ const portraits=nums.filter(n=>isPortrait(g,n));const landscapes=nums.filter(n=>!isPortrait(g,n));
+ while(portraits.length>=3){node.append(makeRow(portraits.splice(0,3).map(n=>tile(g,n)),'portrait-trio'))}
+ while(portraits.length>=2){node.append(makeRow(portraits.splice(0,2).map(n=>tile(g,n)),'portrait-pair'))}
+ if(portraits.length){const chosen=[portraits.shift()];if(landscapes.length)chosen.push(landscapes.shift());node.append(makeRow(chosen.map(n=>tile(g,n)),'mixed'))}
+ while(landscapes.length){node.append(makeRow(landscapes.splice(0,2).map(n=>tile(g,n)),'pair'))}
+}
+
+function tile(g,n){
+ const button=document.createElement('button');button.className='photo '+(isPortrait(g,n)?'portrait':'landscape');button.type='button';button.dataset.group=g.title;button.dataset.num=n;button.setAttribute('aria-label',`${g.title}第${n}張照片，點擊放大`);
+ const img=document.createElement('img');const original=filename(g,n);img.alt=`湖內三層雲${g.title}第${n}張照片`;img.loading=n===1?'eager':'lazy';img.decoding='async';
+ setThumbnail(img,original,()=>{button.dataset.missing='true';button.remove();const shortcut=document.querySelector(`[data-shortcut="${g.base}"]`);if(n===1&&shortcut)shortcut.style.display='none';updateLightboxCount();});
+ img.src=thumbnail(g,n);button.append(img);button.addEventListener('click',()=>openLightbox(button));return button
+}
+
+function render(){groups.forEach((g,i)=>{const section=document.createElement('section');section.className='group';section.id='space-'+i;const detail=document.createElement('div');detail.className='detail';const heading=document.createElement('h2');heading.textContent=g.title;detail.append(heading);if(g.desc){const p=document.createElement('p');p.textContent=g.desc;detail.append(p)}const photos=document.createElement('div');photos.className='photos';g.photosNode=photos;populate(g);section.append(detail,photos);galleries.append(section);if(i<9){const b=document.createElement('button');b.className='shortcut';b.type='button';b.dataset.shortcut=g.base;const img=document.createElement('img');img.alt='';setThumbnail(img,filename(g,1),()=>b.style.display='none');img.src=thumbnail(g,1);const label=document.createElement('span');label.textContent=g.title;b.append(img,label);b.onclick=()=>section.scrollIntoView({behavior:'smooth',block:'start'});shortcuts.append(b)}})}
+render();
+/* 靜態網站無法直接列出資料夾；依序檢查 other-1.jpg、other-2.jpg，遇到首張缺檔即停止。
+   因此其他相片請使用連續編號，中間不要跳號。最多檢查 100 張。 */
+(async()=>{const g=groups.at(-1);for(let n=6;n<=100;n++){const url=filename(g,n);let ok=false;try{const res=await fetch(url,{method:'HEAD'});ok=res.ok&&/^image\//i.test(res.headers.get('content-type')||'image/jpeg')}catch(e){break}if(!ok)break;g.count=n}if(g.count>5)populate(g)})();
+const modal=document.getElementById('lightbox');
+function collectPhotos(){return [...document.querySelectorAll('#galleries button.photo:not([data-missing])')];}
+function updateLightboxCount(){if(!modal.classList.contains('open'))return;const selected=activePhotos[activeIndex];activePhotos=collectPhotos();const pos=activePhotos.indexOf(selected);activeIndex=pos>=0?pos:Math.min(activeIndex,activePhotos.length-1);if(activePhotos.length)showLightbox();else closeLightbox();}
+function openLightbox(source){activePhotos=collectPhotos();activeIndex=activePhotos.indexOf(source);if(activeIndex<0)return;lastFocus=source;modal.classList.add('open');document.body.style.overflow='hidden';showLightbox();document.getElementById('close').focus()}
+function showLightbox(){const b=activePhotos[activeIndex];if(!b)return;const img=b.querySelector('img');document.getElementById('light-img').src=filename(groups.find(g=>g.title===b.dataset.group),Number(b.dataset.num));document.getElementById('light-img').alt=img.alt;document.getElementById('light-count').textContent=`${activeIndex+1}/${activePhotos.length}`;document.getElementById('light-title').textContent=b.dataset.group;document.getElementById('light-caption').textContent=img.alt}
+function move(step){const current=activePhotos[activeIndex];activePhotos=collectPhotos();if(!activePhotos.length)return;const pos=activePhotos.indexOf(current);activeIndex=((pos>=0?pos:activeIndex)+step+activePhotos.length)%activePhotos.length;showLightbox()}
+document.getElementById('light-img').addEventListener('error',()=>{const current=activePhotos[activeIndex];if(current){current.dataset.missing='true';current.remove();}activePhotos=collectPhotos();if(activePhotos.length){activeIndex%=activePhotos.length;showLightbox();}else closeLightbox()});
+function closeLightbox(){modal.classList.remove('open');document.body.style.overflow='';lastFocus?.focus()}
+document.getElementById('close').onclick=closeLightbox;document.getElementById('prev').onclick=()=>move(-1);document.getElementById('next').onclick=()=>move(1);modal.addEventListener('click',e=>{if(e.target===modal)closeLightbox()});document.addEventListener('keydown',e=>{if(!modal.classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1)});
+let touchX=null;document.getElementById('light-img').addEventListener('touchstart',e=>{touchX=e.touches[0].clientX},{passive:true});document.getElementById('light-img').addEventListener('touchend',e=>{if(touchX===null)return;const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>45)move(dx<0?1:-1);touchX=null},{passive:true});
+
+</script>
+</body></html>

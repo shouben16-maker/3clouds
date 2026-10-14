@@ -880,7 +880,15 @@
         padding: 38px 22px;
       }
     }
-  </style>
+  
+/* Top Bar 與 index.html 統一：同一字型、動畫與平板斷點 */
+.top-bar {transition:transform 0.28s ease;}
+@media (min-width:701px) and (max-width:1170px){
+.nav-inner{padding:0 16px;gap:12px}
+.nav-links{gap:2px}
+.nav-links a{padding:8px 8px;font-size:13px}
+}
+</style>
 </head>
 
 <body>
@@ -900,6 +908,7 @@
       <a href="food.html">美食推薦</a>
       <a href="rules.html">旅宿公約</a>
       <a href="index.html#price">查看房價</a>
+      <a href="gallery.html">瀏覽相片</a>
     </div>
 
   </div>
@@ -1327,19 +1336,8 @@
 
       /* 手機版導覽列：累積滾動距離後再隱藏／顯示，避免手指微小回彈造成抖動 */
       const topBar = document.querySelector(".top-bar");
-      const HIDE_THRESHOLD = 50;
-      const SHOW_THRESHOLD = 25;
-      const TOP_RESET_DISTANCE = 12;
-
       let lastScrollY = window.scrollY;
-      let downwardDistance = 0;
-      let upwardDistance = 0;
       let ticking = false;
-
-      function resetScrollDistances() {
-        downwardDistance = 0;
-        upwardDistance = 0;
-      }
 
       function updateMobileTopBar() {
         if (!topBar || window.innerWidth > 700) {
@@ -1347,44 +1345,19 @@
             topBar.classList.remove("is-hidden");
           }
           lastScrollY = window.scrollY;
-          resetScrollDistances();
           ticking = false;
           return;
         }
 
-        const currentScrollY = Math.max(0, window.scrollY);
+        const currentScrollY = window.scrollY;
         const delta = currentScrollY - lastScrollY;
 
-        if (currentScrollY <= TOP_RESET_DISTANCE) {
+        if (currentScrollY <= 8) {
           topBar.classList.remove("is-hidden");
-          resetScrollDistances();
-          lastScrollY = currentScrollY;
-          ticking = false;
-          return;
-        }
-
-        if (delta > 0) {
-          downwardDistance += delta;
-          upwardDistance = 0;
-
-          if (
-            downwardDistance >= HIDE_THRESHOLD &&
-            !topBar.classList.contains("is-hidden")
-          ) {
-            topBar.classList.add("is-hidden");
-            resetScrollDistances();
-          }
-        } else if (delta < 0) {
-          upwardDistance += Math.abs(delta);
-          downwardDistance = 0;
-
-          if (
-            upwardDistance >= SHOW_THRESHOLD &&
-            topBar.classList.contains("is-hidden")
-          ) {
-            topBar.classList.remove("is-hidden");
-            resetScrollDistances();
-          }
+        } else if (delta > 6) {
+          topBar.classList.add("is-hidden");
+        } else if (delta < -6) {
+          topBar.classList.remove("is-hidden");
         }
 
         lastScrollY = currentScrollY;
@@ -1403,11 +1376,10 @@
       );
 
       window.addEventListener("resize", function () {
-        if (topBar && window.innerWidth > 700) {
+        if (window.innerWidth > 700 && topBar) {
           topBar.classList.remove("is-hidden");
         }
         lastScrollY = window.scrollY;
-        resetScrollDistances();
       });
     })();
   </script>
