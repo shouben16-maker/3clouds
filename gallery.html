@@ -177,6 +177,13 @@ footer strong {display:block;margin-bottom:4px;color:white;font-size:16px;}
   .photos.other-layout .photo-row.other-portraits .photo{aspect-ratio:3 / 4;}
 }
 
+
+/* 放大照片時，整個網站 Top Bar 退出顯示與觸控，不受捲動事件影響。 */
+body.gallery-lightbox-open .site-top-bar {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 </style>
 </head>
 <body>
@@ -311,13 +318,60 @@ render();
    因此其他相片請使用連續編號，中間不要跳號。最多檢查 100 張。 */
 (async()=>{const g=groups.at(-1);for(let n=6;n<=100;n++){const url=filename(g,n);let ok=false;try{const res=await fetch(url,{method:'HEAD'});ok=res.ok&&/^image\//i.test(res.headers.get('content-type')||'image/jpeg')}catch(e){break}if(!ok)break;g.count=n}if(g.count>5)populate(g)})();
 const modal=document.getElementById('lightbox');
+// iPhone Safari 僅設定 overflow:hidden 仍可能捲動背景；手機改用固定 body 鎖定。
+let lightboxScrollState=null;
+function lockLightboxBackground(){
+ if(lightboxScrollState)return;
+ const body=document.body;
+ const mobile=window.matchMedia('(max-width: 700px)').matches;
+ lightboxScrollState={
+  y:window.scrollY,
+  mobile,
+  overflow:body.style.overflow,
+  position:body.style.position,
+  top:body.style.top,
+  left:body.style.left,
+  right:body.style.right,
+  width:body.style.width
+ };
+ body.classList.add('gallery-lightbox-open');
+ body.style.overflow='hidden';
+ if(mobile){
+  body.style.position='fixed';
+  body.style.top=`-${lightboxScrollState.y}px`;
+  body.style.left='0';
+  body.style.right='0';
+  body.style.width='100%';
+ }
+}
+function unlockLightboxBackground(){
+ if(!lightboxScrollState)return;
+ const state=lightboxScrollState;
+ lightboxScrollState=null;
+ const body=document.body;
+ body.style.overflow=state.overflow;
+ if(state.mobile){
+  body.style.position=state.position;
+  body.style.top=state.top;
+  body.style.left=state.left;
+  body.style.right=state.right;
+  body.style.width=state.width;
+  // 暫時停用原頁面的平滑捲動，精確返回點開相片前的位置。
+  const html=document.documentElement;
+  const previousScrollBehavior=html.style.scrollBehavior;
+  html.style.scrollBehavior='auto';
+  window.scrollTo(0,state.y);
+  html.style.scrollBehavior=previousScrollBehavior;
+ }
+ body.classList.remove('gallery-lightbox-open');
+}
 function collectPhotos(){return [...document.querySelectorAll('#galleries button.photo:not([data-missing])')];}
 function updateLightboxCount(){if(!modal.classList.contains('open'))return;const selected=activePhotos[activeIndex];activePhotos=collectPhotos();const pos=activePhotos.indexOf(selected);activeIndex=pos>=0?pos:Math.min(activeIndex,activePhotos.length-1);if(activePhotos.length)showLightbox();else closeLightbox();}
-function openLightbox(source){activePhotos=collectPhotos();activeIndex=activePhotos.indexOf(source);if(activeIndex<0)return;lastFocus=source;modal.classList.add('open');document.body.style.overflow='hidden';showLightbox();document.getElementById('close').focus()}
+function openLightbox(source){activePhotos=collectPhotos();activeIndex=activePhotos.indexOf(source);if(activeIndex<0)return;lastFocus=source;lockLightboxBackground();modal.classList.add('open');showLightbox();document.getElementById('close').focus()}
 function showLightbox(){const b=activePhotos[activeIndex];if(!b)return;const img=b.querySelector('img');document.getElementById('light-img').src=filename(groups.find(g=>g.title===b.dataset.group),Number(b.dataset.num));document.getElementById('light-img').alt=img.alt;document.getElementById('light-count').textContent=`${activeIndex+1}/${activePhotos.length}`;document.getElementById('light-title').textContent=b.dataset.group;document.getElementById('light-caption').textContent=img.alt}
 function move(step){const current=activePhotos[activeIndex];activePhotos=collectPhotos();if(!activePhotos.length)return;const pos=activePhotos.indexOf(current);activeIndex=((pos>=0?pos:activeIndex)+step+activePhotos.length)%activePhotos.length;showLightbox()}
 document.getElementById('light-img').addEventListener('error',()=>{const current=activePhotos[activeIndex];if(current){current.dataset.missing='true';current.remove();}activePhotos=collectPhotos();if(activePhotos.length){activeIndex%=activePhotos.length;showLightbox();}else closeLightbox()});
-function closeLightbox(){modal.classList.remove('open');document.body.style.overflow='';lastFocus?.focus()}
+function closeLightbox(){modal.classList.remove('open');unlockLightboxBackground();lastFocus?.focus({preventScroll:true})}
 document.getElementById('close').onclick=closeLightbox;document.getElementById('prev').onclick=()=>move(-1);document.getElementById('next').onclick=()=>move(1);modal.addEventListener('click',e=>{if(e.target===modal)closeLightbox()});document.addEventListener('keydown',e=>{if(!modal.classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1)});
 let touchX=null;document.getElementById('light-img').addEventListener('touchstart',e=>{touchX=e.touches[0].clientX},{passive:true});document.getElementById('light-img').addEventListener('touchend',e=>{if(touchX===null)return;const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>45)move(dx<0?1:-1);touchX=null},{passive:true});
 
