@@ -934,69 +934,6 @@
     @media (max-width: 350px) {
       .hero-actions .button, .about-actions .button { font-size: 12px; letter-spacing: -0.01em; }
     }
-
-    /* 可訂房日曆：沿用首頁暖米、棕色與自然綠色調 */
-    .calendar-section {
-      background: #eee8df;
-      scroll-margin-top: 85px;
-      padding: 80px 28px 95px;
-    }
-    .calendar-inner { max-width: var(--content-width); margin: 0 auto; }
-    .calendar-section .section-heading { margin-bottom: 22px; }
-    .cal-hint { margin: 0 auto 25px; text-align: center; color: var(--text-light); font-size: 14px; }
-    .cal-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 24px; margin: 0 0 28px; font-size: 14px; color: #625b52; }
-    .cal-legend span { display: inline-flex; gap: 8px; align-items: center; }
-    .cal-symbol { width: 17px; height: 17px; border: 1px solid #cbbfae; border-radius: 5px; background: #fff; display: inline-block; flex: 0 0 auto; }
-    .cal-symbol.closed { color: #a49d96; border-color: #ddd6cd; }
-    .cal-symbol.booked { color: #a49d96; border-color: #ddd6cd; position: relative; }
-    .cal-symbol.booked::after { content: '/'; position: absolute; left: 6px; top: -7px; color: #928980; font-size: 23px; }
-    .cal-symbol.selected { border-radius: 50%; background: #38342d; border-color: #38342d; }
-    .cal-months { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; max-width: 640px; margin: 0 auto; }
-    .cal-month { background: #fff; padding: 28px 29px 31px; border: 1px solid var(--border); border-radius: 18px; box-shadow: 0 8px 22px rgba(59, 49, 39, .055); min-width: 0; }
-    .cal-month h3 { margin: 0; text-align: center; font-size: 21px; font-weight: 700; letter-spacing: .04em; color: #39342e; }
-    .cal-month-heading { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 9px; margin: 0 0 20px; }
-    .cal-nav-button { width: 40px; height: 40px; border: 1px solid #ded2c1; border-radius: 50%; background: #fff; color: #3c3831; font-size: 23px; cursor: pointer; transition: border-color .18s, background .18s; }
-    .cal-nav-button:hover:not(:disabled) { background: #f6f1e9; border-color: #ad9c83; }
-    .cal-nav-button:disabled { opacity: .25; cursor: default; }
-    .cal-adjacent-month { position: absolute; right: 4px; bottom: 2px; font-size: 9px; font-weight: 400; color: #b0a69a; pointer-events: none; }
-    .cal-day.is-adjacent { border-style: dashed; border-color: #e9e4dd; }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 7px; }
-    .cal-weekday { display: flex; height: 29px; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #81776e; }
-    .cal-empty { min-height: 43px; }
-    .cal-day { display: flex; align-items: center; justify-content: center; height: 43px; width: 100%; padding: 0; border: 1px solid transparent; border-radius: 9px; color: #37332e; background: #fff; font: 700 15px/1 Arial, sans-serif; cursor: pointer; position: relative; transition: background .18s, border-color .18s; }
-    .cal-day:hover:not(:disabled) { border-color: #b1a08b; }
-    .cal-day:focus-visible { outline: 3px solid #9eb695; outline-offset: 1px; }
-    .cal-day:disabled { cursor: default; }
-    .cal-day.is-unavailable { background: #fff; color: #a49d96; }
-    .cal-day.is-blocked, .cal-day.is-booked { background: #fff; color: #a49d96; }
-    .cal-day.is-booked::after, .cal-day.is-blocked::after { content: '/'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #9d968e; font-weight: 400; pointer-events: none; }
-    .cal-day.is-outside-limit { color: #c7c0b8; }
-    .cal-day.is-in-range { background: #fff; box-shadow: inset 0 -3px #bed2b7; }
-    .cal-day.is-start, .cal-day.is-end, .cal-day.is-start:hover, .cal-day.is-end:hover { color: #fff; background: #38342d; border-color: #38342d; border-radius: 50%; box-shadow: none; }
-    .cal-day.is-start::after, .cal-day.is-end::after { display: none; }
-    .cal-day.is-start .cal-adjacent-month, .cal-day.is-end .cal-adjacent-month { color: #fff; }
-    .cal-feedback { text-align: center; padding: 24px 18px 12px; }
-    .cal-result { margin: 0; white-space: pre-line; font-size: 17px; line-height: 2; color: #665c50; font-weight: 700; }
-    .cal-result.has-availability { color: #4a744b; }
-    .cal-result.is-error { color: #a7463a; }
-    .cal-action-row { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; margin: 19px 0 0; }
-    .cal-action-row [hidden] { display: none !important; }
-    .cal-clear, .cal-copy { font: 700 14px Arial, sans-serif; border-radius: 9px; border: 1px solid rgba(139,111,71,.28); padding: 13px 17px; color: var(--primary-dark); background: white; cursor: pointer; }
-    .cal-copy:hover, .cal-clear:hover { background: #f5efe7; }
-    .cal-action-row .button { font-size: 15px; min-height: 44px; }
-    @media (max-width: 760px) {
-      .calendar-section { padding: 58px 16px 68px; scroll-margin-top: 105px; }
-      .cal-months { grid-template-columns: 1fr; gap: 17px; max-width: 520px; margin: 0 auto; }
-      .cal-month { padding: 25px 22px 29px; }
-    }
-    @media (max-width: 380px) {
-      .calendar-section { padding-left: 10px; padding-right: 10px; }
-      .cal-month { padding-left: 12px; padding-right: 12px; }
-      .cal-grid { gap: 4px; }
-      .cal-day { height: 41px; font-size: 14px; }
-      .cal-empty { min-height: 41px; }
-      .cal-legend { gap: 9px 14px; font-size: 12px; }
-    }
   </style>
 </head>
 
@@ -1287,7 +1224,6 @@
           LINE 聯絡我們
           <span aria-hidden="true">→</span>
         </a>
-        <a class="button button-outline" href="#Calendar">查看可訂房日期 <span aria-hidden="true">→</span></a>
       </div>
 
     </div>
@@ -1297,36 +1233,6 @@
 
 
 
-    <!-- 頁尾：可訂房日期查詢，網址為 index.html#Calendar -->
-    <section class="calendar-section" id="Calendar" aria-labelledby="calendarTitle">
-      <div class="calendar-inner">
-        <div class="section-heading">
-          <span class="section-label">AVAILABILITY CALENDAR</span>
-          <h2 id="calendarTitle">可訂房日期查詢</h2>
-          <p>挑選入住與退房日期，讓旅程安排更輕鬆。</p>
-        </div>
-        <div class="cal-legend" aria-label="日曆圖例">
-          <span><i class="cal-symbol"></i>黑字：可入住</span>
-          <span><i class="cal-symbol closed"></i>灰字：不可入住、可退房</span>
-          <span><i class="cal-symbol booked"></i>灰字＋／：不可入住亦不可退房／已訂房</span>
-          <span><i class="cal-symbol selected"></i>圈選日期</span>
-        </div>
-        <div class="cal-months" id="calendarMonths" aria-live="off"></div>
-        <div class="cal-feedback" aria-live="polite">
-          <p id="calendarResult" class="cal-result">正在讀取最新可訂房日期…</p>
-          <div class="cal-action-row">
-            <button type="button" id="calendarClear" class="cal-clear" hidden>重新選擇</button>
-            <button type="button" id="calendarNextMonthCheckout" class="cal-copy" hidden></button>
-            <button type="button" id="calendarCopy" class="cal-copy" hidden>複製日期詢問內容</button>
-            <a class="button button-line" id="calendarInquiry" href="https://lin.ee/5y4sJqF" target="_blank" rel="noopener noreferrer" hidden>
-              <span class="line-mark" aria-hidden="true">LINE</span>洽詢三層雲管家 <span aria-hidden="true">→</span>
-            </a>
-          </div>
-          <p class="cal-hint" id="calendarLoadStatus">正在確認開放日期…</p>
-          <p class="cal-hint">黑字為可入住；灰字可代表僅能退房，灰字加斜線代表不可入住也不可退房或已訂房。切換月份時保留已選日期，當月上方可點選上月最後一週（若在開放範圍內）。</p>
-        </div>
-      </div>
-    </section>
   </main>
 
   <div
@@ -1474,6 +1380,5 @@
 
 
 
-  <script src="calendar.js"></script>
 </body>
 </html>
