@@ -1,7 +1,7 @@
 /* 湖內三層雲｜共用日曆邏輯。所有日期使用台灣日曆日期（YYYY-MM-DD）。 */
 (function (global) {
   'use strict';
-  const DEFAULT_SETTINGS = Object.freeze({ monthsAhead: 4, startMonthOffset: 1 });
+  const DEFAULT_SETTINGS = Object.freeze({ monthsAhead: 5, startMonthOffset: 1 });
   const CHINESE_WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
 
   function dateKey(year, month, day) {
@@ -37,7 +37,7 @@
     const t = parseDate(today);
     if (!t) return [];
     const s = Object.assign({}, DEFAULT_SETTINGS, settings || {});
-    const count = Math.min(12, Math.max(1, Number(s.monthsAhead) || 4));
+    const count = Math.min(5, Math.max(1, Number(s.monthsAhead) || 5));
     const offset = s.startMonthOffset === 0 ? 0 : 1;
     const start = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + offset, 1));
     return Array.from({length: count}, (_, i) => {
@@ -53,7 +53,7 @@
     if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return base;
     const settings = raw.settings || {};
     const months = Number(settings.monthsAhead);
-    base.settings.monthsAhead = Number.isInteger(months) && months >= 1 && months <= 12 ? months : 4;
+    base.settings.monthsAhead = Number.isInteger(months) && months >= 1 ? Math.min(5, months) : 5;
     base.settings.startMonthOffset = settings.startMonthOffset === 0 ? 0 : 1;
     const dates = raw.dates && typeof raw.dates === 'object' && !Array.isArray(raw.dates) ? raw.dates : {};
     Object.entries(dates).forEach(([day, entry]) => {
@@ -102,12 +102,28 @@
     const days = new Date(Date.UTC(year, month, 0)).getUTCDate();
     return Array.from({length: days}, (_, i) => dateKey(year, month, i + 1));
   }
-  function createMonth(year, month, cellForDate) {
+  // 單月檢視：月份切換在同一張日曆中完成，並保留上月最後一週作跨月點選。
+  function createMonth(year, month, cellForDate, controls = {}) {
     const article = document.createElement('article');
     article.className = 'cal-month';
+    const heading = document.createElement('div');
+    heading.className = 'cal-month-heading';
     const title = document.createElement('h3');
     title.textContent = `${year} 年 ${month} 月`;
-    article.append(title);
+    if (controls.navigation) {
+      const previous = document.createElement('button');
+      previous.type = 'button'; previous.className = 'cal-nav-button cal-nav-prev';
+      previous.textContent = '<'; previous.disabled = !controls.canPrev;
+      previous.setAttribute('aria-label', '上一個月份');
+      if (controls.canPrev) previous.addEventListener('click', controls.onPrev);
+      const next = document.createElement('button');
+      next.type = 'button'; next.className = 'cal-nav-button cal-nav-next';
+      next.textContent = '>'; next.disabled = !controls.canNext;
+      next.setAttribute('aria-label', '下一個月份');
+      if (controls.canNext) next.addEventListener('click', controls.onNext);
+      heading.append(previous, title, next);
+    } else heading.append(title);
+    article.append(heading);
     const grid = document.createElement('div');
     grid.className = 'cal-grid';
     grid.setAttribute('role', 'group');
@@ -118,17 +134,42 @@
       head.textContent = day;
       grid.append(head);
     });
-    const firstDayOfWeek = new Date(Date.UTC(year, month - 1, 1)).getUTCDay();
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      const blank = document.createElement('span');
-      blank.className = 'cal-empty';
-      blank.setAttribute('aria-hidden', 'true');
-      grid.append(blank);
+    if (controls.adjacent) {
+      const first = new Date(Date.UTC(year, month - 1, 1));
+      const weekdayOffset = first.getUTCDay();
+      // 往前多一整週：即使 1 號在星期日，仍能看到前月最後一週。
+      const countPrevious = weekdayOffset + 7;
+      const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+      const currentCount = countPrevious + lastDay;
+      const countNext = (7 - (currentCount % 7)) % 7;
+      for (let i = -countPrevious; i < lastDay + countNext; i++) {
+        const d = new Date(Date.UTC(year, month - 1, i + 1));
+        const key = keyFromUTC(d);
+        const adjacent = i < 0 || i >= lastDay;
+        const day = cellForDate(key, adjacent);
+        if (adjacent) {
+          day.classList.add('is-adjacent');
+          const sub = document.createElement('span');
+          sub.className = 'cal-adjacent-month';
+          sub.textContent = `${d.getUTCMonth() + 1}月`;
+          day.append(sub);
+        }
+        grid.append(day);
+      }
+    } else {
+      const firstDayOfWeek = new Date(Date.UTC(year, month - 1, 1)).getUTCDay();
+      for (let i = 0; i < firstDayOfWeek; i++) {
+        const blank = document.createElement('span');
+        blank.className = 'cal-empty';
+        blank.setAttribute('aria-hidden', 'true');
+        grid.append(blank);
+      }
+      monthKeys(year, month).forEach(key => grid.append(cellForDate(key, false)));
     }
-    monthKeys(year, month).forEach(key => grid.append(cellForDate(key)));
     article.append(grid);
     return article;
   }
+
   global.CloudCalendar = {dateKey, parseDate, nextDay, todayTaiwan, weekday, monthList,
     emptyData, normalize, getStatus, checkRange, rangeNights, displayDate, createMonth, monthKeys};
 })(window);
@@ -146,7 +187,7 @@
   const clearEl = document.getElementById('calendarClear');
   const copyEl = document.getElementById('calendarCopy');
   const nextCheckoutEl = document.getElementById('calendarNextMonthCheckout');
-  let data = null, start = null, end = null, feedback = '';
+  let data = null, start = null, end = null, feedback = '', monthIndex = 0;
   const today = C.todayTaiwan();
 
   function choose(key) {
@@ -168,48 +209,59 @@
     if (!data) return;
     monthsEl.replaceChildren();
     const visibleMonths = C.monthList(data.settings, today);
-    visibleMonths.forEach(({year, month}) => {
-      monthsEl.append(C.createMonth(year, month, key => {
-        const state = C.getStatus(key, data);
-        const inPast = key < today;
-        const canStay = !inPast && state.stay === 'open';
-        const canExit = start && !end && key > start && C.checkRange(start, key, data, today);
-        const selectable = canStay || canExit;
-        const cell = document.createElement('button');
-        cell.type = 'button';
-        cell.className = 'cal-day';
-        cell.textContent = String(Number(key.slice(-2)));
-        cell.dataset.date = key;
-        cell.disabled = !selectable;
-        const selectedA = key === start, selectedB = key === end;
-        const inRange = !!(start && end && key > start && key < end);
-        if (inPast) cell.classList.add('is-unavailable');
-        else if (state.stay === 'booked') cell.classList.add('is-booked');
-        else if (state.stay === 'closed') cell.classList.add('is-unavailable');
-        if (canExit && !canStay) cell.classList.add('is-exit-option');
-        if (inRange) cell.classList.add('is-in-range');
-        if (selectedA) cell.classList.add('is-start');
-        if (selectedB) cell.classList.add('is-end');
-        if (selectable) {
-          cell.addEventListener('click', () => choose(key));
-          cell.title = canExit && !canStay ? `${key}：可作退房日` : `${key}：可選擇入住`;
-        }
-        cell.setAttribute('aria-label', `${C.displayDate(key)}，${selectedA ? '入住日' : selectedB ? '退房日' : state.stay === 'booked' ? '已訂房' : !selectable ? '不可選擇' : canExit && !canStay ? '可退房' : '可入住'}`);
-        cell.setAttribute('aria-pressed', selectedA || selectedB ? 'true' : 'false');
-        return cell;
-      }));
-    });
-    // 最後一個開放月份的月底入住，也可選擇翌月第一天退房。
-    // 不額外顯示第五個月，避免改變「四個完整月份」的版面。
-    const last = visibleMonths[visibleMonths.length - 1];
-    if (last) {
-      const extraCheckout = C.dateKey(last.month === 12 ? last.year + 1 : last.year, last.month === 12 ? 1 : last.month + 1, 1);
-      const canExitBeyondCalendar = start && !end && C.checkRange(start, extraCheckout, data, today);
-      nextCheckoutEl.hidden = !canExitBeyondCalendar;
-      if (canExitBeyondCalendar) {
-        nextCheckoutEl.textContent = `選擇 ${C.displayDate(extraCheckout)} 退房`;
-        nextCheckoutEl.onclick = () => { end = extraCheckout; feedback = ''; render(); };
+    if (!visibleMonths.length) return;
+    monthIndex = Math.max(0, Math.min(monthIndex, visibleMonths.length - 1));
+    const {year, month} = visibleMonths[monthIndex];
+    const firstAllowed = C.dateKey(visibleMonths[0].year, visibleMonths[0].month, 1);
+    const lastMonth = visibleMonths[visibleMonths.length - 1];
+    const lastDay = new Date(Date.UTC(lastMonth.year, lastMonth.month, 0)).getUTCDate();
+    const lastAllowed = C.dateKey(lastMonth.year, lastMonth.month, lastDay);
+    const lastCheckout = C.nextDay(lastAllowed);
+    const dayCell = (key, adjacent) => {
+      const state = C.getStatus(key, data);
+      const inPast = key < today;
+      const canStay = !inPast && key >= firstAllowed && key <= lastAllowed && state.stay === 'open';
+      const canExit = !!(start && !end && key > start && key <= lastCheckout && C.checkRange(start, key, data, today));
+      const selectable = canStay || canExit;
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'cal-day';
+      cell.textContent = String(Number(key.slice(-2)));
+      cell.dataset.date = key;
+      cell.disabled = !selectable;
+      const selectedA = key === start, selectedB = key === end;
+      const inRange = !!(start && end && key > start && key < end);
+      if (inPast || (key < firstAllowed && !selectedA && !selectedB)) cell.classList.add('is-unavailable');
+      else if (state.stay === 'booked') cell.classList.add('is-booked');
+      else if (state.stay === 'closed') {
+        cell.classList.add('is-unavailable');
+        if (state.checkout === 'closed') cell.classList.add('is-blocked');
       }
+      if (key > lastAllowed && !canExit) cell.classList.add('is-outside-limit');
+      if (inRange) cell.classList.add('is-in-range');
+      if (selectedA) cell.classList.add('is-start');
+      if (selectedB) cell.classList.add('is-end');
+      if (selectable) {
+        cell.addEventListener('click', () => choose(key));
+        cell.title = canExit && !canStay ? `${key}：可退房` : `${key}：可入住`;
+      }
+      const reason = state.stay === 'booked' ? '已訂房' : state.stay === 'closed' && state.checkout === 'closed' ? '不可入住、不可退房' : state.stay === 'closed' ? '不可入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
+      cell.setAttribute('aria-label', `${C.displayDate(key)}，${reason}${selectedA ? '，已選入住日' : selectedB ? '，已選退房日' : ''}${!selectable ? '，目前不可點選' : ''}`);
+      cell.setAttribute('aria-pressed', selectedA || selectedB ? 'true' : 'false');
+      return cell;
+    };
+    monthsEl.append(C.createMonth(year, month, dayCell, {
+      navigation: true, adjacent: true,
+      canPrev: monthIndex > 0, canNext: monthIndex < visibleMonths.length - 1,
+      onPrev: () => { monthIndex--; render(); },
+      onNext: () => { monthIndex++; render(); }
+    }));
+    // 當最後一個月份的月底為週六，隔月一日不會進入日曆尾端補齊格，額外提供退房鈕。
+    const canExitBeyondCalendar = !!(start && !end && C.checkRange(start, lastCheckout, data, today));
+    nextCheckoutEl.hidden = !canExitBeyondCalendar || !!monthsEl.querySelector(`.cal-day[data-date="${lastCheckout}"]`);
+    if (!nextCheckoutEl.hidden) {
+      nextCheckoutEl.textContent = `選擇 ${C.displayDate(lastCheckout)} 退房`;
+      nextCheckoutEl.onclick = () => { end = lastCheckout; feedback = ''; render(); };
     }
     clearEl.hidden = !start;
     if (start && end) {
@@ -219,7 +271,7 @@
       copyEl.hidden = false;
     } else {
       msgEl.className = 'cal-result';
-      msgEl.textContent = feedback || (start ? `已選入住 ${C.displayDate(start)}，請再選擇退房日期。` : '請先選擇入住日期，再選擇退房日期。');
+      msgEl.textContent = feedback || (start ? `已選入住 ${C.displayDate(start)}，請切換月份或選擇退房日期；已選日期會保留。` : '請先選擇入住日期，再選擇退房日期。');
       inquiryEl.hidden = true;
       copyEl.hidden = true;
     }

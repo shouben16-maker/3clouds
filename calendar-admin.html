@@ -21,13 +21,31 @@
     .btn{border:0;border-radius:9px;background:var(--primary);color:#fff;padding:11px 20px;font-weight:700}.btn:hover{filter:brightness(.92)}.btn.secondary{background:#ede6da;color:#544737}.btn.publish{background:var(--green)}
     .status{margin:11px 0 0;font-size:14px;color:var(--muted);white-space:pre-wrap}.status.error{color:#aa3e34}.status.ok{color:var(--green)}
     .hint{border-left:4px solid #c6a77a;padding:10px 14px;background:#f4eee4;margin-top:15px;color:#655441;font-size:13px}
-    .legend{display:flex;gap:15px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:12px 0 22px}.legend span{display:inline-flex;gap:6px;align-items:center}.dot{width:13px;height:13px;background:#fff;border:1px solid #b9a58d;border-radius:3px}.dot.closed{background:#e7e4e0}.dot.booked{background:#e0dfdc;position:relative}.dot.booked::after{content:'╱';position:absolute;left:1px;top:-8px;color:#817b75}.dot.selected{background:#38342d;border-radius:50%}
-    .month-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.cal-month{border:1px solid var(--border);background:#fff;border-radius:16px;padding:21px 20px 24px}.cal-month h3{text-align:center;font-size:19px;margin:0 0 18px}.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.cal-weekday{text-align:center;font-size:13px;color:#84796d;font-weight:700;margin-bottom:6px}.cal-empty{min-height:40px}.cal-day{height:43px;min-width:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:9px;background:#fff;color:#3e3933;font-size:15px;font-weight:700}.cal-day:hover{border-color:#9f896a}.cal-day.is-unavailable{background:#eeeae6;color:#817970}.cal-day.is-booked{background:#e3dfd9;color:#6f6b66;position:relative}.cal-day.is-booked::after{content:'╱';position:absolute;font-size:24px;font-weight:400;color:#716b64}.cal-day.is-picked{background:var(--dark);color:#fff;border-color:var(--dark);border-radius:50%}.cal-day.is-picked::after{color:#fff}
+    .legend{display:flex;gap:15px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:12px 0 22px}.legend span{display:inline-flex;gap:6px;align-items:center}.dot{width:13px;height:13px;background:#fff;border:1px solid #b9a58d;border-radius:3px}.dot.closed{background:#fff;border-color:#bbb4ad}.dot.booked{background:#fff;position:relative}.dot.booked::after{content:'/';position:absolute;left:4px;top:-8px;color:#817b75}.dot.selected{background:#38342d;border-radius:50%}
+    .month-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;max-width:680px;margin:auto}
+    .cal-month{border:1px solid var(--border);background:#fff;border-radius:16px;padding:24px 25px 27px}
+    .cal-month-heading{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:9px;margin:0 0 20px}
+    .cal-month h3{text-align:center;font-size:20px;margin:0}
+    .cal-nav-button{height:40px;width:40px;background:#fff;border:1px solid #ded2c1;border-radius:50%;color:#3c3831;font-size:23px}
+    .cal-nav-button:hover:not(:disabled){background:#f6f1e9;border-color:#b7a58e}
+    .cal-nav-button:disabled{opacity:.25;cursor:default}
+    .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+    .cal-weekday{text-align:center;font-size:13px;color:#84796d;font-weight:700;margin-bottom:6px}
+    .cal-empty{min-height:40px}
+    .cal-day{position:relative;height:43px;min-width:0;width:100%;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:9px;background:#fff;color:#3e3933;font-size:15px;font-weight:700}
+    .cal-day:hover{border-color:#9f896a}
+    .cal-day.is-unavailable,.cal-day.is-booked,.cal-day.is-blocked{background:#fff;color:#a49d96}
+    .cal-day.is-booked::after,.cal-day.is-blocked::after{content:'/';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:23px;font-weight:400;color:#9d968e;pointer-events:none}
+    .cal-day.is-adjacent{border:1px dashed #e9e4dd}
+    .cal-adjacent-month{position:absolute;right:4px;bottom:2px;font-size:9px;font-weight:400;color:#b0a69a;pointer-events:none}
+    .cal-day.is-picked{background:var(--dark);color:#fff;border-color:var(--dark);border-radius:50%}
+    .cal-day.is-picked::after{display:none}
+    .cal-day.is-picked .cal-adjacent-month{color:#fff}
     .edit-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px}.edit-panel section{min-width:0}.edit-panel h2{margin:0 0 15px}.current-date{font-weight:700;color:var(--primary);font-size:16px;min-height:27px;margin:0 0 13px}.line{border-left:1px solid var(--border);padding-left:24px}
     .info-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:15px}.info-bar strong{font-size:18px}.info-bar select{max-width:230px}
     .save-bar{position:static;z-index:10;margin-top:24px;padding:16px 22px;background:rgba(56,52,45,.96);color:#fff;border-radius:13px;box-shadow:0 12px 30px rgba(0,0,0,.14);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.save-bar.is-dirty{position:sticky;bottom:14px}.save-bar .status{margin:0;color:#eee}.save-bar .status.error{color:#ffd0c8}
     @media(max-width:800px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.month-grid{grid-template-columns:1fr}.edit-panel{grid-template-columns:1fr}.line{border-left:0;border-top:1px solid var(--border);padding:20px 0 0}}
-    @media(max-width:500px){main{padding:24px 12px 85px}.panel{padding:17px 13px}.fields,.fields.narrow{grid-template-columns:1fr}.top{padding:14px}.month-grid{gap:12px}.cal-month{padding:18px 9px}.cal-grid{gap:3px}.cal-day{height:42px}.save-bar{bottom:8px;padding:12px}}
+    @media(max-width:500px){.edit-panel .fields{grid-template-columns:minmax(0,1fr)!important}main{padding:24px 12px 85px}.panel{padding:17px 13px}.fields,.fields.narrow{grid-template-columns:1fr}.top{padding:14px}.month-grid{gap:12px}.cal-month{padding:18px 9px}.cal-grid{gap:3px}.cal-day{height:42px}.save-bar{bottom:8px;padding:12px}}
   </style>
 </head>
 <body>
@@ -60,19 +78,19 @@
     <div class="panel">
       <h2>② 日曆顯示範圍與預設規則</h2>
       <div class="fields narrow">
-        <label class="field">顯示完整月份數
-          <select id="monthsAhead"><option value="4">4 個月（預設）</option><option value="5">5 個月</option><option value="6">6 個月</option><option value="8">8 個月</option><option value="12">12 個月</option></select>
+        <label class="field">可切換月份數（最多五個月）
+          <select id="monthsAhead"><option value="1">1 個月</option><option value="2">2 個月</option><option value="3">3 個月</option><option value="4">4 個月</option><option value="5">5 個月（新預設／上限）</option></select>
         </label>
         <label class="field">開始月份
           <select id="startMonthOffset"><option value="1">下個月起（預設）</option><option value="0">當月起</option></select>
         </label>
       </div>
-      <p class="help">未特別設定時：星期一～四不能入住；星期二～五不能退房。住宿範圍不能跨過關閉或已訂房的夜晚；退房當日不算住宿夜晚。當月起的選項會包含當月剩餘日期。</p>
+      <p class="help">每次只顯示一個月份，透過左右箭頭切換（最多五個月）；修改設定後需發布才會同步給旅客。星期一～四預設不能入住、星期二～五不能退房；退房日不算住宿夜晚。</p>
     </div>
 
     <div class="panel">
       <div class="info-bar"><strong>③ 選擇要編輯的日期</strong><span class="muted">點日期後在下方設定，也能批次修改一段範圍</span></div>
-      <div class="legend"><span><i class="dot"></i>預設可入住</span><span><i class="dot closed"></i>不可入住</span><span><i class="dot booked"></i>已訂房</span><span><i class="dot selected"></i>編輯中</span></div>
+      <div class="legend"><span><i class="dot"></i>黑字：可入住</span><span><i class="dot closed"></i>灰字：不可入住／可退房</span><span><i class="dot booked"></i>灰字＋／：兩者皆不可或已訂房</span><span><i class="dot selected"></i>編輯中</span></div>
       <div id="adminCalendar" class="month-grid"></div>
     </div>
 
@@ -119,7 +137,7 @@
   (function(){
     'use strict';
     const C = window.CloudCalendar;
-    let data = C.emptyData(), sha = null, connected = false, dirty = false, picked = '';
+    let data = C.emptyData(), sha = null, connected = false, dirty = false, picked = '', monthIndex = 0;
     const ENDPOINT = '/api/calendar-admin';
     const $ = id => document.getElementById(id);
     const status = (el, message, type='') => { el.textContent = message; el.className = `status ${type}`.trim(); };
@@ -129,19 +147,35 @@
     function saveDraftChange(){ document.querySelector('.save-bar').classList.add('is-dirty'); dirty = true; $('publishBtn').disabled = !connected; status($('publishStatus'), connected ? '有未發布修改，請按「發布至網站」。' : '有草稿變更；連接 GitHub 後才可發布。'); }
     function render(){
       $('adminCalendar').replaceChildren();
-      C.monthList(data.settings).forEach(({year,month}) => {
-        $('adminCalendar').append(C.createMonth(year, month, key => {
-          const day = document.createElement('button');
-          day.type = 'button'; day.textContent = String(Number(key.slice(-2))); day.className = 'cal-day';
-          const state = C.getStatus(key,data);
-          if (state.stay === 'closed') day.classList.add('is-unavailable');
-          if (state.stay === 'booked') day.classList.add('is-booked');
-          if (picked === key) day.classList.add('is-picked');
-          day.setAttribute('aria-label', `${C.displayDate(key)}，${state.stay === 'booked' ? '已訂房' : state.stay === 'open' ? '可入住' : '不可入住'}`);
-          day.addEventListener('click', () => { picked = key; showSelected(); render(); });
-          return day;
-        }));
-      });
+      const months = C.monthList(data.settings);
+      if (!months.length) return;
+      monthIndex = Math.max(0, Math.min(monthIndex, months.length - 1));
+      const {year, month} = months[monthIndex];
+      const cell = (key) => {
+        const day = document.createElement('button');
+        day.type = 'button';
+        day.textContent = String(Number(key.slice(-2)));
+        day.className = 'cal-day';
+        day.dataset.date = key;
+        const state = C.getStatus(key,data);
+        if (state.stay === 'booked') day.classList.add('is-booked');
+        else if (state.stay === 'closed') {
+          day.classList.add('is-unavailable');
+          if (state.checkout === 'closed') day.classList.add('is-blocked');
+        }
+        if (picked === key) day.classList.add('is-picked');
+        const reason = state.stay === 'booked' ? '已訂房' : state.stay === 'closed' && state.checkout === 'closed' ? '不可入住、不可退房' : state.stay === 'closed' ? '不可入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
+        day.setAttribute('aria-label', `${C.displayDate(key)}，${reason}`);
+        day.setAttribute('aria-pressed', picked === key ? 'true' : 'false');
+        day.addEventListener('click', () => { picked = key; showSelected(); render(); });
+        return day;
+      };
+      $('adminCalendar').append(C.createMonth(year,month,cell,{
+        navigation:true,adjacent:true,
+        canPrev:monthIndex>0,canNext:monthIndex<months.length-1,
+        onPrev:()=>{monthIndex--;render();},
+        onNext:()=>{monthIndex++;render();}
+      }));
       $('monthsAhead').value = String(data.settings.monthsAhead);
       $('startMonthOffset').value = String(data.settings.startMonthOffset);
     }
@@ -205,7 +239,7 @@
         const result=await api('read');
         data=C.normalize(result.data);
         sha=result.sha;
-        connected=true;dirty=false;picked='';
+        connected=true;dirty=false;picked='';monthIndex=0;
         document.querySelector('.save-bar').classList.remove('is-dirty');
         $('publishBtn').disabled=false;
         render();showSelected();
@@ -236,7 +270,7 @@
     $('logoutBtn').addEventListener('click',async()=>{
       if(dirty&&!confirm('有尚未發布的草稿，確定要登出並捨棄嗎？'))return;
       try{await api('logout',{});}catch(e){status($('connectStatus'),'登出失敗：'+e.message,'error');return;}
-      connected=false;dirty=false;sha=null;data=C.emptyData();picked='';
+      connected=false;dirty=false;sha=null;data=C.emptyData();picked='';monthIndex=0;
       document.querySelector('.save-bar').classList.remove('is-dirty');
       showLoggedIn(false);
       status($('loginStatus'),'已登出，請重新輸入管理密碼。');
