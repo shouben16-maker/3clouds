@@ -35,20 +35,27 @@
   <main>
     <span class="eyebrow">CALENDAR MANAGEMENT</span>
     <h1>可訂房日期管理</h1>
-    <p class="intro">點選日期設定可入住、已訂房或關閉；套用變更後，發布到 GitHub 才會同步給所有旅客。</p>
+    <p class="intro">此頁僅供三層雲管家登入使用。兩位管家共用房況，發布後才會同步更新旅客日曆。</p>
 
-    <div class="panel">
-      <h2>① 連接三層雲 GitHub 房況資料</h2>
-      <div class="fields">
-        <label class="field">GitHub 帳號 <input id="owner" value="shouben16-maker" readonly aria-readonly="true"></label>
-        <label class="field">儲存庫（Repository） <input id="repo" value="3clouds" readonly aria-readonly="true"></label>
-        <label class="field">網站分支 <input id="branch" value="main" readonly aria-readonly="true"></label>
-        <label class="field">GitHub 存取權杖 <input id="token" type="password" placeholder="Fine-grained token" autocomplete="off" spellcheck="false"></label>
+    <div class="panel" id="loginPanel">
+      <h2>管家登入</h2>
+      <p class="help">使用你與搭檔的「管家管理密碼」登入。GitHub Token 僅保存在 Vercel 伺服器設定中，這裡不需要輸入，也不會傳送到瀏覽器。</p>
+      <div class="fields narrow">
+        <label class="field">管家管理密碼
+          <input id="adminPassword" type="password" placeholder="請輸入管理密碼" autocomplete="current-password" spellcheck="false">
+        </label>
       </div>
-      <div class="actions"><button type="button" class="btn" id="connectBtn">載入 GitHub 最新房況</button><span class="muted">Token 不會儲存到網站檔案，也不會留存在瀏覽器長期儲存空間。</span></div>
-      <p id="connectStatus" class="status" role="status">網站：3clouds.vercel.app。儲存庫已設定為 shouben16-maker / 3clouds（main）。輸入 GitHub 權杖後即可載入最新房況。</p>
-      <div class="hint">這個網站部署於 <b>Vercel</b>。房況編輯會提交到 GitHub 的 <b>main</b> 分支，再由 Vercel 自動部署。<br>為維護安全，請使用僅授權 <b>shouben16-maker/3clouds</b> 的 Fine-grained personal access token，權限只需 <b>Contents: Read and write</b>。權杖只在本次操作記憶體中使用，請勿貼給任何人，也不要寫進公開網站檔案。</div>
+      <div class="actions"><button type="button" class="btn" id="loginBtn">登入管理後台</button></div>
+      <p id="loginStatus" class="status" role="status">正在確認登入狀態…</p>
     </div>
+    <div id="managerApp" hidden>
+      <div class="panel">
+        <h2>① 共同管理房況</h2>
+        <p class="help">儲存庫：<strong>shouben16-maker / 3clouds</strong>（main）。你與搭檔使用同一份房況資料；如果對方在你編輯期間已先發布，系統會阻止以舊版資料覆蓋。</p>
+        <div class="actions"><button type="button" class="btn secondary" id="connectBtn">重新載入 GitHub 最新房況</button><button type="button" class="btn secondary" id="logoutBtn">登出後台</button></div>
+        <p id="connectStatus" class="status" role="status">正在載入最新房況…</p>
+        <div class="hint">只有登入後才可以編輯。單一 GitHub Token 儲存在 Vercel 的環境變數，請不要張貼在聊天、網頁原始碼或公開檔案中。</div>
+      </div>
 
     <div class="panel">
       <h2>② 日曆顯示範圍與預設規則</h2>
@@ -105,6 +112,7 @@
       <div><strong>⑥ 發布房況</strong><p id="publishStatus" class="status" role="status">請先載入 GitHub 房況，修改後再發布。</p></div>
       <div class="actions" style="margin:0"><button class="btn publish" id="publishBtn" type="button" disabled>發布至網站</button></div>
     </div>
+    </div><!-- /managerApp -->
   </main>
   <script src="calendar.js"></script>
   <script>
@@ -112,14 +120,12 @@
     'use strict';
     const C = window.CloudCalendar;
     let data = C.emptyData(), sha = null, connected = false, dirty = false, picked = '';
-    let repository = null;
+    const ENDPOINT = '/api/calendar-admin';
     const $ = id => document.getElementById(id);
     const status = (el, message, type='') => { el.textContent = message; el.className = `status ${type}`.trim(); };
     // 網站儲存庫固定：避免管理者不小心把房況發布到別的 GitHub 專案。
-    const REPO = Object.freeze({owner:'shouben16-maker',repo:'3clouds',branch:'main'});
-    $('owner').value = REPO.owner;
-    $('repo').value = REPO.repo;
-    $('branch').value = REPO.branch;
+
+
     function saveDraftChange(){ document.querySelector('.save-bar').classList.add('is-dirty'); dirty = true; $('publishBtn').disabled = !connected; status($('publishStatus'), connected ? '有未發布修改，請按「發布至網站」。' : '有草稿變更；連接 GitHub 後才可發布。'); }
     function render(){
       $('adminCalendar').replaceChildren();
@@ -173,70 +179,94 @@
     $('monthsAhead').addEventListener('change', e=>{data.settings.monthsAhead=Number(e.target.value);render();saveDraftChange();});
     $('startMonthOffset').addEventListener('change',e=>{data.settings.startMonthOffset=Number(e.target.value);render();saveDraftChange();});
 
-    function getConfig(){
-      const {owner,repo,branch}=REPO;
-      if(location.protocol!=='https:' && location.hostname!=='localhost')throw Error('請使用 HTTPS 網址開啟後台（或本機 localhost 預覽）。');
-      const token=$('token').value.trim();
-      if(!token)throw Error('請輸入僅限此儲存庫的 GitHub Token。');
-      return {owner,repo,branch,token};
+    async function api(action, body = null) {
+      const options = body === null ? {method:'GET'} : {
+        method:'POST', headers:{'Content-Type':'application/json'},body:JSON.stringify({...body, action})
+      };
+      const url = ENDPOINT + (body === null ? '?action=' + encodeURIComponent(action) : '');
+      const response = await fetch(url,{...options,credentials:'same-origin',cache:'no-store'});
+      const result = await response.json().catch(()=>({}));
+      if (!response.ok) {
+        const e = new Error(result.error || '伺服器連線失敗');
+        e.code = response.status;
+        throw e;
+      }
+      return result;
     }
-    function gitUrl(config){return `https://api.github.com/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}/contents/calendar-data.json`;}
-    async function request(url, config, options={}){
-      const res=await fetch(url,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${config.token}`,'X-GitHub-Api-Version':'2022-11-28',...(options.headers||{})}});
-      const payload=await res.json().catch(()=>({}));
-      if(!res.ok){const err=new Error(payload.message||`HTTP ${res.status}`);err.code=res.status;throw err;}
-      return payload;
+    function showLoggedIn(isLoggedIn){
+      $('managerApp').hidden=!isLoggedIn;
+      $('loginPanel').hidden=isLoggedIn;
     }
-    function fromBase64(str){
-      const binary=atob(str.replace(/\s/g,''));
-      const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));
-      return new TextDecoder().decode(bytes);
-    }
-    function toBase64(str){
-      const bytes=new TextEncoder().encode(str);
-      let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
-      return btoa(binary);
-    }
-    $('connectBtn').addEventListener('click',async()=>{
-      if(dirty&&!confirm('目前的草稿變更尚未發布，載入 GitHub 資料會覆蓋這些草稿。確定繼續？'))return;
-      let config;
-      try{config=getConfig();}catch(e){status($('connectStatus'),e.message,'error');return;}
-      $('connectBtn').disabled=true; status($('connectStatus'),'正在從 GitHub 讀取最新房況…');
-      try{
-        let payload=null;
-        try{payload=await request(`${gitUrl(config)}?ref=${encodeURIComponent(config.branch)}`,config);}
-        catch(e){if(e.code!==404)throw e;}
-        data=payload?C.normalize(JSON.parse(fromBase64(payload.content))):C.emptyData();
-        sha=payload?payload.sha:null;
-        repository=config; connected=true;dirty=false;picked='';document.querySelector('.save-bar').classList.remove('is-dirty');
+    async function loadLatest(){
+      if(dirty&&!confirm('目前的草稿變更尚未發布，載入最新資料會捨棄你的草稿。確定繼續？'))return;
+      $('connectBtn').disabled=true;
+      status($('connectStatus'),'正在從 GitHub 取得最新房況…');
+      try {
+        const result=await api('read');
+        data=C.normalize(result.data);
+        sha=result.sha;
+        connected=true;dirty=false;picked='';
+        document.querySelector('.save-bar').classList.remove('is-dirty');
         $('publishBtn').disabled=false;
         render();showSelected();
-        status($('connectStatus'),payload?'GitHub 連線成功，已載入最新房況。':'該分支尚無 calendar-data.json，首次發布將建立檔案。','ok');
-        status($('publishStatus'),'已連結 GitHub；目前沒有未發布變更。','ok');
-      }catch(e){connected=false;repository=null;$('publishBtn').disabled=true;status($('connectStatus'),'載入失敗：'+e.message,'error');}
-      finally{$('connectBtn').disabled=false;}
+        status($('connectStatus'),'已載入 GitHub 最新房況，可以開始編輯。','ok');
+        status($('publishStatus'),'目前沒有未發布的修改。','ok');
+      } catch(e) {
+        connected=false;
+        $('publishBtn').disabled=true;
+        status($('connectStatus'),'載入失敗：'+e.message,'error');
+        if(e.code===401){showLoggedIn(false);status($('loginStatus'),'登入已過期，請重新登入。','error');}
+      } finally {$('connectBtn').disabled=false;}
+    }
+    $('connectBtn').addEventListener('click',loadLatest);
+    $('loginBtn').addEventListener('click',async()=>{
+      const password=$('adminPassword').value;
+      if(!password){status($('loginStatus'),'請輸入管家管理密碼。','error');return;}
+      $('loginBtn').disabled=true;
+      status($('loginStatus'),'登入中…');
+      try{
+        await api('login',{password});
+        $('adminPassword').value='';
+        showLoggedIn(true);
+        await loadLatest();
+      }catch(e){status($('loginStatus'),'登入失敗：'+e.message,'error');}
+      finally{$('loginBtn').disabled=false;}
+    });
+    $('adminPassword').addEventListener('keydown', e=>{if(e.key==='Enter')$('loginBtn').click();});
+    $('logoutBtn').addEventListener('click',async()=>{
+      if(dirty&&!confirm('有尚未發布的草稿，確定要登出並捨棄嗎？'))return;
+      try{await api('logout',{});}catch(e){status($('connectStatus'),'登出失敗：'+e.message,'error');return;}
+      connected=false;dirty=false;sha=null;data=C.emptyData();picked='';
+      document.querySelector('.save-bar').classList.remove('is-dirty');
+      showLoggedIn(false);
+      status($('loginStatus'),'已登出，請重新輸入管理密碼。');
     });
     $('publishBtn').addEventListener('click',async()=>{
-      if(!connected||!repository)return;
-      const currentToken=$('token').value.trim();
-      if(currentToken!==repository.token){status($('publishStatus'),'Token 已更換，請重新「載入 GitHub 最新房況」。','error');return;}
-      $('publishBtn').disabled=true;status($('publishStatus'),'正在發布…');
-      try{
-        const body={message:'Update 三層雲可訂房日曆',content:toBase64(JSON.stringify(data,null,2)+'\n'),branch:repository.branch};
-        if(sha)body.sha=sha;
-        const result=await request(gitUrl(repository),repository,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-        sha=result.content.sha;dirty=false;document.querySelector('.save-bar').classList.remove('is-dirty');
-        status($('publishStatus'),'已成功提交到 shouben16-maker/3clouds 的 main 分支！Vercel 重新部署完成後，旅客即可看到更新（通常需數分鐘）。','ok');
-      }catch(e){status($('publishStatus'),`發布失敗：${e.message}${e.code===409?'；房況可能已被其他管理者更新，請先重新載入。':''}`,'error');}
-      finally{$('publishBtn').disabled=!connected;}
+      if(!connected)return;
+      $('publishBtn').disabled=true;
+      status($('publishStatus'),'正在發布…');
+      try {
+        const result=await api('publish',{data,sha});
+        sha=result.sha;
+        dirty=false;
+        document.querySelector('.save-bar').classList.remove('is-dirty');
+        status($('publishStatus'),'已成功發布至 GitHub！Vercel 部署完成後，旅客日曆就會更新。','ok');
+      }catch(e){
+        status($('publishStatus'),'發布失敗：'+e.message,'error');
+        if(e.code===401){showLoggedIn(false);status($('loginStatus'),'登入已過期，請重新登入。','error');}
+      }finally{$('publishBtn').disabled=!connected;}
     });
-    window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
-    // 未連接時只顯示本站同一份 JSON；不把本機草稿視為已發布。
-    fetch(`calendar-data.json?v=${Date.now()}`,{cache:'no-store'})
-      .then(res=>res.ok?res.json():Promise.reject())
-      .then(raw=>{if(!connected&&!dirty){data=C.normalize(raw);render();}})
-      .catch(()=>{});
+    async function restoreSession(){
+      showLoggedIn(false);
+      try {
+        const result=await api('session');
+        if(result.authenticated){showLoggedIn(true);await loadLatest();}
+        else status($('loginStatus'),'請輸入管家管理密碼。');
+      }catch(e){status($('loginStatus'),'系統尚未準備好：'+e.message,'error');}
+    }
     render();
+    restoreSession();
+    window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
   })();
   </script>
 </body>
