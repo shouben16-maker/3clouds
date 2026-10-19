@@ -6,7 +6,8 @@
   },
   "dates": {
     "2026-11-14": {
-      "stay": "booked"
+      "stay": "booked",
+      "checkout": "open"
     }
   }
 }
