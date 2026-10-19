@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "settings": {
+    "monthsAhead": 4,
+    "startMonthOffset": 1
+  },
+  "dates": {}
+}

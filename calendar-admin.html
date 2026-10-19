@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>管家日曆管理｜湖內三層雲</title>
+  <style>
+    :root{--background:#f7f4ef;--surface:#fff;--text:#332f2a;--muted:#766d63;--primary:#8b6f47;--dark:#38342d;--border:#e8dfd4;--green:#4e7047}
+    *{box-sizing:border-box}body{margin:0;background:var(--background);font-family:Arial,"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--text);line-height:1.7}
+    button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}a{color:inherit}
+    .top{background:var(--dark);color:#fff;padding:17px 26px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.top strong{font-size:19px}.top a{text-decoration:none;font-size:14px;opacity:.9}
+    main{max-width:1220px;margin:auto;padding:40px 22px 95px}
+    .eyebrow{font-size:12px;color:var(--primary);letter-spacing:.16em;font-weight:700}h1{margin:2px 0 5px;font-size:clamp(29px,4vw,42px)}.intro{margin:0 0 26px;color:var(--muted)}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 8px 24px rgba(45,37,29,.045)}
+    .panel h2{font-size:20px;margin:0 0 13px}.muted,.help{color:var(--muted);font-size:13px}.help{margin:10px 0 0}
+    .fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.fields.narrow{grid-template-columns:repeat(3,minmax(0,1fr))}
+    label.field{display:flex;flex-direction:column;gap:5px;color:#50483f;font-size:14px;font-weight:700}input,select{border:1px solid #d5c9ba;border-radius:9px;background:#fff;color:var(--text);padding:11px 10px;max-width:100%;min-width:0}
+    input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid #a8c49e;outline-offset:2px}
+    .actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:16px}
+    .btn{border:0;border-radius:9px;background:var(--primary);color:#fff;padding:11px 20px;font-weight:700}.btn:hover{filter:brightness(.92)}.btn.secondary{background:#ede6da;color:#544737}.btn.publish{background:var(--green)}
+    .status{margin:11px 0 0;font-size:14px;color:var(--muted);white-space:pre-wrap}.status.error{color:#aa3e34}.status.ok{color:var(--green)}
+    .hint{border-left:4px solid #c6a77a;padding:10px 14px;background:#f4eee4;margin-top:15px;color:#655441;font-size:13px}
+    .legend{display:flex;gap:15px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:12px 0 22px}.legend span{display:inline-flex;gap:6px;align-items:center}.dot{width:13px;height:13px;background:#fff;border:1px solid #b9a58d;border-radius:3px}.dot.closed{background:#e7e4e0}.dot.booked{background:#e0dfdc;position:relative}.dot.booked::after{content:'╱';position:absolute;left:1px;top:-8px;color:#817b75}.dot.selected{background:#38342d;border-radius:50%}
+    .month-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.cal-month{border:1px solid var(--border);background:#fff;border-radius:16px;padding:21px 20px 24px}.cal-month h3{text-align:center;font-size:19px;margin:0 0 18px}.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.cal-weekday{text-align:center;font-size:13px;color:#84796d;font-weight:700;margin-bottom:6px}.cal-empty{min-height:40px}.cal-day{height:43px;min-width:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:9px;background:#fff;color:#3e3933;font-size:15px;font-weight:700}.cal-day:hover{border-color:#9f896a}.cal-day.is-unavailable{background:#eeeae6;color:#817970}.cal-day.is-booked{background:#e3dfd9;color:#6f6b66;position:relative}.cal-day.is-booked::after{content:'╱';position:absolute;font-size:24px;font-weight:400;color:#716b64}.cal-day.is-picked{background:var(--dark);color:#fff;border-color:var(--dark);border-radius:50%}.cal-day.is-picked::after{color:#fff}
+    .edit-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px}.edit-panel section{min-width:0}.edit-panel h2{margin:0 0 15px}.current-date{font-weight:700;color:var(--primary);font-size:16px;min-height:27px;margin:0 0 13px}.line{border-left:1px solid var(--border);padding-left:24px}
+    .info-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:15px}.info-bar strong{font-size:18px}.info-bar select{max-width:230px}
+    .save-bar{position:static;z-index:10;margin-top:24px;padding:16px 22px;background:rgba(56,52,45,.96);color:#fff;border-radius:13px;box-shadow:0 12px 30px rgba(0,0,0,.14);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.save-bar.is-dirty{position:sticky;bottom:14px}.save-bar .status{margin:0;color:#eee}.save-bar .status.error{color:#ffd0c8}
+    @media(max-width:800px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.month-grid{grid-template-columns:1fr}.edit-panel{grid-template-columns:1fr}.line{border-left:0;border-top:1px solid var(--border);padding:20px 0 0}}
+    @media(max-width:500px){main{padding:24px 12px 85px}.panel{padding:17px 13px}.fields,.fields.narrow{grid-template-columns:1fr}.top{padding:14px}.month-grid{gap:12px}.cal-month{padding:18px 9px}.cal-grid{gap:3px}.cal-day{height:42px}.save-bar{bottom:8px;padding:12px}}
+  </style>
+</head>
+<body>
+  <header class="top"><strong>湖內三層雲｜管家日曆管理</strong><a href="index.html#Calendar" target="_blank" rel="noopener noreferrer">開啟旅客日曆 ↗</a></header>
+  <main>
+    <span class="eyebrow">CALENDAR MANAGEMENT</span>
+    <h1>可訂房日期管理</h1>
+    <p class="intro">點選日期設定可入住、已訂房或關閉；套用變更後，發布到 GitHub 才會同步給所有旅客。</p>
+
+    <div class="panel">
+      <h2>① 連接三層雲 GitHub 房況資料</h2>
+      <div class="fields">
+        <label class="field">GitHub 帳號 <input id="owner" value="shouben16-maker" readonly aria-readonly="true"></label>
+        <label class="field">儲存庫（Repository） <input id="repo" value="3clouds" readonly aria-readonly="true"></label>
+        <label class="field">網站分支 <input id="branch" value="main" readonly aria-readonly="true"></label>
+        <label class="field">GitHub 存取權杖 <input id="token" type="password" placeholder="Fine-grained token" autocomplete="off" spellcheck="false"></label>
+      </div>
+      <div class="actions"><button type="button" class="btn" id="connectBtn">載入 GitHub 最新房況</button><span class="muted">Token 不會儲存到網站檔案，也不會留存在瀏覽器長期儲存空間。</span></div>
+      <p id="connectStatus" class="status" role="status">網站：3clouds.vercel.app。儲存庫已設定為 shouben16-maker / 3clouds（main）。輸入 GitHub 權杖後即可載入最新房況。</p>
+      <div class="hint">這個網站部署於 <b>Vercel</b>。房況編輯會提交到 GitHub 的 <b>main</b> 分支，再由 Vercel 自動部署。<br>為維護安全，請使用僅授權 <b>shouben16-maker/3clouds</b> 的 Fine-grained personal access token，權限只需 <b>Contents: Read and write</b>。權杖只在本次操作記憶體中使用，請勿貼給任何人，也不要寫進公開網站檔案。</div>
+    </div>
+
+    <div class="panel">
+      <h2>② 日曆顯示範圍與預設規則</h2>
+      <div class="fields narrow">
+        <label class="field">顯示完整月份數
+          <select id="monthsAhead"><option value="4">4 個月（預設）</option><option value="5">5 個月</option><option value="6">6 個月</option><option value="8">8 個月</option><option value="12">12 個月</option></select>
+        </label>
+        <label class="field">開始月份
+          <select id="startMonthOffset"><option value="1">下個月起（預設）</option><option value="0">當月起</option></select>
+        </label>
+      </div>
+      <p class="help">未特別設定時：星期一～四不能入住；星期二～五不能退房。住宿範圍不能跨過關閉或已訂房的夜晚；退房當日不算住宿夜晚。當月起的選項會包含當月剩餘日期。</p>
+    </div>
+
+    <div class="panel">
+      <div class="info-bar"><strong>③ 選擇要編輯的日期</strong><span class="muted">點日期後在下方設定，也能批次修改一段範圍</span></div>
+      <div class="legend"><span><i class="dot"></i>預設可入住</span><span><i class="dot closed"></i>不可入住</span><span><i class="dot booked"></i>已訂房</span><span><i class="dot selected"></i>編輯中</span></div>
+      <div id="adminCalendar" class="month-grid"></div>
+    </div>
+
+    <div class="panel edit-panel">
+      <section>
+        <h2>④ 單日編輯</h2>
+        <p id="chosenDate" class="current-date">請先點選上方日曆日期</p>
+        <div class="fields" style="grid-template-columns:1fr 1fr">
+          <label class="field">入住／住宿夜晚
+            <select id="singleStay"><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住</option><option value="booked">已被訂房 ／</option></select>
+          </label>
+          <label class="field">退房
+            <select id="singleCheckout"><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
+          </label>
+        </div>
+        <div class="actions"><button type="button" class="btn secondary" id="applySingle">套用這一天</button><button type="button" class="btn secondary" id="resetSingle">還原星期預設</button></div>
+        <p class="help">退房日可以是預設不能入住的星期一；但該夜晚本身不會因此開放住宿。</p>
+      </section>
+      <section class="line">
+        <h2>⑤ 批次編輯</h2>
+        <div class="fields" style="grid-template-columns:1fr 1fr">
+          <label class="field">開始日期<input id="bulkStart" type="date"></label>
+          <label class="field">結束日期（含）<input id="bulkEnd" type="date"></label>
+          <label class="field">入住／住宿夜晚
+            <select id="bulkStay"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住</option><option value="booked">已被訂房 ／</option></select>
+          </label>
+          <label class="field">退房
+            <select id="bulkCheckout"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
+          </label>
+        </div>
+        <div class="actions"><button type="button" class="btn secondary" id="applyBulk">套用日期範圍</button></div>
+        <p id="editStatus" class="status" role="status">尚未修改。</p>
+      </section>
+    </div>
+
+    <div class="save-bar">
+      <div><strong>⑥ 發布房況</strong><p id="publishStatus" class="status" role="status">請先載入 GitHub 房況，修改後再發布。</p></div>
+      <div class="actions" style="margin:0"><button class="btn publish" id="publishBtn" type="button" disabled>發布至網站</button></div>
+    </div>
+  </main>
+  <script src="calendar.js"></script>
+  <script>
+  (function(){
+    'use strict';
+    const C = window.CloudCalendar;
+    let data = C.emptyData(), sha = null, connected = false, dirty = false, picked = '';
+    let repository = null;
+    const $ = id => document.getElementById(id);
+    const status = (el, message, type='') => { el.textContent = message; el.className = `status ${type}`.trim(); };
+    // 網站儲存庫固定：避免管理者不小心把房況發布到別的 GitHub 專案。
+    const REPO = Object.freeze({owner:'shouben16-maker',repo:'3clouds',branch:'main'});
+    $('owner').value = REPO.owner;
+    $('repo').value = REPO.repo;
+    $('branch').value = REPO.branch;
+    function saveDraftChange(){ document.querySelector('.save-bar').classList.add('is-dirty'); dirty = true; $('publishBtn').disabled = !connected; status($('publishStatus'), connected ? '有未發布修改，請按「發布至網站」。' : '有草稿變更；連接 GitHub 後才可發布。'); }
+    function render(){
+      $('adminCalendar').replaceChildren();
+      C.monthList(data.settings).forEach(({year,month}) => {
+        $('adminCalendar').append(C.createMonth(year, month, key => {
+          const day = document.createElement('button');
+          day.type = 'button'; day.textContent = String(Number(key.slice(-2))); day.className = 'cal-day';
+          const state = C.getStatus(key,data);
+          if (state.stay === 'closed') day.classList.add('is-unavailable');
+          if (state.stay === 'booked') day.classList.add('is-booked');
+          if (picked === key) day.classList.add('is-picked');
+          day.setAttribute('aria-label', `${C.displayDate(key)}，${state.stay === 'booked' ? '已訂房' : state.stay === 'open' ? '可入住' : '不可入住'}`);
+          day.addEventListener('click', () => { picked = key; showSelected(); render(); });
+          return day;
+        }));
+      });
+      $('monthsAhead').value = String(data.settings.monthsAhead);
+      $('startMonthOffset').value = String(data.settings.startMonthOffset);
+    }
+    function showSelected(){
+      $('chosenDate').textContent = picked ? C.displayDate(picked) + '（星期' + '日一二三四五六'[C.weekday(picked)] + '）' : '請先點選上方日曆日期';
+      const entry = data.dates[picked] || {};
+      $('singleStay').value = entry.stay || '';
+      $('singleCheckout').value = entry.checkout || '';
+    }
+    function applyOne(key, stay, checkout, bulk=false){
+      const next = {...(data.dates[key] || {})};
+      if (stay !== 'unchanged') { if (stay) next.stay = stay; else delete next.stay; }
+      if (checkout !== 'unchanged') { if (checkout) next.checkout = checkout; else delete next.checkout; }
+      if (Object.keys(next).length) data.dates[key] = next; else delete data.dates[key];
+    }
+    $('applySingle').addEventListener('click', () => {
+      if (!picked) {status($('editStatus'),'請先選擇日期。','error'); return;}
+      applyOne(picked,$('singleStay').value,$('singleCheckout').value);
+      saveDraftChange(); render(); status($('editStatus'),'已修改 ' + C.displayDate(picked) + '，尚未發布。','ok');
+    });
+    $('resetSingle').addEventListener('click', () => {
+      if (!picked) {status($('editStatus'),'請先選擇日期。','error');return;}
+      delete data.dates[picked]; showSelected(); saveDraftChange(); render(); status($('editStatus'),'已還原星期預設，尚未發布。','ok');
+    });
+    $('applyBulk').addEventListener('click', () => {
+      const a=$('bulkStart').value,b=$('bulkEnd').value,s=$('bulkStay').value,e=$('bulkCheckout').value;
+      if (!C.parseDate(a) || !C.parseDate(b) || b<a){status($('editStatus'),'請填入正確的開始及結束日期。','error');return;}
+      const num = C.rangeNights(a,b)+1;
+      if(num>366){status($('editStatus'),'單次最多修改 366 天。','error');return;}
+      if(s==='unchanged' && e==='unchanged'){status($('editStatus'),'請選擇至少一個要修改的狀態。','error');return;}
+      let key=a;
+      for(let i=0;i<num;i++){applyOne(key,s,e,true);key=C.nextDay(key);}
+      picked=a;showSelected();render();saveDraftChange();status($('editStatus'),`已修改 ${num} 天，尚未發布。`,'ok');
+    });
+    $('monthsAhead').addEventListener('change', e=>{data.settings.monthsAhead=Number(e.target.value);render();saveDraftChange();});
+    $('startMonthOffset').addEventListener('change',e=>{data.settings.startMonthOffset=Number(e.target.value);render();saveDraftChange();});
+
+    function getConfig(){
+      const {owner,repo,branch}=REPO;
+      if(location.protocol!=='https:' && location.hostname!=='localhost')throw Error('請使用 HTTPS 網址開啟後台（或本機 localhost 預覽）。');
+      const token=$('token').value.trim();
+      if(!token)throw Error('請輸入僅限此儲存庫的 GitHub Token。');
+      return {owner,repo,branch,token};
+    }
+    function gitUrl(config){return `https://api.github.com/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}/contents/calendar-data.json`;}
+    async function request(url, config, options={}){
+      const res=await fetch(url,{...options,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${config.token}`,'X-GitHub-Api-Version':'2022-11-28',...(options.headers||{})}});
+      const payload=await res.json().catch(()=>({}));
+      if(!res.ok){const err=new Error(payload.message||`HTTP ${res.status}`);err.code=res.status;throw err;}
+      return payload;
+    }
+    function fromBase64(str){
+      const binary=atob(str.replace(/\s/g,''));
+      const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
+    }
+    function toBase64(str){
+      const bytes=new TextEncoder().encode(str);
+      let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
+      return btoa(binary);
+    }
+    $('connectBtn').addEventListener('click',async()=>{
+      if(dirty&&!confirm('目前的草稿變更尚未發布，載入 GitHub 資料會覆蓋這些草稿。確定繼續？'))return;
+      let config;
+      try{config=getConfig();}catch(e){status($('connectStatus'),e.message,'error');return;}
+      $('connectBtn').disabled=true; status($('connectStatus'),'正在從 GitHub 讀取最新房況…');
+      try{
+        let payload=null;
+        try{payload=await request(`${gitUrl(config)}?ref=${encodeURIComponent(config.branch)}`,config);}
+        catch(e){if(e.code!==404)throw e;}
+        data=payload?C.normalize(JSON.parse(fromBase64(payload.content))):C.emptyData();
+        sha=payload?payload.sha:null;
+        repository=config; connected=true;dirty=false;picked='';document.querySelector('.save-bar').classList.remove('is-dirty');
+        $('publishBtn').disabled=false;
+        render();showSelected();
+        status($('connectStatus'),payload?'GitHub 連線成功，已載入最新房況。':'該分支尚無 calendar-data.json，首次發布將建立檔案。','ok');
+        status($('publishStatus'),'已連結 GitHub；目前沒有未發布變更。','ok');
+      }catch(e){connected=false;repository=null;$('publishBtn').disabled=true;status($('connectStatus'),'載入失敗：'+e.message,'error');}
+      finally{$('connectBtn').disabled=false;}
+    });
+    $('publishBtn').addEventListener('click',async()=>{
+      if(!connected||!repository)return;
+      const currentToken=$('token').value.trim();
+      if(currentToken!==repository.token){status($('publishStatus'),'Token 已更換，請重新「載入 GitHub 最新房況」。','error');return;}
+      $('publishBtn').disabled=true;status($('publishStatus'),'正在發布…');
+      try{
+        const body={message:'Update 三層雲可訂房日曆',content:toBase64(JSON.stringify(data,null,2)+'\n'),branch:repository.branch};
+        if(sha)body.sha=sha;
+        const result=await request(gitUrl(repository),repository,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+        sha=result.content.sha;dirty=false;document.querySelector('.save-bar').classList.remove('is-dirty');
+        status($('publishStatus'),'已成功提交到 shouben16-maker/3clouds 的 main 分支！Vercel 重新部署完成後，旅客即可看到更新（通常需數分鐘）。','ok');
+      }catch(e){status($('publishStatus'),`發布失敗：${e.message}${e.code===409?'；房況可能已被其他管理者更新，請先重新載入。':''}`,'error');}
+      finally{$('publishBtn').disabled=!connected;}
+    });
+    window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+    // 未連接時只顯示本站同一份 JSON；不把本機草稿視為已發布。
+    fetch(`calendar-data.json?v=${Date.now()}`,{cache:'no-store'})
+      .then(res=>res.ok?res.json():Promise.reject())
+      .then(raw=>{if(!connected&&!dirty){data=C.normalize(raw);render();}})
+      .catch(()=>{});
+    render();
+  })();
+  </script>
+</body>
+</html>
