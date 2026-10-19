@@ -4,10 +4,5 @@
     "monthsAhead": 4,
     "startMonthOffset": 1
   },
-  "dates": {
-    "2026-11-14": {
-      "stay": "booked",
-      "checkout": "open"
-    }
-  }
+  "dates": {}
 }
