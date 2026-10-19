@@ -4,5 +4,9 @@
     "monthsAhead": 4,
     "startMonthOffset": 1
   },
-  "dates": {}
+  "dates": {
+    "2026-11-14": {
+      "stay": "booked"
+    }
+  }
 }
