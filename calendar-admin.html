@@ -98,7 +98,7 @@
         <p id="chosenDate" class="current-date">請先點選上方日曆日期</p>
         <div class="fields" style="grid-template-columns:1fr 1fr">
           <label class="field">入住／住宿夜晚
-            <select id="singleStay"><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住（原設定）</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
+            <select id="singleStay"><option value="">依星期預設</option><option value="open">開放入住</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
           </label>
           <label class="field">退房
             <select id="singleCheckout"><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
@@ -113,7 +113,7 @@
           <label class="field">開始日期<input id="bulkStart" type="date"></label>
           <label class="field">結束日期（含）<input id="bulkEnd" type="date"></label>
           <label class="field">入住／住宿夜晚
-            <select id="bulkStay"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住（原設定）</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
+            <select id="bulkStay"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">開放入住</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
           </label>
           <label class="field">退房
             <select id="bulkCheckout"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
@@ -182,7 +182,8 @@
     function showSelected(){
       $('chosenDate').textContent = picked ? C.displayDate(picked) + '（星期' + '日一二三四五六'[C.weekday(picked)] + '）' : '請先點選上方日曆日期';
       const entry = data.dates[picked] || {};
-      $('singleStay').value = entry.stay || '';
+      // 舊版房況的 closed 與新版 no_checkin 語意相同；僅在後台選單顯示時對應，避免擅自重寫既有資料。
+      $('singleStay').value = entry.stay === 'closed' ? 'no_checkin' : (entry.stay || '');
       $('singleCheckout').value = entry.checkout || '';
     }
     function applyOne(key, stay, checkout, bulk=false){
