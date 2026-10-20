@@ -59,7 +59,7 @@
     Object.entries(dates).forEach(([day, entry]) => {
       if (!parseDate(day) || !entry || typeof entry !== 'object') return;
       const v = {};
-      if (['open', 'closed', 'booked'].includes(entry.stay)) v.stay = entry.stay;
+      if (['open', 'closed', 'no_checkin', 'booked'].includes(entry.stay)) v.stay = entry.stay;
       if (['open', 'closed'].includes(entry.checkout)) v.checkout = entry.checkout;
       if (Object.keys(v).length) base.dates[day] = v;
     });
@@ -137,8 +137,8 @@
     if (controls.adjacent) {
       const first = new Date(Date.UTC(year, month - 1, 1));
       const weekdayOffset = first.getUTCDay();
-      // 往前多一整週：即使 1 號在星期日，仍能看到前月最後一週。
-      const countPrevious = weekdayOffset + 7;
+      // 保留前月最後一週的日期；若本月 1 號是星期日，另外保留完整上一週。
+      const countPrevious = weekdayOffset || 7;
       const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
       const currentCount = countPrevious + lastDay;
       const countNext = (7 - (currentCount % 7)) % 7;
@@ -226,27 +226,29 @@
       const cell = document.createElement('button');
       cell.type = 'button';
       cell.className = 'cal-day';
-      cell.textContent = String(Number(key.slice(-2)));
+      const num = document.createElement('span');
+      num.className = 'cal-day-num';
+      num.textContent = String(Number(key.slice(-2)));
+      cell.append(num);
       cell.dataset.date = key;
       cell.disabled = !selectable;
       const selectedA = key === start, selectedB = key === end;
       const inRange = !!(start && end && key > start && key < end);
-      if (inPast) cell.classList.add('is-past'); // 已過日期全部灰字＋斜線，包括相鄰月份日期。
-      else if (key < firstAllowed && !selectedA && !selectedB) cell.classList.add('is-unavailable');
+      // 預設僅能入住的日子是黑字；只能退房的日期先維持灰字，
+      // 唯有選定有效入住日且這一天確實可退房時，才轉為黑字及可點選。
+      if (inPast) cell.classList.add('is-past'); // 過去日期灰字、不加斜線且不可選取。
       else if (state.stay === 'booked') cell.classList.add('is-booked');
-      else if (state.stay === 'closed') {
-        cell.classList.add('is-unavailable');
-        if (state.checkout === 'closed') cell.classList.add('is-blocked');
-      }
-      if (key > lastAllowed && !canExit) cell.classList.add('is-outside-limit');
+      else if (!canStay && !canExit) cell.classList.add('is-unavailable');
+      if (key < firstAllowed || (key > lastAllowed && !canExit)) cell.classList.add('is-outside-limit');
+      if (canExit) cell.classList.add('is-checkout-ready');
       if (inRange) cell.classList.add('is-in-range');
       if (selectedA) cell.classList.add('is-start');
       if (selectedB) cell.classList.add('is-end');
       if (selectable) {
         cell.addEventListener('click', () => choose(key));
-        cell.title = canExit && !canStay ? `${key}：可退房` : `${key}：可入住`;
+        cell.title = canExit && canStay ? `${key}：可入住或退房` : canExit ? `${key}：可退房` : `${key}：可入住`;
       }
-      const reason = inPast ? '日期已過' : state.stay === 'booked' ? '已訂房' : state.stay === 'closed' && state.checkout === 'closed' ? '不可入住、不可退房' : state.stay === 'closed' ? '不可入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
+      const reason = inPast ? '日期已過' : state.stay === 'booked' ? '已訂房' : state.stay !== 'open' && state.checkout === 'closed' ? '不開放入住、不可退房' : state.stay !== 'open' ? '不開放入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
       cell.setAttribute('aria-label', `${C.displayDate(key)}，${reason}${selectedA ? '，已選入住日' : selectedB ? '，已選退房日' : ''}${!selectable ? '，目前不可點選' : ''}`);
       cell.setAttribute('aria-pressed', selectedA || selectedB ? 'true' : 'false');
       return cell;

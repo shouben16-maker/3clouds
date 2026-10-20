@@ -960,15 +960,22 @@
     .cal-day:hover:not(:disabled) { border-color: #b1a08b; }
     .cal-day:focus-visible { outline: 3px solid #9eb695; outline-offset: 1px; }
     .cal-day:disabled { cursor: default; }
+    .cal-day .cal-day-num { position: relative; z-index: 2; }
     .cal-day.is-unavailable { background: #fff; color: #a49d96; }
-    .cal-day.is-blocked, .cal-day.is-booked { background: #fff; color: #a49d96; }
-    .cal-day.is-past { color: #a49d96; background: #fff; }
-    .cal-day.is-past::after, .cal-day.is-booked::after, .cal-day.is-blocked::after { content: '/'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #9d968e; font-weight: 400; pointer-events: none; }
+    .cal-day.is-booked, .cal-day.is-past { background: #fff; color: #a49d96; }
+    .cal-day.is-booked::after { content: '/'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #9d968e; font-weight: 400; pointer-events: none; }
     .cal-day.is-outside-limit { color: #c7c0b8; }
+    .cal-day.is-checkout-ready { color: #37332e; }
     .cal-day.is-in-range { background: #fff; box-shadow: inset 0 -3px #bed2b7; }
-    .cal-day.is-start, .cal-day.is-end, .cal-day.is-start:hover, .cal-day.is-end:hover { color: #fff; background: #38342d; border-color: #38342d; border-radius: 50%; box-shadow: none; }
+    .cal-day.is-start, .cal-day.is-end { background: #fff; border-color: transparent; box-shadow: none; }
+    .cal-day.is-start::before, .cal-day.is-end::before { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(40px, calc(100% - 2px)); aspect-ratio: 1; border-radius: 50%; border: 2px solid #272727; z-index: 1; pointer-events: none; }
+    .cal-day.is-start::before { background: #272727; }
+    .cal-day.is-end::before { background: #fff; }
+    .cal-day.is-start .cal-day-num { color: #fff; }
+    .cal-day.is-end .cal-day-num { color: #272727; }
     .cal-day.is-start::after, .cal-day.is-end::after { display: none; }
-    .cal-day.is-start .cal-adjacent-month, .cal-day.is-end .cal-adjacent-month { color: #fff; }
+    .cal-day.is-start .cal-adjacent-month { color: #fff; z-index: 3; }
+    .cal-day.is-end .cal-adjacent-month { color: #272727; z-index: 3; }
     .cal-feedback { text-align: center; padding: 24px 18px 12px; }
     .cal-result { margin: 0; white-space: pre-line; font-size: 17px; line-height: 2; color: #665c50; font-weight: 700; }
     .cal-result.has-availability { color: #4a744b; }
@@ -1461,6 +1468,6 @@
 
 
 
-  <script src="calendar.js?v=20261020-oct-fix"></script>
+  <script src="calendar.js?v=20261020-status-v2"></script>
 </body>
 </html>

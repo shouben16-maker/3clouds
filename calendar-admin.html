@@ -32,14 +32,17 @@
     .cal-weekday{text-align:center;font-size:13px;color:#84796d;font-weight:700;margin-bottom:6px}
     .cal-empty{min-height:40px}
     .cal-day{position:relative;height:43px;min-width:0;width:100%;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:9px;background:#fff;color:#3e3933;font-size:15px;font-weight:700}
-    .cal-day:hover{border-color:#9f896a}
-    .cal-day.is-unavailable,.cal-day.is-booked,.cal-day.is-blocked{background:#fff;color:#a49d96}
-    .cal-day.is-booked::after,.cal-day.is-blocked::after{content:'/';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:23px;font-weight:400;color:#9d968e;pointer-events:none}
+    .cal-day:hover:not(:disabled){border-color:#9f896a}.cal-day:disabled{cursor:default}
+    .cal-day .cal-day-num{position:relative;z-index:2}
+    .cal-day.is-unavailable,.cal-day.is-booked,.cal-day.is-past{background:#fff;color:#a49d96}
+    .cal-day.is-booked::after{content:'/';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:23px;font-weight:400;color:#9d968e;pointer-events:none}
     .cal-day.is-adjacent{border:1px dashed #e9e4dd}
     .cal-adjacent-month{position:absolute;right:4px;bottom:2px;font-size:9px;font-weight:400;color:#b0a69a;pointer-events:none}
-    .cal-day.is-picked{background:var(--dark);color:#fff;border-color:var(--dark);border-radius:50%}
+    .cal-day.is-picked{background:#fff;border-color:transparent}
+    .cal-day.is-picked::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(40px,calc(100% - 2px));aspect-ratio:1;border:2px solid #272727;background:#272727;border-radius:50%;z-index:1;pointer-events:none}
+    .cal-day.is-picked .cal-day-num{color:#fff}
     .cal-day.is-picked::after{display:none}
-    .cal-day.is-picked .cal-adjacent-month{color:#fff}
+    .cal-day.is-picked .cal-adjacent-month{color:#fff;z-index:3}
     .edit-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px}.edit-panel section{min-width:0}.edit-panel h2{margin:0 0 15px}.current-date{font-weight:700;color:var(--primary);font-size:16px;min-height:27px;margin:0 0 13px}.line{border-left:1px solid var(--border);padding-left:24px}
     .info-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:15px}.info-bar strong{font-size:18px}.info-bar select{max-width:230px}
     .save-bar{position:static;z-index:10;margin-top:24px;padding:16px 22px;background:rgba(56,52,45,.96);color:#fff;border-radius:13px;box-shadow:0 12px 30px rgba(0,0,0,.14);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.save-bar.is-dirty{position:sticky;bottom:14px}.save-bar .status{margin:0;color:#eee}.save-bar .status.error{color:#ffd0c8}
@@ -95,7 +98,7 @@
         <p id="chosenDate" class="current-date">請先點選上方日曆日期</p>
         <div class="fields" style="grid-template-columns:1fr 1fr">
           <label class="field">入住／住宿夜晚
-            <select id="singleStay"><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住</option><option value="booked">已被訂房 ／</option></select>
+            <select id="singleStay"><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住（原設定）</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
           </label>
           <label class="field">退房
             <select id="singleCheckout"><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
@@ -110,7 +113,7 @@
           <label class="field">開始日期<input id="bulkStart" type="date"></label>
           <label class="field">結束日期（含）<input id="bulkEnd" type="date"></label>
           <label class="field">入住／住宿夜晚
-            <select id="bulkStay"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住</option><option value="booked">已被訂房 ／</option></select>
+            <select id="bulkStay"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">開放入住</option><option value="closed">不可入住（原設定）</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
           </label>
           <label class="field">退房
             <select id="bulkCheckout"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
@@ -127,7 +130,7 @@
     </div>
     </div><!-- /managerApp -->
   </main>
-  <script src="calendar.js?v=20261020-oct-fix"></script>
+  <script src="calendar.js?v=20261020-status-v2"></script>
   <script>
   (function(){
     'use strict';
@@ -149,20 +152,23 @@
       const cell = (key) => {
         const day = document.createElement('button');
         day.type = 'button';
-        day.textContent = String(Number(key.slice(-2)));
+        const num = document.createElement('span');
+        num.className = 'cal-day-num';
+        num.textContent = String(Number(key.slice(-2)));
+        day.append(num);
         day.className = 'cal-day';
         day.dataset.date = key;
         const state = C.getStatus(key,data);
-        if (state.stay === 'booked') day.classList.add('is-booked');
-        else if (state.stay === 'closed') {
-          day.classList.add('is-unavailable');
-          if (state.checkout === 'closed') day.classList.add('is-blocked');
-        }
-        if (picked === key) day.classList.add('is-picked');
-        const reason = state.stay === 'booked' ? '已訂房' : state.stay === 'closed' && state.checkout === 'closed' ? '不可入住、不可退房' : state.stay === 'closed' ? '不可入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
+        const inPast = key < C.todayTaiwan();
+        day.disabled = inPast;
+        if (inPast) day.classList.add('is-past');
+        else if (state.stay === 'booked') day.classList.add('is-booked');
+        else if (state.stay !== 'open') day.classList.add('is-unavailable');
+        if (picked === key && !inPast) day.classList.add('is-picked');
+        const reason = inPast ? '日期已過，不可點選' : state.stay === 'booked' ? '已訂房' : state.stay !== 'open' && state.checkout === 'closed' ? '不開放入住、不可退房' : state.stay !== 'open' ? '不開放入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
         day.setAttribute('aria-label', `${C.displayDate(key)}，${reason}`);
-        day.setAttribute('aria-pressed', picked === key ? 'true' : 'false');
-        day.addEventListener('click', () => { picked = key; showSelected(); render(); });
+        day.setAttribute('aria-pressed', picked === key && !inPast ? 'true' : 'false');
+        if (!inPast) day.addEventListener('click', () => { picked = key; showSelected(); render(); });
         return day;
       };
       $('adminCalendar').append(C.createMonth(year,month,cell,{
