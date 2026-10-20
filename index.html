@@ -1017,7 +1017,8 @@
       .price-actions { display: flex; flex-wrap: nowrap; width: 100%; gap: 8px; }
       .price-actions .button { flex: 1 1 0; width: 0; min-width: 0; padding: 12px 5px; font-size: clamp(12px, 3.5vw, 15px); white-space: nowrap; gap: 4px; }
       .price-actions .button > span[aria-hidden="true"]:last-child { display: none; }
-      .price-actions .line-mark { min-width: 0; padding: 0; border-radius: 0; background: transparent; color: inherit; font-size: inherit; }
+      /* 手機房價區保留 LINE 膠囊字樣，與原本的網站識別一致。 */
+      .price-actions .line-mark { min-width: 40px; padding: 3px 7px 4px; border-radius: 999px; background: #fbf7ef; color: #5f694f; font-size: 12px; line-height: 1; }
       .cal-action-row { display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: min(100%, 450px); margin: 18px auto 0; }
       .cal-action-pair { display: flex; width: 100%; gap: 10px; }
       .cal-action-pair .cal-clear, .cal-action-pair .cal-price-link { flex: 1 1 0; min-width: 0; display: inline-flex; align-items: center; justify-content: center; padding: 12px 5px; font-size: clamp(12px, 3.6vw, 15px); white-space: nowrap; }
@@ -1448,6 +1449,18 @@
         window.scrollTo({ top: targetY, behavior: 'instant' });
         if (topBar) topBar.classList.add('is-hidden');
       }
+      /* 完成退房選擇（成功或失敗）後，手機自動對齊日曆卡片的上緣。 */
+      window.addEventListener('threeclouds:calendar-align', function () {
+        if (window.innerWidth > 700) return;
+        const calendarPanel = document.querySelector('#calendarMonths .cal-month');
+        if (!calendarPanel) return;
+        const targetY = Math.max(0, window.scrollY + calendarPanel.getBoundingClientRect().top - 8);
+        // 同步更新捲動基準，防止向上自動捲動被誤認為手勢而打開 Top Bar。
+        lastScrollY = targetY;
+        window.scrollTo({ top: targetY, behavior: 'instant' });
+        if (topBar) topBar.classList.add('is-hidden');
+      });
+
       window.addEventListener('hashchange', function () {
         window.requestAnimationFrame(alignMobileSectionHash);
       });
@@ -1713,11 +1726,19 @@
   let data = null, start = null, end = null, feedback = '', monthIndex = 0;
   const today = C.todayTaiwan();
 
+  function alignAfterCheckoutAttempt() {
+    if (window.innerWidth > 700) return;
+    // 計算於新版日曆繪製後、瀏覽器下一次畫面更新前進行。
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('threeclouds:calendar-align'));
+    });
+  }
   function choose(key) {
     if (!data) return;
     if (start && !end && key === start) { start = null; feedback = ''; render(); return; }
     const openStay = C.getStatus(key, data).stay === 'open' && key >= today;
-    if (start && !end && key > start) {
+    const choosingCheckout = !!(start && !end && key > start);
+    if (choosingCheckout) {
       if (C.checkRange(start, key, data, today)) {
         end = key; feedback = '';
       } else {
@@ -1727,6 +1748,7 @@
       start = key; end = null; feedback = '';
     }
     render();
+    if (choosingCheckout) alignAfterCheckoutAttempt();
   }
   function render() {
     if (!data) return;
@@ -1787,7 +1809,7 @@
     nextCheckoutEl.hidden = !canExitBeyondCalendar || !!monthsEl.querySelector(`.cal-day[data-date="${lastCheckout}"]`);
     if (!nextCheckoutEl.hidden) {
       nextCheckoutEl.textContent = `選擇 ${C.displayDate(lastCheckout)} 退房`;
-      nextCheckoutEl.onclick = () => { end = lastCheckout; feedback = ''; render(); };
+      nextCheckoutEl.onclick = () => { end = lastCheckout; feedback = ''; render(); alignAfterCheckoutAttempt(); };
     }
     clearEl.hidden = !start;
     if (start && end) {
