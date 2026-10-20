@@ -1037,9 +1037,13 @@
     .cal-nav-button, .cal-clear, .cal-price-link, .cal-copy,
     #calendarInquiry, .price-actions .button { touch-action: manipulation; }
     @media (max-width: 700px) {
-      /* 原生網址錨點單次定位至標題，避免 JavaScript 二次捲動。 */
+      /* 從網址直接進入時，對齊整個日曆區塊的上緣，標題保留原本舒服的內距。 */
       #Price, #price { scroll-margin-top: -45px; }
-      #Calendar { scroll-margin-top: -50px; }
+      #Calendar { scroll-margin-top: 8px; }
+      /* 日期資料尚未載入時先保留日曆高度，避免 Safari 頁面到底而提早截斷錨點捲動。 */
+      html.calendar-direct-entry #calendarMonths:empty { min-height: 420px; }
+      /* 直接進入日曆頁的初始定位期間，先隱藏手機 Top Bar。 */
+      html.calendar-direct-entry .top-bar { transform: translateY(-100%); pointer-events: none; }
       .cal-month-heading { min-width: 0; }
       .cal-month-heading h3 { min-width: 0; white-space: nowrap; font-size: clamp(17px, 5vw, 21px); }
     }
@@ -1050,6 +1054,12 @@
 </head>
 
 <body>
+<script>
+  /* 在瀏覽器首次捲到 #Calendar 前先套用預留空間／隱藏 Top Bar，避免首屏閃動。 */
+  if (window.matchMedia('(max-width: 700px)').matches && /^#calendar$/i.test(location.hash)) {
+    document.documentElement.classList.add('calendar-direct-entry');
+  }
+</script>
 <nav class="top-bar">
   <div class="nav-inner">
 
@@ -1422,6 +1432,12 @@
         }
 
         const currentScrollY = window.scrollY;
+        if (calendarInitialPending) {
+          topBar.classList.add('is-hidden');
+          lastScrollY = currentScrollY;
+          ticking = false;
+          return;
+        }
         if (isCalendarAutoScroll) {
           topBar.classList.add('is-hidden');
           lastScrollY = currentScrollY;
@@ -1485,6 +1501,40 @@
         if (autoScrollTimer) clearTimeout(autoScrollTimer);
         unlockCalendarAutoScroll();
       }, { passive: true });
+      /* iPhone / LINE / Telegram 內建瀏覽器：日曆載入後校正「首次直達」的錨點。
+         僅首次使用 #Calendar 開頁時執行，日期點擊和平滑捲動完全不受影響。 */
+      let calendarInitialPending = document.documentElement.classList.contains('calendar-direct-entry');
+      let calendarEntryUserInteracted = false;
+      if (calendarInitialPending) {
+        // 旅客已經開始滑動時，不要再搶走捲動控制權。
+        const onEntryInteraction = () => { calendarEntryUserInteracted = true; };
+        window.addEventListener('touchstart', onEntryInteraction, { passive: true, once: true });
+        window.addEventListener('wheel', onEntryInteraction, { passive: true, once: true });
+        window.addEventListener('keydown', onEntryInteraction, { once: true });
+        if (topBar) topBar.classList.add('is-hidden');
+      }
+      function completeInitialCalendarPosition() {
+        if (!calendarInitialPending) return;
+        calendarInitialPending = false;
+        if (!calendarEntryUserInteracted && window.innerWidth <= 700 && /^#calendar$/i.test(location.hash)) {
+          const section = document.getElementById('Calendar');
+          if (section) {
+            const targetY = Math.max(0, Math.round(window.scrollY + section.getBoundingClientRect().top - 8));
+            if (Math.abs(window.scrollY - targetY) > 3) {
+              window.scrollTo({ top: targetY, behavior: 'instant' });
+            }
+          }
+        }
+        document.documentElement.classList.remove('calendar-direct-entry');
+        lastScrollY = window.scrollY;
+      }
+      window.addEventListener('threeclouds:calendar-ready', function () {
+        if (!calendarInitialPending) return;
+        requestAnimationFrame(() => requestAnimationFrame(completeInitialCalendarPosition));
+      }, { once: true });
+      // 極端情況：資料載入失敗或腳本被阻擋，也要恢復一般的頁面操作。
+      if (calendarInitialPending) setTimeout(completeInitialCalendarPosition, 4500);
+
       /* 錨點位置由 scroll-margin-top 處理，不再額外執行第二次 JavaScript 捲動。 */
       window.addEventListener('hashchange', function () {
         if (window.innerWidth <= 700 && /^(#price|#calendar)$/i.test(location.hash)) {
@@ -1560,6 +1610,6 @@
 
 
   <!-- 前台與後台共用的日曆程式；本頁僅初始化旅客日曆。 -->
-  <script src="calendar.js?v=20261021-smooth1"></script>
+  <script src="calendar.js?v=20261021-direct-anchor2"></script>
 </body>
 </html>

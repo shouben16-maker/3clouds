@@ -328,6 +328,7 @@
       data = C.normalize(raw);
       statusEl.textContent = location.protocol === 'file:' ? '本機展示，尚未連線正式網站。' : '日期僅供詢問參考，實際空房以管家確認為準。';
       render();
+      window.dispatchEvent(new Event('threeclouds:calendar-ready'));
     })
     .catch(() => {
       monthsEl.replaceChildren();
@@ -337,5 +338,6 @@
       msgEl.textContent = '請使用下方 LINE 直接詢問三層雲管家。';
       inquiryEl.hidden = false;
       inquiryEl.querySelector('span:not([aria-hidden])').textContent = '聯絡我們';
+      window.dispatchEvent(new Event('threeclouds:calendar-ready'));
     });
 })();
