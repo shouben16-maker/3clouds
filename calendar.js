@@ -1,7 +1,7 @@
 /* 湖內三層雲｜共用日曆邏輯。所有日期使用台灣日曆日期（YYYY-MM-DD）。 */
 (function (global) {
   'use strict';
-  const DEFAULT_SETTINGS = Object.freeze({ monthsAhead: 5, startMonthOffset: 1 });
+  const DEFAULT_SETTINGS = Object.freeze({ monthsAhead: 5, startMonthOffset: 0 });
   const CHINESE_WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
 
   function dateKey(year, month, day) {
@@ -38,8 +38,8 @@
     if (!t) return [];
     const s = Object.assign({}, DEFAULT_SETTINGS, settings || {});
     const count = Math.min(5, Math.max(1, Number(s.monthsAhead) || 5));
-    const offset = s.startMonthOffset === 0 ? 0 : 1;
-    const start = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + offset, 1));
+    // 固定從台灣當月份顯示，舊資料的 startMonthOffset: 1 不再使當月被略過。
+    const start = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), 1));
     return Array.from({length: count}, (_, i) => {
       const m = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1));
       return { year: m.getUTCFullYear(), month: m.getUTCMonth() + 1 };
@@ -54,7 +54,7 @@
     const settings = raw.settings || {};
     const months = Number(settings.monthsAhead);
     base.settings.monthsAhead = Number.isInteger(months) && months >= 1 ? Math.min(5, months) : 5;
-    base.settings.startMonthOffset = settings.startMonthOffset === 0 ? 0 : 1;
+    base.settings.startMonthOffset = 0; // 相容舊資料格式，從當月起算。
     const dates = raw.dates && typeof raw.dates === 'object' && !Array.isArray(raw.dates) ? raw.dates : {};
     Object.entries(dates).forEach(([day, entry]) => {
       if (!parseDate(day) || !entry || typeof entry !== 'object') return;
@@ -231,7 +231,8 @@
       cell.disabled = !selectable;
       const selectedA = key === start, selectedB = key === end;
       const inRange = !!(start && end && key > start && key < end);
-      if (inPast || (key < firstAllowed && !selectedA && !selectedB)) cell.classList.add('is-unavailable');
+      if (inPast) cell.classList.add('is-past'); // 已過日期全部灰字＋斜線，包括相鄰月份日期。
+      else if (key < firstAllowed && !selectedA && !selectedB) cell.classList.add('is-unavailable');
       else if (state.stay === 'booked') cell.classList.add('is-booked');
       else if (state.stay === 'closed') {
         cell.classList.add('is-unavailable');
@@ -245,7 +246,7 @@
         cell.addEventListener('click', () => choose(key));
         cell.title = canExit && !canStay ? `${key}：可退房` : `${key}：可入住`;
       }
-      const reason = state.stay === 'booked' ? '已訂房' : state.stay === 'closed' && state.checkout === 'closed' ? '不可入住、不可退房' : state.stay === 'closed' ? '不可入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
+      const reason = inPast ? '日期已過' : state.stay === 'booked' ? '已訂房' : state.stay === 'closed' && state.checkout === 'closed' ? '不可入住、不可退房' : state.stay === 'closed' ? '不可入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
       cell.setAttribute('aria-label', `${C.displayDate(key)}，${reason}${selectedA ? '，已選入住日' : selectedB ? '，已選退房日' : ''}${!selectable ? '，目前不可點選' : ''}`);
       cell.setAttribute('aria-pressed', selectedA || selectedB ? 'true' : 'false');
       return cell;

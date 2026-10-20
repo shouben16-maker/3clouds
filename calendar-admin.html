@@ -21,7 +21,6 @@
     .btn{border:0;border-radius:9px;background:var(--primary);color:#fff;padding:11px 20px;font-weight:700}.btn:hover{filter:brightness(.92)}.btn.secondary{background:#ede6da;color:#544737}.btn.publish{background:var(--green)}
     .status{margin:11px 0 0;font-size:14px;color:var(--muted);white-space:pre-wrap}.status.error{color:#aa3e34}.status.ok{color:var(--green)}
     .hint{border-left:4px solid #c6a77a;padding:10px 14px;background:#f4eee4;margin-top:15px;color:#655441;font-size:13px}
-    .legend{display:flex;gap:15px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:12px 0 22px}.legend span{display:inline-flex;gap:6px;align-items:center}.dot{width:13px;height:13px;background:#fff;border:1px solid #b9a58d;border-radius:3px}.dot.closed{background:#fff;border-color:#bbb4ad}.dot.booked{background:#fff;position:relative}.dot.booked::after{content:'/';position:absolute;left:4px;top:-8px;color:#817b75}.dot.selected{background:#38342d;border-radius:50%}
     .month-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;max-width:680px;margin:auto}
     .cal-month{border:1px solid var(--border);background:#fff;border-radius:16px;padding:24px 25px 27px}
     .cal-month-heading{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:9px;margin:0 0 20px}
@@ -81,16 +80,12 @@
         <label class="field">可切換月份數（最多五個月）
           <select id="monthsAhead"><option value="1">1 個月</option><option value="2">2 個月</option><option value="3">3 個月</option><option value="4">4 個月</option><option value="5">5 個月（新預設／上限）</option></select>
         </label>
-        <label class="field">開始月份
-          <select id="startMonthOffset"><option value="1">下個月起（預設）</option><option value="0">當月起</option></select>
-        </label>
       </div>
-      <p class="help">每次只顯示一個月份，透過左右箭頭切換（最多五個月）；修改設定後需發布才會同步給旅客。星期一～四預設不能入住、星期二～五不能退房；退房日不算住宿夜晚。</p>
+      <p class="help">從當月份開始，每次只顯示一個月份，透過左右箭頭切換（最多五個月）；修改設定後需發布才會同步給旅客。星期一～四預設不能入住、星期二～五不能退房；退房日不算住宿夜晚。</p>
     </div>
 
     <div class="panel">
       <div class="info-bar"><strong>③ 選擇要編輯的日期</strong><span class="muted">點日期後在下方設定，也能批次修改一段範圍</span></div>
-      <div class="legend"><span><i class="dot"></i>黑字：可入住</span><span><i class="dot closed"></i>灰字：不可入住／可退房</span><span><i class="dot booked"></i>灰字＋／：兩者皆不可或已訂房</span><span><i class="dot selected"></i>編輯中</span></div>
       <div id="adminCalendar" class="month-grid"></div>
     </div>
 
@@ -132,7 +127,7 @@
     </div>
     </div><!-- /managerApp -->
   </main>
-  <script src="calendar.js"></script>
+  <script src="calendar.js?v=20261020-oct-fix"></script>
   <script>
   (function(){
     'use strict';
@@ -177,7 +172,6 @@
         onNext:()=>{monthIndex++;render();}
       }));
       $('monthsAhead').value = String(data.settings.monthsAhead);
-      $('startMonthOffset').value = String(data.settings.startMonthOffset);
     }
     function showSelected(){
       $('chosenDate').textContent = picked ? C.displayDate(picked) + '（星期' + '日一二三四五六'[C.weekday(picked)] + '）' : '請先點選上方日曆日期';
@@ -211,7 +205,6 @@
       picked=a;showSelected();render();saveDraftChange();status($('editStatus'),`已修改 ${num} 天，尚未發布。`,'ok');
     });
     $('monthsAhead').addEventListener('change', e=>{data.settings.monthsAhead=Number(e.target.value);render();saveDraftChange();});
-    $('startMonthOffset').addEventListener('change',e=>{data.settings.startMonthOffset=Number(e.target.value);render();saveDraftChange();});
 
     async function api(action, body = null) {
       const options = body === null ? {method:'GET'} : {
