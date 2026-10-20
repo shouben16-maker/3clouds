@@ -186,16 +186,26 @@
   const statusEl = document.getElementById('calendarLoadStatus');
   const inquiryEl = document.getElementById('calendarInquiry');
   const clearEl = document.getElementById('calendarClear');
-  const copyEl = document.getElementById('calendarCopy');
   const nextCheckoutEl = document.getElementById('calendarNextMonthCheckout');
   let data = null, start = null, end = null, feedback = '', monthIndex = 0;
   const today = C.todayTaiwan();
 
+  let alignmentFrame = 0;
+  function alignAfterCheckoutAttempt() {
+    if (window.innerWidth > 700) return;
+    // Date elements have been updated in place: one render, one smooth scroll.
+    if (alignmentFrame) cancelAnimationFrame(alignmentFrame);
+    alignmentFrame = requestAnimationFrame(() => {
+      alignmentFrame = 0;
+      window.dispatchEvent(new Event('threeclouds:calendar-align'));
+    });
+  }
   function choose(key) {
     if (!data) return;
-    if (start && !end && key === start) { start = null; feedback = ''; render(); return; }
+    if (start && !end && key === start) { start = null; feedback = ''; render(false); return; }
     const openStay = C.getStatus(key, data).stay === 'open' && key >= today;
-    if (start && !end && key > start) {
+    const choosingCheckout = !!(start && !end && key > start);
+    if (choosingCheckout) {
       if (C.checkRange(start, key, data, today)) {
         end = key; feedback = '';
       } else {
@@ -204,11 +214,12 @@
     } else if (openStay) {
       start = key; end = null; feedback = '';
     }
-    render();
+    render(false);
+    if (choosingCheckout) alignAfterCheckoutAttempt();
   }
-  function render() {
+  function render(rebuildMonth = true) {
     if (!data) return;
-    monthsEl.replaceChildren();
+    // 只有切換月份才重建 DOM；日期點擊只更新原按鈕，避免 iOS 焦點與捲動錨點跳躍。
     const visibleMonths = C.monthList(data.settings, today);
     if (!visibleMonths.length) return;
     monthIndex = Math.max(0, Math.min(monthIndex, visibleMonths.length - 1));
@@ -245,8 +256,8 @@
       if (inRange) cell.classList.add('is-in-range');
       if (selectedA) cell.classList.add('is-start');
       if (selectedB) cell.classList.add('is-end');
+      cell.addEventListener('click', () => choose(key));
       if (selectable) {
-        cell.addEventListener('click', () => choose(key));
         cell.title = canExit && canStay ? `${key}：可入住或退房` : canExit ? `${key}：可退房` : `${key}：可入住`;
       }
       const reason = inPast ? '日期已過' : canExit && state.stay === 'booked' ? '已訂房（本日可退房，不可住宿）' : state.stay === 'booked' ? '已訂房' : state.stay !== 'open' && state.checkout === 'closed' ? '不開放入住、不可退房' : state.stay !== 'open' ? '不開放入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
@@ -254,44 +265,63 @@
       cell.setAttribute('aria-pressed', selectedA || selectedB ? 'true' : 'false');
       return cell;
     };
-    monthsEl.append(C.createMonth(year, month, dayCell, {
-      navigation: true, adjacent: true,
-      canPrev: monthIndex > 0, canNext: monthIndex < visibleMonths.length - 1,
-      onPrev: () => { monthIndex--; render(); },
-      onNext: () => { monthIndex++; render(); }
-    }));
+    if (rebuildMonth || !monthsEl.querySelector('.cal-month')) {
+      monthsEl.replaceChildren();
+      monthsEl.append(C.createMonth(year, month, dayCell, {
+        navigation: true, adjacent: true,
+        canPrev: monthIndex > 0, canNext: monthIndex < visibleMonths.length - 1,
+        onPrev: () => { monthIndex--; render(true); },
+        onNext: () => { monthIndex++; render(true); }
+      }));
+    } else {
+      // 比對新狀態後更新現有日期，不替換正在被觸控的按鈕。
+      monthsEl.querySelectorAll('.cal-day[data-date]').forEach(cell => {
+        const key = cell.dataset.date;
+        const adjacent = cell.classList.contains('is-adjacent');
+        const updated = dayCell(key, adjacent);
+        const monthTag = cell.querySelector('.cal-adjacent-month');
+        // 保留已綁定的 click listener，新的判斷由 choose(key) 動態計算。
+        cell.className = updated.className;
+        if (adjacent) cell.classList.add('is-adjacent');
+        cell.disabled = updated.disabled;
+        cell.title = updated.title;
+        cell.setAttribute('aria-label', updated.getAttribute('aria-label'));
+        cell.setAttribute('aria-pressed', updated.getAttribute('aria-pressed'));
+        if (monthTag) monthTag.setAttribute('aria-hidden', 'true');
+      });
+    }
     // 當最後一個月份的月底為週六，隔月一日不會進入日曆尾端補齊格，額外提供退房鈕。
     const canExitBeyondCalendar = !!(start && !end && C.checkRange(start, lastCheckout, data, today));
     nextCheckoutEl.hidden = !canExitBeyondCalendar || !!monthsEl.querySelector(`.cal-day[data-date="${lastCheckout}"]`);
     if (!nextCheckoutEl.hidden) {
       nextCheckoutEl.textContent = `選擇 ${C.displayDate(lastCheckout)} 退房`;
-      nextCheckoutEl.onclick = () => { end = lastCheckout; feedback = ''; render(); };
+      nextCheckoutEl.onclick = () => { end = lastCheckout; feedback = ''; render(false); alignAfterCheckoutAttempt(); };
     }
     clearEl.hidden = !start;
     if (start && end) {
       msgEl.className = 'cal-result has-availability';
-      msgEl.textContent = `入住 ${C.displayDate(start)}　→　退房 ${C.displayDate(end)}（${C.rangeNights(start, end)} 晚）\n尚有空房，請洽詢三層雲管家確認。`;
+      msgEl.hidden = false;
+      // 分行顯示入住、退房與管家詢問提示；資料只以 textContent 寫入。
+      const stayLine = document.createElement('span');
+      stayLine.className = 'cal-result-line';
+      stayLine.textContent = `入住 ${C.displayDate(start)}`;
+      const checkoutLine = document.createElement('span');
+      checkoutLine.className = 'cal-result-line';
+      checkoutLine.textContent = `退房 ${C.displayDate(end)}（共 ${C.rangeNights(start, end)} 晚）`;
+      const availabilityLine = document.createElement('span');
+      availabilityLine.className = 'cal-result-availability';
+      availabilityLine.textContent = '尚有空房，請加官方 LINE 三層雲管家確認。';
+      msgEl.replaceChildren(stayLine, checkoutLine, availabilityLine);
       inquiryEl.hidden = false;
-      copyEl.hidden = false;
     } else {
       msgEl.className = 'cal-result';
-      msgEl.textContent = feedback || (start ? `已選入住 ${C.displayDate(start)}，請切換月份或選擇退房日期；已選日期會保留。` : '請先選擇入住日期，再選擇退房日期。');
+      const text = feedback || (start ? `已選入住 ${C.displayDate(start)}，請選擇退房日期；切換月份仍會保留入住日。` : '');
+      msgEl.textContent = text;
+      msgEl.hidden = !text;
       inquiryEl.hidden = true;
-      copyEl.hidden = true;
     }
   }
-  clearEl.addEventListener('click', () => { start = null; end = null; feedback = ''; render(); });
-  copyEl.addEventListener('click', async () => {
-    if (!start || !end) return;
-    const text = `您好，我想詢問湖內三層雲包棟住宿：\n入住：${C.displayDate(start)}\n退房：${C.displayDate(end)}\n共 ${C.rangeNights(start, end)} 晚，請問是否可以訂房？`;
-    try {
-      await navigator.clipboard.writeText(text);
-      copyEl.textContent = '已複製，可貼到 LINE';
-    } catch {
-      copyEl.textContent = '無法自動複製，請記下日期';
-    }
-  });
-
+  clearEl.addEventListener('click', () => { start = null; end = null; feedback = ''; render(false); });
   fetch(`calendar-data.json?v=${Date.now()}`, {cache: 'no-store'})
     .then(response => { if (!response.ok) throw new Error('HTTP ' + response.status); return response.json(); })
     .then(raw => {
@@ -303,8 +333,9 @@
       monthsEl.replaceChildren();
       statusEl.textContent = '目前無法取得最新房況資料，為避免誤判已暫停日期選擇。';
       msgEl.className = 'cal-result is-error';
+      msgEl.hidden = false;
       msgEl.textContent = '請使用下方 LINE 直接詢問三層雲管家。';
       inquiryEl.hidden = false;
-      inquiryEl.textContent = 'LINE 聯絡管家';
+      inquiryEl.querySelector('span:not([aria-hidden])').textContent = '聯絡我們';
     });
 })();
