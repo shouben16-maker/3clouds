@@ -27,7 +27,7 @@
       "stay": "no_checkin"
     },
     "2027-02-08": {
-      "stay": "no_checkin"
+      "stay": "open"
     },
     "2026-12-24": {
       "stay": "open"
@@ -52,6 +52,18 @@
     },
     "2027-01-01": {
       "stay": "booked"
+    },
+    "2027-02-09": {
+      "stay": "open",
+      "checkout": "open"
+    },
+    "2027-02-10": {
+      "stay": "open",
+      "checkout": "open"
+    },
+    "2027-02-11": {
+      "stay": "open",
+      "checkout": "open"
     }
   }
 }
