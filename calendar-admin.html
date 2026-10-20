@@ -20,7 +20,9 @@
     .actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:16px}
     .btn{border:0;border-radius:9px;background:var(--primary);color:#fff;padding:11px 20px;font-weight:700}.btn:hover{filter:brightness(.92)}.btn.secondary{background:#ede6da;color:#544737}.btn.publish{background:var(--green)}
     .status{margin:11px 0 0;font-size:14px;color:var(--muted);white-space:pre-wrap}.status.error{color:#aa3e34}.status.ok{color:var(--green)}
-    .hint{border-left:4px solid #c6a77a;padding:10px 14px;background:#f4eee4;margin-top:15px;color:#655441;font-size:13px}
+    .manager-footer{display:flex;justify-content:flex-end;margin:12px 2px 0}
+    .logout-link{border:0;background:transparent;color:var(--muted);font-size:13px;padding:9px 7px;text-decoration:underline;text-underline-offset:3px}
+    .logout-link:hover{color:var(--text)}
     .month-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;max-width:680px;margin:auto}
     .cal-month{border:1px solid var(--border);background:#fff;border-radius:16px;padding:24px 25px 27px}
     .cal-month-heading{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:9px;margin:0 0 20px}
@@ -55,7 +57,6 @@
   <main>
     <span class="eyebrow">CALENDAR MANAGEMENT</span>
     <h1>可訂房日期管理</h1>
-    <p class="intro">此頁僅供三層雲管家登入使用。兩位管家共用房況，發布後才會同步更新旅客日曆。</p>
 
     <div class="panel" id="loginPanel">
       <h2>管家登入</h2>
@@ -69,32 +70,26 @@
       <p id="loginStatus" class="status" role="status">正在確認登入狀態…</p>
     </div>
     <div id="managerApp" hidden>
-      <div class="panel">
-        <h2>① 共同管理房況</h2>
-        <p class="help">儲存庫：<strong>shouben16-maker / 3clouds</strong>（main）。你與搭檔使用同一份房況資料；如果對方在你編輯期間已先發布，系統會阻止以舊版資料覆蓋。</p>
-        <div class="actions"><button type="button" class="btn secondary" id="connectBtn">重新載入 GitHub 最新房況</button><button type="button" class="btn secondary" id="logoutBtn">登出後台</button></div>
-        <p id="connectStatus" class="status" role="status">正在載入最新房況…</p>
-        <div class="hint">只有登入後才可以編輯。單一 GitHub Token 儲存在 Vercel 的環境變數，請不要張貼在聊天、網頁原始碼或公開檔案中。</div>
-      </div>
+      <p id="connectStatus" class="status" role="status" hidden></p>
 
     <div class="panel">
-      <h2>② 日曆顯示範圍與預設規則</h2>
+      <h2>① 日曆顯示範圍與預設規則</h2>
       <div class="fields narrow">
         <label class="field">可切換月份數（最多五個月）
-          <select id="monthsAhead"><option value="1">1 個月</option><option value="2">2 個月</option><option value="3">3 個月</option><option value="4">4 個月</option><option value="5">5 個月（新預設／上限）</option></select>
+          <select id="monthsAhead"><option value="1">1 個月</option><option value="2">2 個月</option><option value="3">3 個月</option><option value="4">4 個月</option><option value="5">5 個月</option></select>
         </label>
       </div>
       <p class="help">從當月份開始，每次只顯示一個月份，透過左右箭頭切換（最多五個月）；修改設定後需發布才會同步給旅客。星期一～四預設不能入住、星期二～五不能退房；退房日不算住宿夜晚。</p>
     </div>
 
     <div class="panel">
-      <div class="info-bar"><strong>③ 選擇要編輯的日期</strong><span class="muted">點日期後在下方設定，也能批次修改一段範圍</span></div>
+      <div class="info-bar"><strong>② 選擇要編輯的日期</strong><span class="muted">點日期後在下方設定，也能批次修改一段範圍</span></div>
       <div id="adminCalendar" class="month-grid"></div>
     </div>
 
     <div class="panel edit-panel">
       <section>
-        <h2>④ 單日編輯</h2>
+        <h2>③ 單日編輯</h2>
         <p id="chosenDate" class="current-date">請先點選上方日曆日期</p>
         <div class="fields" style="grid-template-columns:1fr 1fr">
           <label class="field">入住／住宿夜晚
@@ -104,11 +99,9 @@
             <select id="singleCheckout"><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
           </label>
         </div>
-        <div class="actions"><button type="button" class="btn secondary" id="applySingle">套用這一天</button><button type="button" class="btn secondary" id="resetSingle">還原星期預設</button></div>
-        <p class="help">退房日可以是預設不能入住的星期一；但該夜晚本身不會因此開放住宿。</p>
       </section>
       <section class="line">
-        <h2>⑤ 批次編輯</h2>
+        <h2>④ 批次編輯</h2>
         <div class="fields" style="grid-template-columns:1fr 1fr">
           <label class="field">開始日期<input id="bulkStart" type="date"></label>
           <label class="field">結束日期（含）<input id="bulkEnd" type="date"></label>
@@ -125,9 +118,10 @@
     </div>
 
     <div class="save-bar">
-      <div><strong>⑥ 發布房況</strong><p id="publishStatus" class="status" role="status">請先載入 GitHub 房況，修改後再發布。</p></div>
+      <div><strong>⑤ 發布房況</strong><p id="publishStatus" class="status" role="status">請先載入 GitHub 房況，修改後再發布。</p></div>
       <div class="actions" style="margin:0"><button class="btn publish" id="publishBtn" type="button" disabled>發布至網站</button></div>
     </div>
+    <div class="manager-footer"><button type="button" class="logout-link" id="logoutBtn">登出後台</button></div>
     </div><!-- /managerApp -->
   </main>
   <script src="calendar.js?v=20261020-booked-checkout-v3"></script>
@@ -138,7 +132,7 @@
     let data = C.emptyData(), sha = null, connected = false, dirty = false, picked = '', monthIndex = 0;
     const ENDPOINT = '/api/calendar-admin';
     const $ = id => document.getElementById(id);
-    const status = (el, message, type='') => { el.textContent = message; el.className = `status ${type}`.trim(); };
+    const status = (el, message, type='') => { el.textContent = message; el.className = `status ${type}`.trim(); el.hidden = !message; };
     // 網站儲存庫固定：避免管理者不小心把房況發布到別的 GitHub 專案。
 
 
@@ -185,6 +179,8 @@
       // 舊版房況的 closed 與新版 no_checkin 語意相同；僅在後台選單顯示時對應，避免擅自重寫既有資料。
       $('singleStay').value = entry.stay === 'closed' ? 'no_checkin' : (entry.stay || '');
       $('singleCheckout').value = entry.checkout || '';
+      $('singleStay').disabled = !picked || !connected;
+      $('singleCheckout').disabled = !picked || !connected;
     }
     function applyOne(key, stay, checkout, bulk=false){
       const next = {...(data.dates[key] || {})};
@@ -192,15 +188,17 @@
       if (checkout !== 'unchanged') { if (checkout) next.checkout = checkout; else delete next.checkout; }
       if (Object.keys(next).length) data.dates[key] = next; else delete data.dates[key];
     }
-    $('applySingle').addEventListener('click', () => {
-      if (!picked) {status($('editStatus'),'請先選擇日期。','error'); return;}
-      applyOne(picked,$('singleStay').value,$('singleCheckout').value);
-      saveDraftChange(); render(); status($('editStatus'),'已修改 ' + C.displayDate(picked) + '，尚未發布。','ok');
-    });
-    $('resetSingle').addEventListener('click', () => {
-      if (!picked) {status($('editStatus'),'請先選擇日期。','error');return;}
-      delete data.dates[picked]; showSelected(); saveDraftChange(); render(); status($('editStatus'),'已還原星期預設，尚未發布。','ok');
-    });
+    // 選擇入住或退房狀態後立即寫入本機草稿；點「發布至網站」才會同步旅客房況。
+    // 「依星期預設」代表清除該欄位的單日覆寫；若兩欄都預設則還原整日。
+    function handleSingleChange(){
+      if (!picked || !connected) return;
+      applyOne(picked, $('singleStay').value, $('singleCheckout').value);
+      render();
+      saveDraftChange();
+      status($('editStatus'), '已修改 ' + C.displayDate(picked) + '，按「發布至網站」後生效。', 'ok');
+    }
+    $('singleStay').addEventListener('change', handleSingleChange);
+    $('singleCheckout').addEventListener('change', handleSingleChange);
     $('applyBulk').addEventListener('click', () => {
       const a=$('bulkStart').value,b=$('bulkEnd').value,s=$('bulkStay').value,e=$('bulkCheckout').value;
       if (!C.parseDate(a) || !C.parseDate(b) || b<a){status($('editStatus'),'請填入正確的開始及結束日期。','error');return;}
@@ -233,7 +231,6 @@
     }
     async function loadLatest(){
       if(dirty&&!confirm('目前的草稿變更尚未發布，載入最新資料會捨棄你的草稿。確定繼續？'))return;
-      $('connectBtn').disabled=true;
       status($('connectStatus'),'正在從 GitHub 取得最新房況…');
       try {
         const result=await api('read');
@@ -243,16 +240,15 @@
         document.querySelector('.save-bar').classList.remove('is-dirty');
         $('publishBtn').disabled=false;
         render();showSelected();
-        status($('connectStatus'),'已載入 GitHub 最新房況，可以開始編輯。','ok');
+        status($('connectStatus'),'');
         status($('publishStatus'),'目前沒有未發布的修改。','ok');
       } catch(e) {
         connected=false;
         $('publishBtn').disabled=true;
         status($('connectStatus'),'載入失敗：'+e.message,'error');
         if(e.code===401){showLoggedIn(false);status($('loginStatus'),'登入已過期，請重新登入。','error');}
-      } finally {$('connectBtn').disabled=false;}
+      }
     }
-    $('connectBtn').addEventListener('click',loadLatest);
     $('loginBtn').addEventListener('click',async()=>{
       const password=$('adminPassword').value;
       if(!password){status($('loginStatus'),'請輸入管家管理密碼。','error');return;}
