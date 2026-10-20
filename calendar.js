@@ -80,7 +80,8 @@
   function checkRange(start, end, data, today = todayTaiwan()) {
     if (!parseDate(start) || !parseDate(end) || end <= start || start < today) return false;
     if (getStatus(start, data).stay !== 'open' || getStatus(end, data).checkout !== 'open') return false;
-    if (getStatus(end, data).stay === 'booked') return false;
+    // 退房日可以同時是下一組旅客的入住日（即：已訂房），
+    // 只檢查退房權限；不可把退房日當成住宿夜晚。
     // 退房日不需要住宿；但中間任何灰底／已訂房「夜晚」一律不可跨越。
     let current = start;
     let guard = 0;
@@ -237,7 +238,7 @@
       // 預設僅能入住的日子是黑字；只能退房的日期先維持灰字，
       // 唯有選定有效入住日且這一天確實可退房時，才轉為黑字及可點選。
       if (inPast) cell.classList.add('is-past'); // 過去日期灰字、不加斜線且不可選取。
-      else if (state.stay === 'booked') cell.classList.add('is-booked');
+      else if (state.stay === 'booked' && !canExit) cell.classList.add('is-booked'); // 可退房時暫時移除斜線
       else if (!canStay && !canExit) cell.classList.add('is-unavailable');
       if (key < firstAllowed || (key > lastAllowed && !canExit)) cell.classList.add('is-outside-limit');
       if (canExit) cell.classList.add('is-checkout-ready');
@@ -248,7 +249,7 @@
         cell.addEventListener('click', () => choose(key));
         cell.title = canExit && canStay ? `${key}：可入住或退房` : canExit ? `${key}：可退房` : `${key}：可入住`;
       }
-      const reason = inPast ? '日期已過' : state.stay === 'booked' ? '已訂房' : state.stay !== 'open' && state.checkout === 'closed' ? '不開放入住、不可退房' : state.stay !== 'open' ? '不開放入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
+      const reason = inPast ? '日期已過' : canExit && state.stay === 'booked' ? '已訂房（本日可退房，不可住宿）' : state.stay === 'booked' ? '已訂房' : state.stay !== 'open' && state.checkout === 'closed' ? '不開放入住、不可退房' : state.stay !== 'open' ? '不開放入住、可退房' : state.checkout === 'closed' ? '可入住、不可退房' : '可入住、可退房';
       cell.setAttribute('aria-label', `${C.displayDate(key)}，${reason}${selectedA ? '，已選入住日' : selectedB ? '，已選退房日' : ''}${!selectable ? '，目前不可點選' : ''}`);
       cell.setAttribute('aria-pressed', selectedA || selectedB ? 'true' : 'false');
       return cell;

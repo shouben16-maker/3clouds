@@ -2,6 +2,7 @@
 /**
  * 湖內三層雲可訂房日曆：Vercel Serverless 管理 API
  * Token 只從 Vercel 環境變數讀取，絕不交給瀏覽器。
+ * 日期 stay 允許：open / closed / no_checkin / booked；退房為獨立欄位。
  */
 const crypto = require('node:crypto');
 const OWNER = 'shouben16-maker';
@@ -89,7 +90,7 @@ async function github(method, payload) {
 function validateCalendar(data) {
   if (!data || typeof data !== 'object' || Array.isArray(data) || typeof data.dates !== 'object' ||
       !data.dates || Array.isArray(data.dates) || !data.settings || typeof data.settings !== 'object') return false;
-  if (![4,5,6,8,12].includes(data.settings.monthsAhead) || ![0,1].includes(data.settings.startMonthOffset)) return false;
+  if (![1,2,3,4,5].includes(data.settings.monthsAhead) || ![0,1].includes(data.settings.startMonthOffset)) return false;
   if (Object.keys(data.dates).length > 730) return false;
   for (const [date, entry] of Object.entries(data.dates)) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
@@ -97,7 +98,7 @@ function validateCalendar(data) {
     if (!Number.isFinite(d.getTime()) || d.toISOString().slice(0,10) !== date) return false;
     if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return false;
     if (Object.keys(entry).some(k => !['stay','checkout'].includes(k))) return false;
-    if (entry.stay !== undefined && !['open','closed','booked'].includes(entry.stay)) return false;
+    if (entry.stay !== undefined && !['open','closed','no_checkin','booked'].includes(entry.stay)) return false;
     if (entry.checkout !== undefined && !['open','closed'].includes(entry.checkout)) return false;
   }
   return true;
@@ -133,9 +134,12 @@ module.exports = async function handler(req, res) {
   }
   if (action === 'publish' && req.method === 'POST') {
     const input = parseBody(req);
-    if (!validateCalendar(input.data) || JSON.stringify(input.data).length > 60000 ||
-        !(input.sha === null || (typeof input.sha === 'string' && /^[a-f0-9]{40}$/.test(input.sha))))
-      return respond(res,400,{error:'房況資料格式不正確，請重新載入最新資料。'});
+    if (!validateCalendar(input.data))
+      return respond(res,400,{error:'房況資料格式不正確：請確認日期狀態使用新版後台（含不開放入住），並重新載入最新資料。'});
+    if (JSON.stringify(input.data).length > 60000)
+      return respond(res,400,{error:'房況資料量超過上限，請縮小修改範圍。'});
+    if (!(input.sha === null || (typeof input.sha === 'string' && /^[a-f0-9]{40}$/.test(input.sha))))
+      return respond(res,400,{error:'房況版本驗證失敗，請重新載入 GitHub 最新房況。'});
     try {
       const commit = {
         message:'Update 三層雲可訂房日曆',
