@@ -4,5 +4,12 @@
     "monthsAhead": 5,
     "startMonthOffset": 0
   },
-  "dates": {}
+  "dates": {
+    "2026-10-24": {
+      "stay": "closed"
+    },
+    "2026-10-25": {
+      "stay": "closed"
+    }
+  }
 }
