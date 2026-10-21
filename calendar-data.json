@@ -64,6 +64,9 @@
     "2027-02-11": {
       "stay": "open",
       "checkout": "open"
+    },
+    "2026-12-05": {
+      "stay": "no_checkin"
     }
   }
 }
