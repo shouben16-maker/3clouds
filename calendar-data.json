@@ -66,8 +66,7 @@
       "checkout": "open"
     },
     "2026-12-05": {
-      "stay": "no_checkin",
-      "checkout": "open"
+      "stay": "booked"
     }
   }
 }
