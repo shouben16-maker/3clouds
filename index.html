@@ -1030,7 +1030,13 @@
     /* 2026-10-21｜防止 iPhone 日曆雙擊放大與動態重排造成的橫向溢出 */
     html { scroll-behavior: auto; -webkit-text-size-adjust: 100%; }
     html, body { max-width: 100%; overflow-x: clip; }
-    .calendar-section, .calendar-inner, .cal-months, .cal-month, .cal-grid { min-width: 0; max-width: 100%; }
+    /* 防止容器超寬，但不覆寫月曆本身的最大寬度。 */
+    .calendar-section, .calendar-inner, .cal-month, .cal-grid { min-width: 0; max-width: 100%; }
+    .cal-months { min-width: 0; }
+    /* 電腦版：一般訂房月曆尺寸，置中呈現，不再跟著螢幕撐滿。 */
+    @media (min-width: 761px) {
+      .cal-months { width: 100%; max-width: 570px; }
+    }
     .cal-month { width: 100%; overflow-anchor: none; }
     .cal-grid { width: 100%; }
     .cal-day { min-width: 0; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
