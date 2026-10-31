@@ -37,7 +37,7 @@
     .cal-day:hover:not(:disabled){border-color:#9f896a}.cal-day:disabled{cursor:default}
     .cal-day .cal-day-num{position:relative;z-index:2}
     .cal-day.is-unavailable,.cal-day.is-booked,.cal-day.is-past{background:#fff;color:#a49d96}
-    .cal-day.is-booked::after{content:'/';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:23px;font-weight:400;color:#9d968e;pointer-events:none}
+    .cal-day.is-booked::after{content:'－';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:23px;font-weight:400;color:#9d968e;pointer-events:none}
     .cal-day.is-adjacent{border:1px dashed #e9e4dd}
     .cal-adjacent-month{position:absolute;right:4px;bottom:2px;font-size:9px;font-weight:400;color:#b0a69a;pointer-events:none}
     .cal-day.is-picked{background:#fff;border-color:transparent}
@@ -93,7 +93,7 @@
         <p id="chosenDate" class="current-date">請先點選上方日曆日期</p>
         <div class="fields" style="grid-template-columns:1fr 1fr">
           <label class="field">入住／住宿夜晚
-            <select id="singleStay"><option value="">依星期預設</option><option value="open">開放入住</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
+            <select id="singleStay"><option value="">依星期預設</option><option value="open">開放入住</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 －</option></select>
           </label>
           <label class="field">退房
             <select id="singleCheckout"><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
@@ -106,7 +106,7 @@
           <label class="field">開始日期<input id="bulkStart" type="date"></label>
           <label class="field">結束日期（含）<input id="bulkEnd" type="date"></label>
           <label class="field">入住／住宿夜晚
-            <select id="bulkStay"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">開放入住</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 ／</option></select>
+            <select id="bulkStay"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">開放入住</option><option value="no_checkin">不開放入住</option><option value="booked">已被訂房 －</option></select>
           </label>
           <label class="field">退房
             <select id="bulkCheckout"><option value="unchanged">不更動</option><option value="">依星期預設</option><option value="open">允許退房</option><option value="closed">禁止退房</option></select>
