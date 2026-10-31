@@ -248,8 +248,8 @@
       const inRange = !!(start && end && key > start && key < end);
       // 預設僅能入住的日子是黑字；只能退房的日期先維持灰字，
       // 唯有選定有效入住日且這一天確實可退房時，才轉為黑字及可點選。
-      if (inPast) cell.classList.add('is-past'); // 過去日期灰字、不加斜線且不可選取。
-      else if (state.stay === 'booked' && !canExit) cell.classList.add('is-booked'); // 可退房時暫時移除斜線
+      if (inPast) cell.classList.add('is-past'); // 過去日期灰字、不加橫線且不可選取。
+      else if (state.stay === 'booked' && !canExit) cell.classList.add('is-booked'); // 可退房時暫時移除橫線
       else if (!canStay && !canExit) cell.classList.add('is-unavailable');
       if (key < firstAllowed || (key > lastAllowed && !canExit)) cell.classList.add('is-outside-limit');
       if (canExit) cell.classList.add('is-checkout-ready');
