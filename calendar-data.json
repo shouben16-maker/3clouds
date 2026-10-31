@@ -34,6 +34,18 @@
     },
     "2027-01-01": {
       "stay": "booked"
+    },
+    "2026-11-13": {
+      "stay": "no_checkin"
+    },
+    "2026-11-20": {
+      "stay": "no_checkin"
+    },
+    "2026-12-04": {
+      "stay": "no_checkin"
+    },
+    "2026-12-25": {
+      "stay": "no_checkin"
     }
   }
 }
