@@ -2,7 +2,11 @@
   "version": 1,
   "settings": {
     "monthsAhead": 4,
-    "startMonthOffset": 1
+    "startMonthOffset": 0
   },
-  "dates": {}
+  "dates": {
+    "2026-11-01": {
+      "stay": "booked"
+    }
+  }
 }
