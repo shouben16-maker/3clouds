@@ -24,7 +24,7 @@
       "stay": "booked"
     },
     "2026-12-05": {
-      "stay": "booked"
+      "stay": "open"
     },
     "2026-12-26": {
       "stay": "booked"
@@ -42,7 +42,7 @@
       "stay": "no_checkin"
     },
     "2026-12-04": {
-      "stay": "no_checkin"
+      "stay": "open"
     },
     "2026-12-25": {
       "stay": "no_checkin"
