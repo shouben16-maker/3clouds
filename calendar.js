@@ -1,4 +1,4 @@
-/* 湖內三層雲｜共用日曆邏輯。所有日期使用台灣日曆日期（YYYY-MM-DD）。 */
+/* 三層雲民宿｜共用日曆邏輯。所有日期使用台灣日曆日期（YYYY-MM-DD）。 */
 (function (global) {
   'use strict';
   const DEFAULT_SETTINGS = Object.freeze({ monthsAhead: 5, startMonthOffset: 0 });
