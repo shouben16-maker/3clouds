@@ -1,7 +1,7 @@
 {
   "version": 1,
   "settings": {
-    "monthsAhead": 4,
+    "monthsAhead": 5,
     "startMonthOffset": 0
   },
   "dates": {
