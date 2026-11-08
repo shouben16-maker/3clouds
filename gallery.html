@@ -250,15 +250,15 @@ body.gallery-lightbox-open .site-top-bar {
    房型類：第1張 room-1f-1.jpg，後續 room-1f-2.jpg ...。
    「其他相片」採 images/other-1.jpg、other-2.jpg ...，連續編號即可。 */
 const groups=[
- {title:'客廳',base:'living-room',count:3,unsuffixed:true,desc:'寬敞的公共空間，與親友自在相聚。'},
- {title:'廚房',base:'kitchen',count:6,unsuffixed:true,desc:'中島備餐區與各式便利廚房設備。'},
- {title:'車庫',base:'parking-garage',count:1,unsuffixed:true,desc:'專屬停車空間。'},
+ {title:'客廳',base:'living-room',count:3,unsuffixed:true,desc:'寬敞的公共空間，75吋電視、KTV、Switch等娛樂設備。'},
+ {title:'廚房',base:'kitchen',count:6,unsuffixed:true,desc:'中島、各式餐碗盤、IH爐、微波爐、烤箱等廚房設備。'},
+ {title:'車庫',base:'parking-garage',count:1,unsuffixed:true,desc:'旅客專屬4車停車空間。'},
  {title:'親子遊戲區',base:'kids-playroom',count:3,unsuffixed:true,desc:'親子同樂的遊戲空間。'},
  {title:'1F四人房',base:'room-1f',count:6,desc:'兩張雙人床，附獨立衛浴。'},
  {title:'2F四人房',base:'room-2f',count:6,desc:'一張雙人床與兩張單人床，附獨立衛浴。'},
- {title:'3F六人房',base:'room-3f',count:6,desc:'六人房，附獨立衛浴。'},
- {title:'烤肉區',base:'bbq-area',count:4,unsuffixed:true,desc:'戶外烤肉與相聚空間。'},
- {title:'交誼室',base:'mahjong-room',count:2,unsuffixed:true,desc:'三樓交誼空間。'},
+ {title:'3F六人房',base:'room-3f',count:6,desc:'三張雙人床，附獨立衛浴。'},
+ {title:'烤肉區',base:'bbq-area',count:4,unsuffixed:true,desc:'鄰近廚房，方便備餐，設有戶外用餐空間。'},
+ {title:'交誼室',base:'mahjong-room',count:2,unsuffixed:true,desc:'電動麻將桌、德洲撲克套組、各式桌遊。'},
  {title:'其他相片',base:'other',count:5,auto:true,desc:'更多館內細節與戶外空間。'}
 ];
 const filename=(g,n)=>`images/${g.base}${g.unsuffixed&&n===1?'':'-'+n}.jpg`;
