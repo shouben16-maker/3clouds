@@ -51,10 +51,10 @@
       "stay": "open"
     },
     "2026-12-12": {
-      "stay": "open"
+      "stay": "booked"
     },
     "2026-12-11": {
-      "stay": "open"
+      "stay": "no_checkin"
     },
     "2026-12-18": {
       "stay": "no_checkin"
